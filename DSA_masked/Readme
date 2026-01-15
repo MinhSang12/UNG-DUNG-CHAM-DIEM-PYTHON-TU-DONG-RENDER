@@ -1,0 +1,87 @@
+# Hệ Thống Chấm Điểm Tự Động Python DSA (DSA AutoGrader)
+* Bản Quyền thuộc sở hữu Trần Văn Hưng - Huỳnh Minh Sang (22ct111)
+* Hệ thống chấm điểm tự động chuyên dụng cho các bài tập Cấu trúc dữ liệu và Giải thuật (DSA) bằng Python. Hệ thống sử dụng kỹ thuật phân tích tĩnh (Static Analysis) với AST (Abstract Syntax Tree) để "hiểu" code, nhận diện thuật toán và đánh giá chất lượng mà không cần chạy code thực thi, đảm bảo an toàn và tốc độ cực nhanh.
+
+## Tính Năng Chính
+
+### 1. Nhận diện Thuật toán & Cấu trúc dữ liệu
+Hệ thống có khả năng phát hiện hơn 25 loại thuật toán và cấu trúc dữ liệu khác nhau:
+*   **Cơ bản**: Linear Search, Bubble/Selection/Insertion Sort.
+*   **Trung cấp**: Binary Search, Merge/Quick Sort, Stack, Queue, Linked List, Heap/Priority Queue.
+*   **Nâng cao**: Binary Tree/BST, Graph (BFS/DFS), Dijkstra, Dynamic Programming (DP).
+
+### 2. Cơ chế Chấm điểm Đa chiều (Thang 100)
+*   **DSA & Logic (60đ)**: Đánh giá việc áp dụng đúng cấu trúc dữ liệu và giải thuật.
+*   **Độ phức tạp (10đ)**: Phân tích độ sâu vòng lặp (Big-O) để đánh giá hiệu năng ($O(n)$, $O(n^2)$, $O(n^3)$...).
+*   **PEP8 Style (10đ)**: Kiểm tra phong cách code chuẩn Python (indentation, naming convention).
+*   **Tests & Structure (20đ)**: Kiểm tra cấu trúc hàm main, type hints, input/output.
+
+### 3. Các Tính năng Bổ trợ
+*   **Phát hiện Đạo văn**: So sánh cấu trúc AST ("vân tay") giữa các bài nộp để tìm ra các bài sao chép, ngay cả khi đổi tên biến.
+*   **Phát hiện Code rác (Spaghetti Code)**: Cảnh báo khi sử dụng quá nhiều biến toàn cục hoặc hàm quá dài.
+*   **Lưu trữ Lịch sử**: Tự động lưu kết quả vào Database SQLite và file CSV.
+*   **Giao diện Web**: Hiện đại, hỗ trợ kéo thả, xem chi tiết lỗi, tải báo cáo Excel.
+
+## Cài Đặt & Triển Khai
+
+### Yêu cầu
+*   Python 3.8 trở lên.
+*   Hệ điều hành: Windows, Linux, hoặc macOS.
+
+### Bước 1: Cài đặt thư viện phụ thuộc
+Mở terminal (CMD/PowerShell) tại thư mục dự án và chạy:
+
+Các thư viện cần thiết:
+*   `fastapi`: Web framework hiệu năng cao.
+*   `uvicorn`: ASGI Server để chạy ứng dụng.
+*   `python-multipart`: Hỗ trợ upload file.
+*   `rarfile`: Hỗ trợ giải nén file .rar.
+
+```bash
+pip install fastapi uvicorn python-multipart rarfile
+```
+> **Lưu ý:** Để chấm file `.rar`, máy tính cần cài sẵn **WinRAR** (Windows) hoặc **unrar** (Linux) và thêm vào biến môi trường PATH.
+
+### Bước 2: Khởi động Server
+Tại thư mục gốc của dự án (`e:\demo2\DSA_masked`), chạy lệnh:
+```bash
+uvicorn app.main:app --reload --port 8000
+```
+Khi thấy thông báo `Application startup complete`, hệ thống đã sẵn sàng.
+
+## Hướng Dẫn Sử Dụng
+
+### 1. Chấm bài trên Giao diện Web
+1.  Truy cập **http://127.0.0.1:8000** trên trình duyệt.
+2.  Tại khung **"Nộp bài chấm"**, nhấn chọn hoặc kéo thả các file `.py`, `.zip`, hoặc `.rar`.
+3.  Nhấn nút **"Bắt đầu chấm"**.
+4.  Kết quả sẽ hiển thị ngay lập tức bên dưới.
+    *   **Score**: Điểm số tổng kết.
+    *   **Algorithm**: Thuật toán hệ thống nhận diện được.
+    *   **Status**:
+        *   **AC**: Đạt yêu cầu (>= 50 điểm).
+        *   **WA**: Chưa đạt.
+        *   **FLAG**: Nghi vấn đạo văn.
+5.  Nhấn **"View"** để xem chi tiết các lỗi và điểm thành phần.
+
+### 2. Xem và Xuất Lịch sử
+*   **Trên Web**: Nhấn nút **"Lịch sử"** trên thanh menu để xem 50 bài gần nhất. Nhấn **"Xuất CSV"** để tải file Excel.
+*   **File CSV**: File `ket_qua_cham.csv` trong thư mục gốc chứa toàn bộ lịch sử chấm.
+*   **Database**: File `grading.db` chứa dữ liệu thô SQLite.
+
+### 3. Quản lý bằng Dòng lệnh (CLI)
+Sử dụng công cụ `view_db.py` để quản lý nhanh:
+
+*   **Xem lịch sử chấm:**
+    ```bash
+    python view_db.py
+    ```
+*   **Xóa toàn bộ dữ liệu (Reset hệ thống):**
+    ```bash
+    python view_db.py clear
+    ```
+
+### 4. Kiểm tra Logic hệ thống
+Để đảm bảo logic chấm điểm hoạt động đúng, chạy bộ test:
+```bash
+python test_grader_logic.py

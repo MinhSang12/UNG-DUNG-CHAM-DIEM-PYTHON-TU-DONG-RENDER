@@ -1,0 +1,496 @@
+﻿Thời gian,Tên file,Điểm số,Thuật toán,Trạng thái,Ghi chú
+2026-01-15 16:51:39,array.py,32,List,WA,
+2026-01-15 16:51:39,atk.py,30,Cơ bản,WA,Code quá ngắn
+2026-01-15 16:51:39,binarysearch.py,60,"Cây nhị phân/BST, Đệ quy",AC,
+2026-01-15 16:51:39,ed.py,30,Cơ bản,WA,
+2026-01-15 16:51:39,eeeee.py,30,Cơ bản,WA,
+2026-01-15 16:51:39,frf.py,32,List,WA,
+2026-01-15 16:51:39,lachonguniversity.py,40,Queue,WA,
+2026-01-15 16:51:39,linkedlist.py,65,"Linked List, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:04:00,array.py,32,List,WA,
+2026-01-15 17:04:00,atk.py,30,Cơ bản,WA,Code quá ngắn
+2026-01-15 17:04:00,binarysearch.py,60,"Cây nhị phân/BST, Đệ quy",AC,
+2026-01-15 17:04:00,ed.py,30,Cơ bản,WA,
+2026-01-15 17:04:00,eeeee.py,30,Cơ bản,WA,
+2026-01-15 17:05:57,array.py,32,List,WA,
+2026-01-15 17:05:57,atk.py,30,Cơ bản,WA,Code quá ngắn
+2026-01-15 17:05:57,binarysearch.py,60,"Cây nhị phân/BST, Đệ quy",AC,
+2026-01-15 17:05:57,ed.py,30,Cơ bản,WA,
+2026-01-15 17:05:57,eeeee.py,30,Cơ bản,WA,
+2026-01-15 17:05:57,frf.py,32,List,WA,
+2026-01-15 17:05:57,lachonguniversity.py,40,Queue,FLAG,Giống te2.py (100%)
+2026-01-15 17:05:57,linkedlist.py,65,"Linked List, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:05:57,queue.py,40,Queue,WA,
+2026-01-15 17:05:57,stack.py,37,"List, Stack",WA,
+2026-01-15 17:05:57,te2.py,40,Queue,FLAG,Giống lachonguniversity.py (100%)
+2026-01-15 17:05:57,test.py,0.0,,WA,SyntaxError: '[' was never closed at line 2
+2026-01-15 17:05:57,testdemo.py,52,"List, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:09:46,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:09:46,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:09:46,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:09:46,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:09:46,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:09:46,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:09:46,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:09:46,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:09:46,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:09:46,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:09:46,__main__.py,25,Cơ bản,WA,
+2026-01-15 17:09:46,package_data.py,20,Cơ bản,FLAG,Code quá ngắn; Giống _version.py (100%)
+2026-01-15 17:09:46,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:09:46,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:09:46,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:09:46,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:09:46,_version.py,20,Cơ bản,FLAG,Code quá ngắn; Giống package_data.py (100%)
+2026-01-15 17:09:46,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:10:02,build_env.py,73,"Dictionary, List, Queue, Set, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,cache.py,61,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,autocompletion.py,56,"List, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:10:02,base_command.py,41,"Dictionary, List, Tuple",WA,
+2026-01-15 17:10:02,cmdoptions.py,61,"Dictionary, List, Set, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 53 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,command_context.py,37,Tuple,WA,
+2026-01-15 17:10:02,index_command.py,42,"Dictionary, List, Tuple",WA,
+2026-01-15 17:10:02,main.py,37,Tuple,WA,
+2026-01-15 17:10:02,main_parser.py,59,"List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,parser.py,65,"Dictionary, List, Stack, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:10:02,progress_bars.py,59,"List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,req_command.py,39,"Dictionary, List, Tuple",WA,
+2026-01-15 17:10:02,spinners.py,37,Tuple,WA,
+2026-01-15 17:10:02,status_codes.py,20,Cơ bản,FLAG,Giống __version__.py (100%); Giống _export_format.py (100%)
+2026-01-15 17:10:02,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:10:02,cache.py,61,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,check.py,55,"Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:10:02,completion.py,40,"Dictionary, List",WA,
+2026-01-15 17:10:02,configuration.py,60,"Dictionary, List, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:10:02,debug.py,62,"List, Set, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,download.py,57,"List, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,freeze.py,62,"List, Set, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,hash.py,55,Tìm kiếm tuyến tính,AC,
+2026-01-15 17:10:02,help.py,37,List,WA,
+2026-01-15 17:10:02,index.py,41,"Dictionary, List, Tuple",WA,
+2026-01-15 17:10:02,inspect.py,42,"Dictionary, List, Tuple",WA,
+2026-01-15 17:10:02,install.py,79,"Dictionary, List, Quy hoạch động (DP), Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,Spaghetti Code: 1 hàm quá dài (>30 dòng)
+2026-01-15 17:10:02,list.py,63,"Dictionary, List, Set, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,lock.py,55,Tìm kiếm tuyến tính,AC,
+2026-01-15 17:10:02,search.py,69,"Dictionary, List, Queue, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 6 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,show.py,60,"Dictionary, List, Set, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,Spaghetti Code: 21 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,uninstall.py,38,"Dictionary, List",WA,
+2026-01-15 17:10:02,wheel.py,59,"List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,__init__.py,50,"Dictionary, Queue, Tuple",AC,
+2026-01-15 17:10:02,configuration.py,59,"Dictionary, List, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:10:02,base.py,25,Cơ bản,WA,
+2026-01-15 17:10:02,installed.py,35,Cơ bản,WA,
+2026-01-15 17:10:02,sdist.py,36,Tuple,WA,
+2026-01-15 17:10:02,wheel.py,35,Cơ bản,WA,
+2026-01-15 17:10:02,__init__.py,35,Cơ bản,WA,
+2026-01-15 17:10:02,exceptions.py,53,"List, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 26 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,collector.py,72,"Dictionary, List, Queue, Set, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 9 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,package_finder.py,60,"Dictionary, List, Set, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 17 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,sources.py,70,"Dictionary, List, Queue, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 6 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:10:02,base.py,37,Tuple,WA,
+2026-01-15 17:10:02,_distutils.py,62,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,_sysconfig.py,60,"Dictionary, List, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,__init__.py,56,"List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,main.py,35,Cơ bản,WA,
+2026-01-15 17:10:02,base.py,56,"List, Set, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 6 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,_compat.py,37,Tuple,WA,
+2026-01-15 17:10:02,_dists.py,61,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,_envs.py,37,"List, Tuple",WA,
+2026-01-15 17:10:02,__init__.py,22,List,WA,
+2026-01-15 17:10:02,pkg_resources.py,84,"Dictionary, List, Quy hoạch động (DP), Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:10:02,_json.py,62,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,__init__.py,38,"List, Tuple",WA,
+2026-01-15 17:10:02,candidate.py,37,List,WA,
+2026-01-15 17:10:02,direct_url.py,39,"Dictionary, List, Tuple",WA,Spaghetti Code: 12 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,format_control.py,60,"List, Set, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,index.py,37,List,WA,
+2026-01-15 17:10:02,installation_report.py,40,"Dictionary, List, Tuple",WA,
+2026-01-15 17:10:02,link.py,46,"Dictionary, List, Tuple, Đệ quy",WA,Spaghetti Code: 14 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,pylock.py,40,"Dictionary, List, Tuple",WA,Spaghetti Code: 27 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,scheme.py,25,List,WA,Spaghetti Code: 6 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,search_scope.py,57,"List, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,selection_prefs.py,27,List,WA,
+2026-01-15 17:10:02,target_python.py,39,"List, Tuple",WA,
+2026-01-15 17:10:02,wheel.py,36,Tuple,WA,
+2026-01-15 17:10:02,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:10:02,auth.py,58,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 8 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,cache.py,39,"List, Tuple",WA,
+2026-01-15 17:10:02,download.py,56,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 6 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,lazy_wheel.py,82,"List, Quy hoạch động (DP), Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:10:02,session.py,60,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,utils.py,30,"Dictionary, Tuple",WA,
+2026-01-15 17:10:02,xmlrpc.py,40,"Dictionary, Tuple",WA,
+2026-01-15 17:10:02,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:10:02,build_tracker.py,60,"Dictionary, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,metadata.py,35,Cơ bản,FLAG,Giống metadata_editable.py (86%)
+2026-01-15 17:10:02,metadata_editable.py,35,Cơ bản,FLAG,Giống metadata.py (86%)
+2026-01-15 17:10:02,wheel.py,35,Cơ bản,FLAG,Giống wheel_editable.py (85%)
+2026-01-15 17:10:02,wheel_editable.py,35,Cơ bản,FLAG,Giống wheel.py (85%)
+2026-01-15 17:10:02,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:10:02,check.py,58,"Dictionary, List, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,Spaghetti Code: 10 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,freeze.py,86,"Dictionary, Duyệt đồ thị (BFS/DFS), List, Queue, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,Spaghetti Code: 7 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,wheel.py,73,"Dictionary, List, Queue, Set, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 7 biến toàn cục (Nên đóng gói); Spaghetti Code: 1 hàm quá dài (>30 dòng)
+2026-01-15 17:10:02,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:10:02,prepare.py,58,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:10:02,pyproject.py,70,"Dictionary, List, Queue, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,constructors.py,61,"Dictionary, List, Set, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 7 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,req_dependency_group.py,60,"Dictionary, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,req_file.py,72,"Dictionary, List, Queue, Stack, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,Spaghetti Code: 17 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,req_install.py,47,"Dictionary, List, Set, Tuple, Đệ quy",WA,Spaghetti Code: 1 hàm quá dài (>30 dòng)
+2026-01-15 17:10:02,req_set.py,49,"List, Queue, Tuple",WA,
+2026-01-15 17:10:02,req_uninstall.py,57,"Dictionary, List, Set, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,Độ phức tạp O(n^3)
+2026-01-15 17:10:02,__init__.py,69,"List, Queue, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,base.py,29,"List, Tuple",WA,
+2026-01-15 17:10:02,resolver.py,84,"List, Queue, Quy hoạch động (DP), Set, Tuple, Đệ quy",AC,
+2026-01-15 17:10:02,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:10:02,base.py,39,"List, Tuple",WA,
+2026-01-15 17:10:02,candidates.py,52,"Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 10 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,factory.py,61,"Dictionary, List, Set, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,found_candidates.py,62,"List, Set, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,provider.py,57,"List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,reporter.py,39,"Dictionary, Queue, Tuple",WA,
+2026-01-15 17:10:02,requirements.py,39,"List, Tuple",WA,
+2026-01-15 17:10:02,resolver.py,68,"Dictionary, Duyệt đồ thị (BFS/DFS), List, Set, Tuple, Đệ quy",AC,Độ phức tạp O(n^3)
+2026-01-15 17:10:02,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:10:02,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:10:02,self_outdated_check.py,42,"Dictionary, List, Tuple",WA,
+2026-01-15 17:10:02,appdirs.py,37,List,WA,
+2026-01-15 17:10:02,compat.py,42,"List, Set, Tuple",WA,
+2026-01-15 17:10:02,compatibility_tags.py,62,"List, Set, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,datetime.py,35,Cơ bản,WA,
+2026-01-15 17:10:02,deprecation.py,29,"List, Tuple",WA,
+2026-01-15 17:10:02,direct_url_helpers.py,39,"List, Tuple",WA,
+2026-01-15 17:10:02,egg_link.py,35,List,WA,
+2026-01-15 17:10:02,entrypoints.py,59,"List, Set, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,filesystem.py,57,"List, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:10:02,filetypes.py,37,Tuple,WA,
+2026-01-15 17:10:02,glibc.py,37,Tuple,WA,
+2026-01-15 17:10:02,hashes.py,40,"Dictionary, List, Tuple",WA,
+2026-01-15 17:10:02,logging.py,59,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 7 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,misc.py,59,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 10 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,packaging.py,37,Tuple,WA,
+2026-01-15 17:10:02,retry.py,59,"List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,subprocess.py,67,"Dictionary, List, Stack, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,temp_dir.py,60,"Dictionary, List, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:10:02,unpacking.py,61,"List, Set, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,urls.py,37,Tuple,WA,
+2026-01-15 17:10:02,virtualenv.py,55,Tìm kiếm tuyến tính,AC,
+2026-01-15 17:10:02,wheel.py,42,"List, Set, Tuple",WA,
+2026-01-15 17:10:02,_jaraco_text.py,28,Cơ bản,WA,
+2026-01-15 17:10:02,_log.py,35,Cơ bản,WA,
+2026-01-15 17:10:02,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:10:02,bazaar.py,37,"List, Tuple",WA,
+2026-01-15 17:10:02,git.py,58,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 9 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,mercurial.py,39,"List, Tuple",WA,
+2026-01-15 17:10:02,subversion.py,56,"List, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 9 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,versioncontrol.py,58,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 16 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,__init__.py,20,Cơ bản,WA,
+2026-01-15 17:10:02,wheel_builder.py,58,"List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,__init__.py,35,Cơ bản,WA,
+2026-01-15 17:10:02,adapter.py,39,"Set, Tuple",WA,
+2026-01-15 17:10:02,cache.py,45,"Dictionary, Stack, Tuple",WA,
+2026-01-15 17:10:02,file_cache.py,39,"List, Tuple",WA,
+2026-01-15 17:10:02,redis_cache.py,55,Tìm kiếm tuyến tính,AC,
+2026-01-15 17:10:02,__init__.py,22,List,FLAG,Giống __init__.py (83%)
+2026-01-15 17:10:02,controller.py,59,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,filewrapper.py,39,"List, Tuple",WA,
+2026-01-15 17:10:02,heuristics.py,43,"Dictionary, Set, Tuple",WA,
+2026-01-15 17:10:02,serialize.py,67,"Dictionary, List, Stack, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,wrapper.py,35,Cơ bản,WA,
+2026-01-15 17:10:02,_cmd.py,40,Cơ bản,WA,
+2026-01-15 17:10:02,__init__.py,22,List,WA,
+2026-01-15 17:10:02,core.py,37,Tuple,WA,
+2026-01-15 17:10:02,__init__.py,22,List,WA,
+2026-01-15 17:10:02,__main__.py,30,Cơ bản,WA,
+2026-01-15 17:10:02,_implementation.py,59,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,_lint_dependency_groups.py,47,"Dictionary, List, Tuple",FLAG,Giống _pip_wrapper.py (85%)
+2026-01-15 17:10:02,_pip_wrapper.py,47,"Dictionary, List, Tuple",FLAG,Giống _lint_dependency_groups.py (85%)
+2026-01-15 17:10:02,_toml_compat.py,22,Tuple,WA,
+2026-01-15 17:10:02,__init__.py,22,Tuple,WA,
+2026-01-15 17:10:02,__main__.py,43,Dictionary,WA,
+2026-01-15 17:10:02,compat.py,79,"Dictionary, Duyệt đồ thị (BFS/DFS), List, Queue, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,Spaghetti Code: 11 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,resources.py,68,"Dictionary, List, Queue, Stack, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,Spaghetti Code: 11 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,scripts.py,57,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 6 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,util.py,79,"Dictionary, Duyệt đồ thị (BFS/DFS), List, Queue, Quy hoạch động (DP), Sắp xếp cơ bản (Bubble/Selection/Insertion), Sắp xếp nâng cao (Merge/Quick), Tuple, Đệ quy",AC,Độ phức tạp O(n^3); Spaghetti Code: 10 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,__init__.py,20,Cơ bản,WA,
+2026-01-15 17:10:02,distro.py,61,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 11 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,__init__.py,22,List,WA,
+2026-01-15 17:10:02,__main__.py,25,Cơ bản,WA,
+2026-01-15 17:10:02,codec.py,49,"List, Tuple, Đệ quy",WA,
+2026-01-15 17:10:02,compat.py,37,Tuple,WA,
+2026-01-15 17:10:02,core.py,55,"List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,idnadata.py,25,"Dictionary, Tuple",WA,
+2026-01-15 17:10:02,intranges.py,59,"List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,package_data.py,20,Cơ bản,FLAG,Code quá ngắn; Giống _version.py (100%)
+2026-01-15 17:10:02,uts46data.py,39,"List, Tuple",WA,
+2026-01-15 17:10:02,__init__.py,22,List,FLAG,Giống __init__.py (83%); Giống __init__.py (85%)
+2026-01-15 17:10:02,exceptions.py,30,Cơ bản,WA,
+2026-01-15 17:10:02,ext.py,42,"List, Queue, Tuple",WA,
+2026-01-15 17:10:02,fallback.py,82,"Dictionary, List, Quy hoạch động (DP), Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple, Tìm kiếm nhị phân",AC,Spaghetti Code: 1 hàm quá dài (>30 dòng)
+2026-01-15 17:10:02,__init__.py,30,Tuple,WA,Spaghetti Code: 6 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,_spdx.py,36,"Dictionary, Tuple",WA,
+2026-01-15 17:10:02,__init__.py,60,"Dictionary, List, Set, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,markers.py,50,"Dictionary, List, Set, Tuple, Đệ quy",AC,Spaghetti Code: 15 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,metadata.py,59,"Dictionary, List, Set, Stack, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,Độ phức tạp O(n^3); Spaghetti Code: 66 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,requirements.py,39,"List, Tuple",WA,
+2026-01-15 17:10:02,specifiers.py,56,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 8 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,tags.py,56,"Dictionary, List, Set, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,Độ phức tạp O(n^3)
+2026-01-15 17:10:02,utils.py,34,Tuple,WA,Spaghetti Code: 6 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,version.py,35,"List, Tuple",WA,Spaghetti Code: 16 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,_elffile.py,60,"Dictionary, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,_manylinux.py,69,"Dictionary, List, Queue, Set, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,Độ phức tạp O(n^3)
+2026-01-15 17:10:02,_musllinux.py,42,"List, Tuple",WA,
+2026-01-15 17:10:02,_parser.py,56,"List, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 9 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,_structures.py,35,Cơ bản,WA,
+2026-01-15 17:10:02,_tokenizer.py,42,"Dictionary, List, Tuple",WA,
+2026-01-15 17:10:02,__init__.py,18,Cơ bản,WA,Spaghetti Code: 8 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,__init__.py,87,"Dictionary, Duyệt đồ thị (BFS/DFS), List, Queue, Quy hoạch động (DP), Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple, Đệ quy",AC,Spaghetti Code: 48 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,android.py,53,"List, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,api.py,54,Tìm kiếm tuyến tính,AC,
+2026-01-15 17:10:02,macos.py,33,List,WA,
+2026-01-15 17:10:02,unix.py,35,"List, Tuple",WA,
+2026-01-15 17:10:02,version.py,27,"List, Tuple",WA,Spaghetti Code: 10 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,windows.py,38,"Dictionary, List, Tuple",WA,
+2026-01-15 17:10:02,__init__.py,33,List,WA,
+2026-01-15 17:10:02,__main__.py,42,Tuple,WA,
+2026-01-15 17:10:02,console.py,55,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 14 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,filter.py,55,"Dictionary, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,__init__.py,54,"Dictionary, List, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:10:02,formatter.py,34,"List, Tuple",WA,
+2026-01-15 17:10:02,_mapping.py,22,"Dictionary, Tuple",WA,
+2026-01-15 17:10:02,__init__.py,32,"Dictionary, List, Tuple",WA,Spaghetti Code: 6 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,lexer.py,77,"Dictionary, List, Quy hoạch động (DP), Stack, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,Độ phức tạp O(n^3); Spaghetti Code: 19 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,python.py,54,"Dictionary, List, Set, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 61 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,_mapping.py,31,"Dictionary, Tuple",FLAG,Giống _mapping.py (83%)
+2026-01-15 17:10:02,__init__.py,57,"Dictionary, List, Stack, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,Spaghetti Code: 6 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,modeline.py,52,"List, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,plugin.py,54,"List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,regexopt.py,42,"List, Đệ quy",WA,
+2026-01-15 17:10:02,scanner.py,35,"Dictionary, Tuple",WA,
+2026-01-15 17:10:02,sphinxext.py,34,"Dictionary, List, Tuple",WA,
+2026-01-15 17:10:02,style.py,30,"Dictionary, List, Tuple",WA,Độ phức tạp O(n^3); Spaghetti Code: 13 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,_mapping.py,25,"Dictionary, Tuple",FLAG,Giống _mapping.py (83%)
+2026-01-15 17:10:02,__init__.py,57,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,token.py,55,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 19 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,unistring.py,56,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 33 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,util.py,56,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,__init__.py,32,List,WA,
+2026-01-15 17:10:02,__main__.py,20,Cơ bản,WA,
+2026-01-15 17:10:02,_impl.py,40,"Dictionary, List, Tuple",WA,
+2026-01-15 17:10:02,_in_process.py,64,"Dictionary, List, Set, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,__init__.py,30,Cơ bản,WA,
+2026-01-15 17:10:02,__init__.py,22,List,WA,
+2026-01-15 17:10:02,adapters.py,58,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,api.py,27,Cơ bản,WA,
+2026-01-15 17:10:02,auth.py,35,"Dictionary, List, Tuple",WA,Spaghetti Code: 1 hàm quá dài (>30 dòng)
+2026-01-15 17:10:02,certs.py,35,Cơ bản,WA,
+2026-01-15 17:10:02,compat.py,40,"Queue, Tuple",WA,Spaghetti Code: 12 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,cookies.py,59,"Dictionary, List, Stack, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,exceptions.py,35,Stack,WA,
+2026-01-15 17:10:02,help.py,40,"Dictionary, List",WA,
+2026-01-15 17:10:02,hooks.py,55,"Dictionary, List, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,models.py,56,"Dictionary, List, Stack, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:10:02,packages.py,20,Tuple,WA,
+2026-01-15 17:10:02,sessions.py,61,"Dictionary, List, Queue, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:10:02,status_codes.py,33,"Dictionary, Tuple",WA,
+2026-01-15 17:10:02,structures.py,45,"Dictionary, Queue, Tuple",WA,
+2026-01-15 17:10:02,utils.py,61,"Dictionary, List, Queue, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:10:02,_internal_utils.py,35,"Dictionary, Tuple",WA,
+2026-01-15 17:10:02,__init__.py,33,"List, Tuple",WA,
+2026-01-15 17:10:02,__version__.py,18,Cơ bản,FLAG,Spaghetti Code: 10 biến toàn cục (Nên đóng gói); Giống status_codes.py (100%); Giống _export_format.py (100%)
+2026-01-15 17:10:02,providers.py,36,Tuple,WA,
+2026-01-15 17:10:02,reporters.py,27,Tuple,WA,
+2026-01-15 17:10:02,abstract.py,39,"List, Queue, Tuple",WA,
+2026-01-15 17:10:02,criterion.py,37,Tuple,WA,
+2026-01-15 17:10:02,exceptions.py,37,Tuple,WA,
+2026-01-15 17:10:02,resolution.py,80,"Dictionary, List, Queue, Set, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple, Đệ quy",AC,
+2026-01-15 17:10:02,__init__.py,22,List,FLAG,Giống __init__.py (85%)
+2026-01-15 17:10:02,structs.py,70,"Dictionary, List, Queue, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:10:02,__init__.py,22,List,WA,
+2026-01-15 17:10:02,abc.py,40,Cơ bản,WA,
+2026-01-15 17:10:02,align.py,39,Tuple,WA,
+2026-01-15 17:10:02,ansi.py,60,"Dictionary, List, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:10:02,bar.py,38,"List, Tuple",WA,
+2026-01-15 17:10:02,box.py,65,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,cells.py,74,"List, Tuple, Tìm kiếm nhị phân",AC,
+2026-01-15 17:10:02,color.py,62,"Dictionary, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,color_triplet.py,37,Tuple,WA,
+2026-01-15 17:10:02,columns.py,50,"List, Queue, Tuple",AC,
+2026-01-15 17:10:02,console.py,90,"Dictionary, List, Sắp xếp cơ bản (Bubble/Selection/Insertion), Sắp xếp nâng cao (Merge/Quick), Tuple, Tìm kiếm nhị phân, Đệ quy",AC,Spaghetti Code: 26 biến toàn cục (Nên đóng gói); Spaghetti Code: 2 hàm quá dài (>30 dòng)
+2026-01-15 17:10:02,constrain.py,35,Cơ bản,WA,
+2026-01-15 17:10:02,containers.py,71,"List, Stack, Tuple, Tìm kiếm nhị phân",AC,
+2026-01-15 17:10:02,control.py,66,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,default_styles.py,44,"Dictionary, Tuple",WA,
+2026-01-15 17:10:02,diagnose.py,45,"Dictionary, Tuple",WA,
+2026-01-15 17:10:02,emoji.py,47,"Dictionary, List, Tuple",WA,
+2026-01-15 17:10:02,errors.py,20,Cơ bản,WA,
+2026-01-15 17:10:02,filesize.py,59,"List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,file_proxy.py,59,"List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,highlighter.py,62,"Dictionary, List, Set, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,Spaghetti Code: 8 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,json.py,42,"List, Tuple",WA,
+2026-01-15 17:10:02,jupyter.py,62,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,layout.py,80,"Dictionary, List, Sắp xếp cơ bản (Bubble/Selection/Insertion), Sắp xếp nâng cao (Merge/Quick), Tuple, Đệ quy",AC,Spaghetti Code: 9 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,live.py,43,"Dictionary, List, Stack, Tuple",WA,Độ phức tạp O(n^3)
+2026-01-15 17:10:02,live_render.py,57,"Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,logging.py,43,"Dictionary, List, Tuple",WA,
+2026-01-15 17:10:02,markup.py,70,"Dictionary, List, Stack, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,measure.py,37,"List, Tuple",WA,
+2026-01-15 17:10:02,padding.py,83,"Cây nhị phân/BST, List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,pager.py,40,Cơ bản,WA,
+2026-01-15 17:10:02,palette.py,40,Tuple,WA,
+2026-01-15 17:10:02,panel.py,41,"List, Tuple",WA,
+2026-01-15 17:10:02,pretty.py,84,"Dictionary, Duyệt đồ thị (BFS/DFS), List, Queue, Set, Tuple, Đệ quy",AC,Spaghetti Code: 22 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,progress.py,71,"Dictionary, List, Queue, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 20 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,progress_bar.py,42,"List, Tuple",WA,
+2026-01-15 17:10:02,prompt.py,58,"List, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 15 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,protocol.py,55,Tìm kiếm tuyến tính,AC,
+2026-01-15 17:10:02,region.py,25,Cơ bản,WA,
+2026-01-15 17:10:02,repr.py,67,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,rule.py,41,Tuple,WA,
+2026-01-15 17:10:02,scope.py,66,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,screen.py,27,Tuple,WA,
+2026-01-15 17:10:02,segment.py,91,"Dictionary, List, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple, Tìm kiếm nhị phân",AC,
+2026-01-15 17:10:02,spinner.py,63,"List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,status.py,38,Cơ bản,WA,
+2026-01-15 17:10:02,style.py,61,"Dictionary, List, Stack, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 26 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,styled.py,40,Cơ bản,WA,
+2026-01-15 17:10:02,syntax.py,62,"Dictionary, List, Set, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,Spaghetti Code: 9 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,table.py,56,"Dictionary, List, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,Độ phức tạp O(n^3); Spaghetti Code: 23 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,terminal_theme.py,29,"List, Tuple",WA,
+2026-01-15 17:10:02,text.py,92,"Dictionary, List, Set, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple, Tìm kiếm nhị phân, Đệ quy",AC,Spaghetti Code: 7 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,theme.py,50,"Dictionary, List, Stack, Tuple",AC,
+2026-01-15 17:10:02,themes.py,20,Cơ bản,WA,
+2026-01-15 17:10:02,traceback.py,92,"Dictionary, Duyệt đồ thị (BFS/DFS), List, Set, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple, Tìm kiếm nhị phân, Đệ quy",AC,Spaghetti Code: 22 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,tree.py,64,"List, Stack, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:10:02,_cell_widths.py,24,"List, Tuple",WA,
+2026-01-15 17:10:02,_emoji_codes.py,33,Dictionary,WA,
+2026-01-15 17:10:02,_emoji_replace.py,42,"Dictionary, List, Tuple",WA,
+2026-01-15 17:10:02,_export_format.py,19,Cơ bản,FLAG,Giống status_codes.py (100%); Giống __version__.py (100%)
+2026-01-15 17:10:02,_extension.py,25,Cơ bản,WA,
+2026-01-15 17:10:02,_fileno.py,39,"List, Tuple",WA,
+2026-01-15 17:10:02,_inspect.py,56,"List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,_log_render.py,44,"List, Tuple",WA,
+2026-01-15 17:10:02,_loop.py,37,Tuple,WA,
+2026-01-15 17:10:02,_null_file.py,37,List,WA,
+2026-01-15 17:10:02,_palettes.py,24,"List, Tuple",WA,
+2026-01-15 17:10:02,_pick.py,55,Tìm kiếm tuyến tính,AC,
+2026-01-15 17:10:02,_ratio.py,57,"List, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,Độ phức tạp O(n^3)
+2026-01-15 17:10:02,_spinners.py,23,"Dictionary, List",WA,
+2026-01-15 17:10:02,_stack.py,35,Cơ bản,WA,
+2026-01-15 17:10:02,_timer.py,37,Tuple,WA,
+2026-01-15 17:10:02,_win32_console.py,38,"List, Tuple",WA,Spaghetti Code: 35 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,_windows.py,42,Tuple,WA,
+2026-01-15 17:10:02,_windows_renderer.py,44,"Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",WA,
+2026-01-15 17:10:02,_wrap.py,62,"List, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:10:02,__init__.py,40,"List, Tuple",WA,
+2026-01-15 17:10:02,__main__.py,41,"Dictionary, List, Tuple",WA,Spaghetti Code: 1 hàm quá dài (>30 dòng)
+2026-01-15 17:10:02,_parser.py,51,"Dictionary, List, Set, Tuple, Đệ quy",AC,
+2026-01-15 17:10:02,_re.py,37,Tuple,WA,
+2026-01-15 17:10:02,_types.py,24,"List, Tuple",WA,
+2026-01-15 17:10:02,__init__.py,22,Tuple,FLAG,Giống __init__.py (83%)
+2026-01-15 17:10:02,_writer.py,51,"Dictionary, List, Tuple, Đệ quy",AC,
+2026-01-15 17:10:02,__init__.py,22,Tuple,FLAG,Giống __init__.py (83%)
+2026-01-15 17:10:02,_api.py,56,"List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,_macos.py,56,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 101 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,_openssl.py,57,"List, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,_ssl_constants.py,25,Cơ bản,WA,
+2026-01-15 17:10:02,_windows.py,54,"Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 48 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,__init__.py,24,"List, Tuple",WA,
+2026-01-15 17:10:02,connection.py,59,"Dictionary, List, Set, Stack, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 19 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,connectionpool.py,54,"Dictionary, List, Set, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 12 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,appengine.py,30,Dictionary,WA,Spaghetti Code: 7 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,ntlmpool.py,53,"Dictionary, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 1 hàm quá dài (>30 dòng)
+2026-01-15 17:10:02,pyopenssl.py,54,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 9 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,securetransport.py,53,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 10 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,socks.py,40,"Dictionary, Stack, Tuple",WA,
+2026-01-15 17:10:02,_appengine_environ.py,30,Cơ bản,WA,
+2026-01-15 17:10:02,bindings.py,29,"List, Tuple",WA,Spaghetti Code: 219 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,low_level.py,72,"Dictionary, List, Queue, Stack, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:10:02,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:10:02,exceptions.py,31,Tuple,WA,
+2026-01-15 17:10:02,fields.py,56,"Dictionary, List, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,filepost.py,52,"Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,makefile.py,35,"Set, Tuple",WA,
+2026-01-15 17:10:02,weakref_finalize.py,60,"Dictionary, List, Stack, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 8 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:10:02,six.py,56,"Dictionary, List, Stack, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 37 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:10:02,poolmanager.py,61,"Dictionary, List, Queue, Tuple, Tìm kiếm tuyến tính",AC,Spaghetti Code: 10 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,request.py,39,"Dictionary, List, Set, Tuple",WA,
+2026-01-15 17:10:02,response.py,33,"List, Stack, Tuple",WA,
+2026-01-15 17:10:02,connection.py,52,"Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,proxy.py,30,Cơ bản,WA,
+2026-01-15 17:10:02,queue.py,40,Queue,WA,
+2026-01-15 17:10:02,request.py,37,"Dictionary, List, Tuple",WA,
+2026-01-15 17:10:02,response.py,34,"List, Tuple",WA,
+2026-01-15 17:10:02,retry.py,40,"List, Queue, Tuple",WA,
+2026-01-15 17:10:02,ssltransport.py,54,"Set, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,ssl_.py,42,"Dictionary, List, Tuple, Đệ quy",WA,Spaghetti Code: 6 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,ssl_match_hostname.py,32,"List, Tuple",WA,
+2026-01-15 17:10:02,timeout.py,31,Tuple,WA,
+2026-01-15 17:10:02,url.py,68,"Dictionary, List, Queue, Set, Tuple, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,wait.py,44,"List, Tuple, Đệ quy",WA,
+2026-01-15 17:10:02,__init__.py,32,Tuple,WA,
+2026-01-15 17:10:02,_collections.py,79,"Duyệt đồ thị (BFS/DFS), List, Queue, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,Spaghetti Code: 8 biến toàn cục (Nên đóng gói)
+2026-01-15 17:10:02,_version.py,20,Cơ bản,FLAG,Code quá ngắn; Giống package_data.py (100%)
+2026-01-15 17:10:02,__init__.py,32,Tuple,WA,
+2026-01-15 17:10:02,__init__.py,22,Tuple,WA,
+2026-01-15 17:10:02,__init__.py,35,Cơ bản,WA,
+2026-01-15 17:10:02,__main__.py,32,"Stack, Tuple",WA,
+2026-01-15 17:10:02,__pip-runner__.py,34,"List, Tuple",WA,
+2026-01-15 17:10:02,grader.py,40,"Dictionary, List",WA,
+2026-01-15 17:10:02,main.py,51,"Dictionary, List, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:02,__init__.py,20,Cơ bản,FLAG,Code quá ngắn; Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%); Giống __init__.py (100%)
+2026-01-15 17:10:35,array.py,32,List,WA,
+2026-01-15 17:10:35,atk.py,30,Cơ bản,WA,Code quá ngắn
+2026-01-15 17:10:35,binarysearch.py,60,"Cây nhị phân/BST, Đệ quy",AC,
+2026-01-15 17:10:35,ed.py,30,Cơ bản,WA,
+2026-01-15 17:10:35,eeeee.py,30,Cơ bản,WA,
+2026-01-15 17:10:35,frf.py,32,List,WA,
+2026-01-15 17:10:35,lachonguniversity.py,40,Queue,FLAG,Giống te2.py (100%)
+2026-01-15 17:10:35,linkedlist.py,65,"Linked List, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:10:35,queue.py,40,Queue,WA,
+2026-01-15 17:10:35,stack.py,37,"List, Stack",WA,
+2026-01-15 17:10:35,te2.py,40,Queue,FLAG,Giống lachonguniversity.py (100%)
+2026-01-15 17:10:35,test.py,0.0,,WA,SyntaxError: '[' was never closed at line 2
+2026-01-15 17:10:35,testdemo.py,52,"List, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:30:55,array.py,32,List,WA,
+2026-01-15 17:30:55,atk.py,30,Cơ bản,WA,Code quá ngắn
+2026-01-15 17:30:55,binarysearch.py,60,"Cây nhị phân/BST, Đệ quy",AC,
+2026-01-15 17:30:55,ed.py,30,Cơ bản,WA,
+2026-01-15 17:30:55,eeeee.py,30,Cơ bản,WA,
+2026-01-15 17:30:55,frf.py,32,List,WA,
+2026-01-15 17:30:55,lachonguniversity.py,40,Queue,FLAG,Giống te2.py (100%)
+2026-01-15 17:30:55,linkedlist.py,65,"Linked List, Tìm kiếm tuyến tính",AC,
+2026-01-15 17:30:55,queue.py,40,Queue,WA,
+2026-01-15 17:30:55,stack.py,37,"List, Stack",WA,
+2026-01-15 17:30:55,te2.py,40,Queue,FLAG,Giống lachonguniversity.py (100%)
+2026-01-15 17:30:55,test.py,0.0,,WA,SyntaxError: '[' was never closed at line 2
+2026-01-15 17:30:55,testdemo.py,52,"List, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-15 17:41:31,ed.py,30,Cơ bản,WA,
+2026-01-15 17:45:44,frf.py,32,List,WA,
+2026-01-15 17:47:51,binarysearch.py,60,"Cây nhị phân/BST, Đệ quy",AC,
+2026-01-16 00:41:58,array.py,32,List,WA,
+2026-01-16 00:41:58,atk.py,30,Cơ bản,WA,Cảnh báo: Code quá ngắn hoặc không đủ logic
+2026-01-16 00:41:58,binarysearch.py,60,"Cây nhị phân/BST, Đệ quy",AC,
+2026-01-16 00:41:58,ed.py,30,Cơ bản,WA,PEP8: Có 1 dòng code quá dài (>79 ký tự)
+2026-01-16 00:41:58,eeeee.py,30,Cơ bản,WA,PEP8: Có 1 dòng code quá dài (>79 ký tự)
+2026-01-16 00:41:58,frf.py,32,List,WA,
+2026-01-16 00:41:58,lachonguniversity.py,40,Queue,WA,
+2026-01-16 01:19:43,array.py,32,List,WA,
+2026-01-16 01:19:43,atk.py,30,Cơ bản,WA,Cảnh báo: Code quá ngắn hoặc không đủ logic
+2026-01-16 01:19:43,binarysearch.py,60,"Cây nhị phân/BST, Đệ quy",AC,
+2026-01-16 01:19:43,ed.py,30,Cơ bản,WA,PEP8: Có 1 dòng code quá dài (>79 ký tự)
+2026-01-16 01:19:43,eeeee.py,30,Cơ bản,WA,PEP8: Có 1 dòng code quá dài (>79 ký tự)
+2026-01-16 01:19:43,frf.py,32,List,WA,
+2026-01-16 01:19:43,lachonguniversity.py,40,Queue,FLAG,Giống te2.py (100%)
+2026-01-16 01:19:43,linkedlist.py,65,"Linked List, Tìm kiếm tuyến tính",AC,
+2026-01-16 01:19:43,queue.py,40,Queue,WA,
+2026-01-16 01:19:43,stack.py,37,"List, Stack",WA,
+2026-01-16 01:19:43,te2.py,40,Queue,FLAG,Giống lachonguniversity.py (100%)
+2026-01-16 01:19:43,test.py,0.0,,WA,Lỗi cú pháp: '[' was never closed tại dòng 2
+2026-01-16 01:19:43,testdemo.py,52,"List, Sắp xếp cơ bản (Bubble/Selection/Insertion), Tuple",AC,
+2026-01-16 01:24:59,binarysearch.py,60,"Cây nhị phân/BST, Đệ quy",AC,
