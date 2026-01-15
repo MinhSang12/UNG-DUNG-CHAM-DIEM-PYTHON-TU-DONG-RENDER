@@ -1,7 +1,6 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, FileResponse
-from fastapi.concurrency import run_in_threadpool
 from typing import List
 from app.grader import AIGrader
 from app.storage import save_results_to_csv, get_history_csv_data, get_csv_file_path
