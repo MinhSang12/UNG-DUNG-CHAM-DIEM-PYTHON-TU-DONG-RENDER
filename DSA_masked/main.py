@@ -11,6 +11,7 @@ from fastapi.responses import HTMLResponse, FileResponse
 from app.grader import AIGrader
 from app.storage import save_results_to_csv, get_history_csv_data, get_csv_file_path
 from API.GetAPI import app as bank_api_app
+from fastapi.responses import FileResponse
 
 
 # --- CẤU HÌNH ĐƯỜNG DẪN ---
@@ -135,8 +136,9 @@ async def download_csv():
 async def get_history_csv():
     return get_history_csv_data()
 
-@app.get("/", response_class=HTMLResponse)
+# main.py - Sửa lại hàm home
+
+@app.get("/")
 async def home():
-    file_path = os.path.join(os.path.dirname(__file__), "index.html")
-    with open(file_path, "r", encoding="utf-8") as f:
-        return f.read()
+    # Trả về trực tiếp file index.html nằm cùng thư mục với main.py
+    return FileResponse(os.path.join(os.path.dirname(__file__), "index.html"))
