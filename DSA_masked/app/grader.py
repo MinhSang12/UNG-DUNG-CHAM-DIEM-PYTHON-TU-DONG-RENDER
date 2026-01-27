@@ -1,10 +1,17 @@
-import time
 import ast
 import asyncio
-from typing import Dict
-import os
 import subprocess
 import sys
+import time
+import tempfile
+import os
+from typing import Dict
+from app.test_gen import get_test_cases
+import re
+import google.generativeai as genai
+import json
+import httpx
+from app.services import fetch_problem_from_bank
 
 class DSALightningGrader:
     def __init__(self):
@@ -33,11 +40,11 @@ class DSALightningGrader:
                 elif isinstance(node, ast.Call):
                     if isinstance(node.func, ast.Name) and node.func.id in dangerous_funcs:
                         violations.append(f"Cấm sử dụng hàm: {node.func.id}()")
-        except:
+        except Exception:
             pass # Nếu lỗi parse thì sẽ bắt ở bước syntax check sau
         return violations
 
-    def grade_file_ultra_fast(self, code: str, filename: str) -> Dict:
+    def grade_file_ultra_fast(self, code: str, filename: str, topic: str = None) -> Dict:
         start = time.time()
         code_lower = code.lower()
 
@@ -50,7 +57,7 @@ class DSALightningGrader:
                 'breakdown': {'pep8': 0, 'dsa': 0, 'complexity': 0, 'tests': 0},
                 'algorithms': 'Bị từ chối',
                 'runtime': '0ms',
-                'status': 'FLAG', # Đánh dấu nghi ngờ
+                'status': 'FLAG', # Đánh dấu nghi ngờ,đạo văn hoặc mã độc
                 'valid_score': False,
                 'notes': ["PHÁT HIỆN MÃ NGUY HIỂM:"] + safety_violations
             }
@@ -72,18 +79,19 @@ class DSALightningGrader:
                 'notes': [f"Lỗi cú pháp: {e.msg} tại dòng {e.lineno}"]
             }
 
-        # 2. PEP8 QUICK CHECK
+        # 2. PEP8 CHECK
         notes = []
         pep8_score = 10
         if '\t' in code: 
             pep8_score -= 2
-            notes.append("PEP8: Sử dụng phím Tab thay vì Space (nên dùng 4 spaces)")
+            notes.append("PEP8: Sử dụng phím Tab thay vì Space (-2đ)")
             
         lines = code.split('\n')
-        long_lines = sum(1 for l in lines if len(l) > 79)
-        if long_lines > 0:
-            pep8_score -= min(4, long_lines // 5)
-            notes.append(f"PEP8: Có {long_lines} dòng code quá dài (>79 ký tự)")
+        long_line_nums = [str(i+1) for i, l in enumerate(lines) if len(l) > 79]
+        if long_line_nums:
+            deduction = min(4, len(long_line_nums) // 5 + 1) # Trừ ít nhất 1đ nếu có lỗi
+            pep8_score -= deduction
+            notes.append(f"PEP8: Dòng {', '.join(long_line_nums[:3])}{'...' if len(long_line_nums)>3 else ''} quá dài (>79 ký tự) (-{deduction}đ)")
         
         # 3. FEATURE EXTRACTION (AST VISITOR)
         # Thu thập các đặc điểm kỹ thuật để nhận diện thuật toán
@@ -99,8 +107,14 @@ class DSALightningGrader:
             'while_loop': False,
             'comparisons': 0,
             'global_vars': 0,
+            'matrix_access': False, # a[i][j]
+            '3d_array_access': False, # a[i][j][k]
+            'yield': False,         # Generator
+            'lambda': False,        # Lambda function
             'long_funcs': 0,
-            'nodes_for_fingerprint': []
+            'nodes_for_fingerprint': [],
+            'slicing': False,          # [NEW] Dấu hiệu Merge Sort (arr[:mid])
+            'list_comp_filter': False  # [NEW] Dấu hiệu Quick Sort ([x for x in arr if x < p])
         }
         
         max_nesting = 0
@@ -135,6 +149,25 @@ class DSALightningGrader:
             if isinstance(node, ast.If): f['ifs'] += 1
             if isinstance(node, ast.Return): f['returns'] = True
             if isinstance(node, ast.Compare): f['comparisons'] += 1
+            if isinstance(node, ast.Yield): f['yield'] = True
+            if isinstance(node, ast.Lambda): f['lambda'] = True
+
+            # [NEW] Detect Slicing (Merge Sort characteristic)
+            if isinstance(node, ast.Subscript) and isinstance(node.slice, ast.Slice):
+                f['slicing'] = True
+            
+            # [NEW] Detect List Comp Filtering (Quick Sort characteristic)
+            if isinstance(node, ast.ListComp):
+                for gen in node.generators:
+                    if gen.ifs: f['list_comp_filter'] = True
+
+            # Matrix Detection (Subscript inside Subscript: grid[i][j])
+            if isinstance(node, ast.Subscript):
+                if isinstance(node.value, ast.Subscript):
+                    f['matrix_access'] = True
+                    # [NEW] Detect 3D Array (dp[i][j][k])
+                    if isinstance(node.value.value, ast.Subscript):
+                        f['3d_array_access'] = True
             
             # Spaghetti Code Detection
             # 1. Global Variables (Depth 0 assignments, excluding CONSTANTS)
@@ -177,8 +210,11 @@ class DSALightningGrader:
             if isinstance(node, ast.AnnAssign): f['type_hints'] = True
 
             # DP Naming Heuristic
-            if isinstance(node, ast.Name) and ('dp' in node.id.lower() or 'memo' in node.id.lower()):
-                f['dp_var'] = True
+            # MỞ RỘNG: Chấp nhận nhiều cách đặt tên biến DP hơn
+            if isinstance(node, ast.Name):
+                name = node.id.lower()
+                if any(x in name for x in ['dp', 'memo', 'table', 'cache', 'f', 'opt']):
+                    f['dp_var'] = True
 
             # Recursive traversal
             for child in ast.iter_fields(node):
@@ -207,72 +243,147 @@ class DSALightningGrader:
         # 4. SCORING & CLASSIFICATION (Quy tắc chấm điểm công bằng)
         algos = []
         dsa_score = 0
+        dsa_details = [] # Danh sách giải trình điểm DSA
         
         # --- Cấu trúc dữ liệu cơ bản ---
         if f['list']: algos.append('List'); dsa_score += 2
         if f['tuple']: algos.append('Tuple'); dsa_score += 2
         if f['set']: algos.append('Set'); dsa_score += 3
         if f['dict']: algos.append('Dictionary'); dsa_score += 3
+        if f['yield']: algos.append('Generator/Yield'); dsa_score += 5
+        if f['lambda']: algos.append('Lambda Function'); dsa_score += 5
+        if f['list']: algos.append('List'); dsa_score += 2; dsa_details.append("List (+2đ)")
+        if f['tuple']: algos.append('Tuple'); dsa_score += 2; dsa_details.append("Tuple (+2đ)")
+        if f['set']: algos.append('Set'); dsa_score += 3; dsa_details.append("Set (+3đ)")
+        if f['dict']: algos.append('Dictionary'); dsa_score += 3; dsa_details.append("Dict (+3đ)")
+        if f['yield']: algos.append('Generator/Yield'); dsa_score += 5; dsa_details.append("Yield (+5đ)")
+        if f['lambda']: algos.append('Lambda Function'); dsa_score += 5; dsa_details.append("Lambda (+5đ)")
         
         # --- Giải thuật cơ bản ---
         if f['nested_loops'] and f['swap']:
             algos.append('Sắp xếp cơ bản (Bubble/Selection/Insertion)')
             dsa_score += 20
+            dsa_details.append("Sắp xếp cơ bản 2 vòng lặp (+20đ)")
         elif f['loops'] > 0 and f['ifs'] > 0 and f['returns'] and not f['div2'] and not f['recursion'] and not f['nested_loops']:
             algos.append('Tìm kiếm tuyến tính')
             dsa_score += 20
+            dsa_details.append("Tìm kiếm tuyến tính (+20đ)")
             
         # --- Cấu trúc dữ liệu trung cấp ---
         if f['class'] and 'next' in f['class_attrs']:
             algos.append('Linked List')
             dsa_score += 15
+            dsa_details.append("Linked List (+15đ)")
         if f['pop'] and not f['deque'] and not f['recursion']:
             algos.append('Stack')
             dsa_score += 5
+            dsa_details.append("Stack (+5đ)")
         if f['deque'] or (f['list'] and 'pop(0)' in code):
             algos.append('Queue')
             dsa_score += 10
+            dsa_details.append("Queue (+10đ)")
         if 'heapq' in f['imports']:
             algos.append('Heap/Priority Queue')
             dsa_score += 15
+            dsa_details.append("Heap (+15đ)")
             
         # --- Giải thuật trung cấp ---
         if f['div2'] and f['while_loop'] and f['comparisons'] > 0:
             algos.append('Tìm kiếm nhị phân')
             dsa_score += 30
+            dsa_details.append("Binary Search (chia đôi) (+30đ)")
         if f['recursion']:
             algos.append('Đệ quy')
             dsa_score += 10
-            if 'merge' in code_lower or 'quick' in code_lower or 'mid' in code_lower:
-                algos.append('Sắp xếp nâng cao (Merge/Quick)')
+            dsa_details.append("Đệ quy (+10đ)")
+            
+            # [NEW] Phân loại Quick Sort vs Merge Sort dựa trên cấu trúc AST
+            # Quick Sort: Dùng List Comp có điều kiện HOẶC Vòng lặp có Swap (In-place partition)
+            is_quick = f['list_comp_filter'] or (f['swap'] and f['loops'] > 0) or 'pivot' in code_lower
+            # Merge Sort: Dùng Slicing (cắt mảng) HOẶC biến mid
+            is_merge = f['slicing'] or 'mid' in code_lower or 'merge' in code_lower
+
+            if is_quick and not is_merge:
+                algos.append('Quick Sort')
                 dsa_score += 10
+                dsa_details.append("Quick Sort (+10đ)")
+            elif is_merge:
+                algos.append('Merge Sort')
+                dsa_score += 10
+                dsa_details.append("Merge Sort (+10đ)")
+            elif 'sort' in filename.lower(): # Fallback nếu không rõ
+                algos.append('Sắp xếp nâng cao')
+                dsa_score += 10
+                dsa_details.append("Sắp xếp nâng cao (+10đ)")
                 
         # --- Cấu trúc dữ liệu nâng cao ---
         if f['class'] and {'left', 'right'}.issubset(f['class_attrs']):
             algos.append('Cây nhị phân/BST')
             dsa_score += 20
+            dsa_details.append("BST/Tree (+20đ)")
+        if f['class'] and 'children' in f['class_attrs']:
+            algos.append('Trie (Prefix Tree)')
+            dsa_score += 25
+            dsa_details.append("Trie (+25đ)")
         if 'networkx' in f['imports'] or 'adj' in f['class_attrs'] or 'graph' in f['class_attrs']:
             algos.append('Đồ thị (Graph)')
             dsa_score += 20
+            dsa_details.append("Graph (+20đ)")
             
         # --- Giải thuật nâng cao ---
         if f['dp_var'] and (f['nested_loops'] or f['recursion']):
             algos.append('Quy hoạch động (DP)')
             dsa_score += 25
+            dsa_details.append("Quy hoạch động (+25đ)")
         if (f['deque'] or f['recursion']) and ('visit' in code_lower or 'seen' in code_lower):
             algos.append('Duyệt đồ thị (BFS/DFS)')
             dsa_score += 20
-        if 'heapq' in f['imports'] and 'dist' in code_lower:
+            dsa_details.append("BFS/DFS (+20đ)")
+        if f['matrix_access'] and (f['recursion'] or f['deque']):
+            algos.append('Ma trận/Grid (BFS/DFS)')
+            dsa_score += 20
+            dsa_details.append("Ma trận (+20đ)")
+        if f['3d_array_access'] and f['dp_var']:
+            algos.append('Quy hoạch động 3 chiều')
+            dsa_score += 30
+            dsa_details.append("DP 3 chiều (+30đ)")
+        if f['recursion'] and f['loops'] > 0 and ('backtrack' in code_lower or 'undo' in code_lower or f['pop']):
+            algos.append('Backtracking (Quay lui)')
+            dsa_score += 30
+            dsa_details.append("Backtracking (+30đ)")
+        # MỞ RỘNG: Dijkstra không nhất thiết phải tên biến là 'dist'
+        if 'heapq' in f['imports'] and (any(x in code_lower for x in ['dist', 'cost', 'd[', 'distance'])):
             algos.append('Dijkstra')
             dsa_score += 25
+            dsa_details.append("Dijkstra (+25đ)")
+            
+        # --- KIỂM TRA LỆCH THUẬT TOÁN (EXPECTED vs ACTUAL) ---
+        # Dựa vào tên file để đoán thuật toán sinh viên CẦN làm, và so sánh với cái họ ĐÃ làm
+        fname_lower = filename.lower()
+        
+        # 1. Check Sort: Yêu cầu N log N nhưng viết N^2
+        if any(x in fname_lower for x in ['quick', 'merge', 'heap']) and 'sort' in fname_lower:
+            if not f['recursion'] and f['nested_loops']:
+                notes.append("Sai thuật toán: Bài yêu cầu Quick/Merge Sort (O(n log n)) nhưng code có vẻ là Bubble/Insertion Sort (O(n^2)).")
+                notes.append("Sai thuật toán: Tên file yêu cầu Quick/Merge Sort nhưng không tìm thấy hàm đệ quy, chỉ thấy vòng lặp lồng nhau (O(n^2)).")
+                dsa_score = max(0, dsa_score - 10)
+                dsa_details.append("TRỪ ĐIỂM: Sai thuật toán (-10đ)")
+
+        # 2. Check Search: Yêu cầu Binary nhưng viết Linear
+        if 'binary' in fname_lower and 'search' in fname_lower:
+            if not f['div2'] and f['loops'] > 0:
+                notes.append("Sai thuật toán: Bài yêu cầu Binary Search (chia đôi) nhưng code đang duyệt tuần tự (Linear Search).")
+                notes.append("Sai thuật toán: Tên file yêu cầu Binary Search nhưng không tìm thấy phép chia đôi (//2), chỉ thấy vòng lặp tuần tự.")
+                dsa_score = max(0, dsa_score - 10)
+                dsa_details.append("TRỪ ĐIỂM: Sai thuật toán (-10đ)")
 
         # 5. FINAL CALCULATION
         dsa_score = min(60, dsa_score)
         
         complexity_score = 10
         # Đánh giá dựa trên độ sâu vòng lặp (Big-O) thay vì độ sâu code
-        if max_loop_depth > 3: complexity_score = 2; notes.append(f"Hiệu năng kém: Độ phức tạp O(n^{max_loop_depth}) là quá cao")
-        elif max_loop_depth == 3: complexity_score = 5; notes.append("Hiệu năng: Độ phức tạp O(n^3) khá chậm")
+        if max_loop_depth > 3: complexity_score = 2; notes.append(f"Hiệu năng kém: Độ phức tạp O(n^{max_loop_depth}) là quá cao (2/10đ)")
+        elif max_loop_depth == 3: complexity_score = 5; notes.append("Hiệu năng: Độ phức tạp O(n^3) khá chậm (5/10đ)")
         elif max_loop_depth == 2: complexity_score = 8 # O(n^2) chấp nhận được cho bài tập cơ bản
         
         test_score = 0
@@ -283,16 +394,67 @@ class DSALightningGrader:
         # Spaghetti Code Penalties
         if f['global_vars'] > 5:
             pep8_score = max(0, pep8_score - 2)
-            notes.append(f"Code rối: Sử dụng {f['global_vars']} biến toàn cục (Nên đóng gói vào hàm/class)")
+            notes.append(f"Code rối: Sử dụng {f['global_vars']} biến toàn cục (-2đ)")
         if f['long_funcs'] > 0:
             pep8_score = max(0, pep8_score - 2)
-            notes.append(f"Code rối: Có {f['long_funcs']} hàm quá dài (>30 dòng, nên tách nhỏ)")
+            notes.append(f"Code rối: Có {f['long_funcs']} hàm quá dài (>30 dòng) (-2đ)")
+            
+        # --- 6. DYNAMIC TESTING (CHẤM ĐIỂM CHẠY THỰC TẾ) ---
+        # Tích hợp test_gen để kiểm tra tính đúng đắn
+        test_cases = get_test_cases(filename, topic)
+        passed_tests = 0
+        total_tests = len(test_cases)
+        
+        if total_tests > 0:
+            # Reset điểm test tĩnh để dùng điểm test động
+            test_score = 0 
+            notes.append(f"--- Chạy {total_tests} test cases ---")
+            
+            # Tùy chỉnh timeout: Mặc định 2s, tăng lên 5s cho bài phức tạp
+            current_timeout = 2
+            if any(k in filename.lower() for k in ['graph', 'bfs', 'dfs', 'nqueen', 'backtrack', 'mst', 'matrix']):
+                current_timeout = 5
+            
+            for tc in test_cases:
+                res = self.run_dynamic_test(code, tc['input'], timeout=current_timeout)
+                if res['success']:
+                    # So sánh output (bỏ qua khoảng trắng thừa)
+                    if res['output'] == tc['expected']:
+                        passed_tests += 1
+                    else:
+                        if passed_tests == 0: # Chỉ báo lỗi test đầu tiên sai
+                            # Hiển thị Input để sinh viên biết trường hợp nào gây lỗi
+                            inp_short = tc['input'].replace('\n', ' ')
+                            if len(inp_short) > 20: inp_short = inp_short[:20] + '...'
+                            notes.append(f"Sai kết quả tại '{tc['name']}' (Input: {inp_short}): Mong đợi '{tc['expected']}', nhưng code in ra '{res['output']}'")
+                else:
+                    # Trích xuất dòng lỗi từ traceback
+                    err_msg = res['error']
+                    line_match = re.search(r'line (\d+)', err_msg)
+                    line_info = f" tại dòng {line_match.group(1)}" if line_match else ""
+                    
+                    # Lấy tên lỗi (VD: ZeroDivisionError)
+                    err_type = err_msg.split('\n')[-1] if err_msg else "Unknown Error"
+                    notes.append(f"Lỗi thực thi{line_info} ({tc['name']}): {err_type}")
+                    break # Dừng nếu code lỗi runtime
+            
+            # Tính điểm correctness (Tối đa 40 điểm cho tính đúng đắn)
+            correctness_score = (passed_tests / total_tests) * 40
+            dsa_score = min(dsa_score, 40) # Giảm trọng số static nếu đã có dynamic test
+            test_score = correctness_score
+            notes.append(f"Kết quả chạy: {passed_tests}/{total_tests} test cases")
+
+        
+        # Thêm dòng giải thích chi tiết điểm DSA
+        if dsa_details:
+            dsa_explanation = f"Phát hiện thuật toán: {', '.join(dsa_details)}"
+            notes.insert(0, dsa_explanation)
 
         raw_total = pep8_score + dsa_score + complexity_score + test_score
         
         # Anti-gaming: Code quá ngắn
         if f['nodes_count'] < 10:
-            notes.append('Cảnh báo: Code quá ngắn hoặc không đủ logic')
+            notes.append('Cảnh báo: Code quá ngắn hoặc không đủ logic (Điểm tối đa: 30)')
             raw_total = min(raw_total, 30)
 
         # PLAGIARISM FINGERPRINT (Tạo chuỗi N-grams từ AST)
@@ -320,14 +482,21 @@ class DSALightningGrader:
             'notes': notes
         }
 
-    def run_dynamic_test(self, filepath: str, input_str: str, timeout: int = 2) -> Dict:
+    def run_dynamic_test(self, code_str: str, input_str: str, timeout: int = 2) -> Dict:
         """
         Chạy code sinh viên an toàn với giới hạn thời gian (Chống lặp vô tận)
+        Sử dụng tempfile để xử lý code từ bộ nhớ.
         """
+        temp_file = None
         try:
+            # Tạo file tạm thời chứa code
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False, encoding='utf-8') as tmp:
+                tmp.write(code_str)
+                temp_file = tmp.name
+
             # Chạy code trong process riêng biệt
             result = subprocess.run(
-                [sys.executable, filepath], # Chạy bằng python hiện tại
+                [sys.executable, temp_file], # Chạy file tạm
                 input=input_str,
                 capture_output=True,
                 text=True,
@@ -339,22 +508,139 @@ class DSALightningGrader:
                 "error": result.stderr.strip()
             }
         except subprocess.TimeoutExpired:
-            return {"success": False, "error": "Time Limit Exceeded (Chạy quá 2s - Có thể lặp vô tận)"}
+            return {"success": False, "error": f"Time Limit Exceeded (Chạy quá {timeout}s - Có thể lặp vô tận)"}
         except Exception as e:
             return {"success": False, "error": f"Runtime Error: {str(e)}"}
+        finally:
+            # Dọn dẹp file tạm
+            if temp_file and os.path.exists(temp_file):
+                try:
+                    os.remove(temp_file)
+                except: pass
 
 # SINGLETON - KHÔNG INIT LẠI
 lightning_grader = DSALightningGrader()
+    
+    # Trong file app/grader.py
 
 class AIGrader(DSALightningGrader):
     def __init__(self, api_key=None):
         super().__init__()
-        pass
+        # Cấu hình AI với độ ổn định cao (Temperature = 0)
+        real_key = api_key or os.getenv("GEMINI_API_KEY", "AIzaSyAe-tRWGVG8cJW4Hj-IexDDBM4o58BeBYo")
+        genai.configure(api_key=real_key)
+        # Sử dụng model flash để có tốc độ phản hồi nhanh nhất
+        self.model = genai.GenerativeModel(
+            model_name='gemini-2.5-flash', 
+            generation_config={"temperature": 0}
+        )
+        self.rubric_api_url = "http://127.0.0.1:8001/api"
 
-    async def check_connection(self):
-        return True
+    # async def fetch_rubric(self, filename: str) -> str:
+    #     """Lấy tiêu chí từ API (Ưu tiên số 1)"""
+    #     try:
+    #         async with httpx.AsyncClient() as client:
+    #             response = await client.get(f"{self.rubric_api_url}?filename={filename}", timeout=2)
+    #             if response.status_code == 200:
+    #                 return response.json().get('criteria', "Chấm theo tiêu chuẩn DSA chung.")
+    #     except Exception:
+    #         pass
+    #     return "Chấm theo tiêu chuẩn DSA tổng quát và tối ưu độ phức tạp."
 
-    async def grade_with_ai(self, code: str, filename: str) -> Dict:
-        # Chỉ chạy logic chấm điểm tĩnh (AST), bỏ qua AI
+    async def grade_auto(self, code: str, filename: str, topic: str = None) -> Dict:
+        """
+        AI LÀ GIÁM KHẢO CHÍNH: 
+        Ưu tiên 1: Tiêu chí từ Ngân hàng bài tập & Rubric.
+        Hỗ trợ: Dữ liệu kỹ thuật từ AST chạy song song.
+        """
         loop = asyncio.get_running_loop()
-        return await loop.run_in_executor(None, self.grade_file_ultra_fast, code, filename)
+        
+        # --- BƯỚC 1: CHẠY SONG SONG THU THẬP DỮ LIỆU ---
+        # Lấy thông tin bài tập, Rubric và phân tích AST kỹ thuật cùng lúc
+        problem_task = loop.run_in_executor(None, fetch_problem_from_bank, topic or filename)
+        # rubric_task = self.fetch_rubric(topic or filename)
+        ast_task = loop.run_in_executor(None, self.grade_file_ultra_fast, code, filename, topic)
+        
+        problem_data,  ast_report = await asyncio.gather(
+            problem_task, ast_task
+        )
+
+        # Chế độ bảo mật luôn được xử lý trước
+        if ast_report.get('status') == 'FLAG':
+            return ast_report
+        db_rubric = problem_data.get('rubric', "Chấm theo tiêu chuẩn DSA chung.") if problem_data else "Chấm theo tiêu chuẩn DSA chung."
+        # Chuẩn bị thông tin từ Ngân hàng bài tập
+        bank_details = "N/A"
+        if problem_data:
+            db_rubric = problem_data.get('rubric', db_rubric)
+            bank_details = f"Đề bài: {problem_data.get('requirements')}. Số test cases: {len(problem_data.get('test_cases', []))}."
+
+        # --- BƯỚC 2: RÀNG BUỘC AI SOẠN THẢO FEEDBACK CHUYÊN SÂU ---
+        prompt = f"""
+        Bạn là Giám khảo trưởng môn DSA. Hãy đưa ra ĐIỂM SỐ VÀ FEEDBACK CUỐI CÙNG.
+        
+        [ƯU TIÊN 1: TIÊU CHÍ HỆ THỐNG & NGÂN HÀNG BÀI TẬP]:
+        - Tiêu chí (Rubric): {db_rubric}
+        - Thông tin bài tập: {bank_details}
+
+        [DỮ LIỆU HỖ TRỢ TỪ TRỢ LÝ AST]:
+        - Đặc điểm kỹ thuật: {ast_report['algorithms']}
+        - Ghi chú từ máy chấm: {ast_report['notes']}
+        - Thời gian thực thi thực tế: {ast_report['runtime']}
+
+        [MÃ NGUỒN SINH VIÊN]:
+        {code}
+
+        YÊU CẦU NGHIÊM NGẶT:
+        1. Rubric là luật tối cao. Nếu Rubric yêu cầu đệ quy mà sinh viên dùng vòng lặp, hãy trừ điểm dsa_score.
+        2. Test Cases là thước đo thực tế. Đối chiếu logic code với Test cases yêu cầu để cho điểm test_score.
+        3. Phân tích độ phức tạp $O(n)$ thực tế.
+        4. Tại trường 'feedback', hãy viết một ĐOẠN VĂN (paragraph) nhận xét chuyên sâu bao gồm:
+           - Đánh giá logic thuật toán (đúng/sai so với Rubric).
+           - Phân tích độ phức tạp thời gian/không gian thực tế $O(n)$.
+           - Nhận xét về chất lượng trình bày mã nguồn (PEP8).
+           - Gợi ý hướng tối ưu hóa cụ thể để sinh viên tiến bộ.
+
+        TRẢ VỀ JSON CHUẨN DUY NHẤT:
+        {{
+          "pep8_score": số (0-10),
+          "dsa_score": số (0-40),
+          "complexity_score": số (0-10),
+          "test_score": số (0-40),
+          "detected_algo": "Tên thuật toán",
+          "feedback": "Nội dung đoạn văn nhận xét của bạn ở đây..."
+        }}
+        """
+
+        # --- BƯỚC 3: AI QUYẾT ĐỊNH KẾT QUẢ ---
+        try:
+            response = await loop.run_in_executor(None, lambda: self.model.generate_content(prompt))
+            # Làm sạch dữ liệu JSON trước khi parse
+            clean_json = response.text.replace('```json', '').replace('```', '').strip()
+            ai_data = json.loads(clean_json)
+            
+            # Tính tổng điểm dựa trên phân tích của AI
+            total = sum([ai_data.get(k, 0) for k in ['pep8_score', 'dsa_score', 'complexity_score', 'test_score']])
+            
+            return {
+                'filename': filename,
+                'total_score': round(total, 1),
+                'breakdown': {
+                    'pep8': ai_data.get('pep8_score', 0),
+                    'dsa': ai_data.get('dsa_score', 0),
+                    'complexity': ai_data.get('complexity_score', 0),
+                    'tests': ai_data.get('test_score', 0)
+                },
+                'algorithms': ai_data.get('detected_algo', ast_report['algorithms']),
+                'runtime': ast_report['runtime'], # Giữ runtime thực tế từ máy chấm
+                'status': 'AC' if total >= 50 else 'WA',
+                # QUAN TRỌNG: Ghi chú & Lỗi hiện thị nội dung AI soạn thảo
+                'notes': [ai_data.get('feedback', 'AI chưa đưa ra nhận xét.')], 
+                'valid_score': True,
+                'fingerprint': ast_report.get('fingerprint') # Lưu vân tay để kiểm tra đạo văn
+            }
+        except Exception as e:
+            # Dự phòng: Nếu AI lỗi (quota, timeout), dùng kết quả của "Trợ lý AST" để không làm gián đoạn hệ thống
+            print(f"❌ AI Error: {str(e)}")
+            ast_report['notes'].append(f"⚠️ Chế độ dự phòng: AI tạm thời không phản hồi.")
+            return ast_report

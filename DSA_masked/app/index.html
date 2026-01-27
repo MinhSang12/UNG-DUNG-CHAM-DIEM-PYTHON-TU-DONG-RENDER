@@ -1,252 +1,585 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>DSA AutoGrader</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        :root { --bg-body: #f6f8fa; --border-color: #d0d7de; --text-primary: #24292f; --header-bg: #24292f; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(--text-primary); font-size: 0.9rem; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
-        
-        .app-navbar { background: var(--header-bg); padding: 0.8rem 0; border-bottom: 1px solid var(--border-color); }
-        .brand-title { color: white; font-weight: 600; font-size: 1.1rem; letter-spacing: -0.5px; }
-        .nav-link-custom { color: #d0d7de; text-decoration: none; font-size: 0.85rem; font-weight: 500; margin-left: 1.5rem; transition: color 0.2s; }
-        .nav-link-custom:hover { color: white; }
+<html lang="vi">
 
-        .app-card { border: 1px solid var(--border-color); border-radius: 6px; background: white; box-shadow: none; }
-        .card-header-custom { background: #f6f8fa; border-bottom: 1px solid var(--border-color); padding: 1rem 1.5rem; border-radius: 6px 6px 0 0; }
-        
-        .btn-primary { background-color: #1f883d; border-color: rgba(27,31,35,0.15); font-weight: 600; }
-        .btn-primary:hover { background-color: #1a7f37; }
-        
-        .results-table th { font-weight: 600; font-size: 0.8rem; color: #57606a; background: #f6f8fa; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; }
-        .results-table td { vertical-align: middle; border-bottom: 1px solid var(--border-color); font-family: 'Inter', sans-serif; }
-        .filename-cell { font-family: 'JetBrains Mono', monospace; color: #0969da; font-weight: 500; }
-        
-        .status-badge { font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 2em; border: 1px solid transparent; }
-        .status-ac { background-color: #dafbe1; color: #1a7f37; border-color: rgba(26,127,55,0.2); }
-        .status-wa { background-color: #ffebe9; color: #cf222e; border-color: rgba(207,34,46,0.2); }
-        .status-flag { background-color: #fff8c5; color: #9a6700; border-color: rgba(154,103,0,0.2); }
-        
-        .table-wrapper { max-height: 600px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 6px; }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống Chấm điểm cấu trúc dữ liệu và giải thuật tự động</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .main-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-zone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 1rem;
+            padding: 3rem;
+            text-align: center;
+            background: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: var(--primary-color);
+            background-color: #eef2ff;
+            transform: translateY(-2px);
+        }
+
+        .card {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+        }
+
+        .score-badge {
+            font-size: 1.25rem;
+            font-weight: 700;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: white;
+        }
+
+        .score-high {
+            background-color: #10b981;
+        }
+
+        .score-med {
+            background-color: #f59e0b;
+        }
+
+        .score-low {
+            background-color: #ef4444;
+        }
+
+        .status-badge {
+            padding: 0.5em 1em;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 0.6rem 1.5rem;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-header {
+            background: #f8f9fa;
+        }
+
+        /* CSS cho thanh cuộn bảng kết quả */
+        .table-scroll-area {
+            max-height: 60vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .table-scroll-area thead th {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: #f8f9fa;
+            box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-item {
+            background: #f1f5f9;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Đảm bảo modal so sánh nằm trên modal chi tiết */
+        #diffModal {
+            z-index: 1060;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
+
 <body>
-        <nav class="app-navbar navbar navbar-expand-lg">
-            <div class="container">
-                <a class="text-decoration-none d-flex align-items-center" href="/">
-                    <span class="brand-title mono">DSA_AutoGrader</span>
-                </a>
-                <div class="ms-auto d-flex align-items-center">
-                    <button class="btn btn-link nav-link-custom p-0 border-0" onclick="loadHistory()">
-                        Lịch sử
-                    </button>
-                    <a href="/download-csv" class="nav-link-custom">
-                        Xuất CSV
-                    </a>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"></div>
+        <h4 class="mt-3 text-primary">Đang chấm điểm...</h4>
+        <p class="text-muted">Vui lòng đợi trong giây lát</p>
+        <button class="btn btn-outline-danger mt-3 rounded-pill px-4" onclick="cancelGrading()">
+            Hủy bỏ
+        </button>
+    </div>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="fw-bold">DSA Auto Grader</h1>
+                    <p class="mb-0 opacity-75">Hệ thống chấm điểm thuật toán & cấu trúc dữ liệu tự động</p>
+                </div>
+                <div>
+                    <a href="/download-csv" class="btn btn-light text-primary fw-bold">Tải báo cáo CSV</a>
                 </div>
             </div>
-        </nav>
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-lg-10">
-            <div class="card app-card mb-4">
-                <div class="card-header-custom">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h6 class="fw-bold mb-0">Nộp bài chấm</h6>
-                        <div class="small text-muted mono">Supported: .py, .zip, .rar</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Tabs -->
+        <ul class="nav nav-pills mb-4" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active rounded-pill px-4" id="pills-grade-tab" data-bs-toggle="pill"
+                    data-bs-target="#pills-grade" type="button" role="tab" onclick="resetGradingSession()">Chấm bài
+                    mới</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link rounded-pill px-4" id="pills-result-tab" data-bs-toggle="pill"
+                    data-bs-target="#pills-result" type="button" role="tab" disabled>Kết quả chấm</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link rounded-pill px-4" id="pills-history-tab" data-bs-toggle="pill"
+                    data-bs-target="#pills-history" type="button" role="tab" onclick="loadHistory()">Lịch sử
+                    chấm</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="pills-tabContent">
+            <!-- Tab Chấm điểm -->
+            <div class="tab-pane fade show active" id="pills-grade" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="studentName" class="form-label fw-bold">Họ và tên sinh viên:</label>
+                                        <input type="text" class="form-control" id="studentName"
+                                            placeholder="Nhập tên của bạn...">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="topicSelect" class="form-label fw-bold">Chọn bài tập (Để lấy Test
+                                            Case):</label>
+                                        <select class="form-select" id="topicSelect">
+                                            <option value="">-- Tự động nhận diện qua tên file --</option>
+                                            <option value="factorial">Giai thừa</option>
+                                            <option value="fibonacci">Fibonacci</option>
+                                            <option value="prime">Số nguyên tố</option>
+                                            <option value="sort">Sắp xếp (Sort)</option>
+                                            <option value="search">Tìm kiếm (Search)</option>
+                                            <option value="knapsack">Cái túi (Knapsack)</option>
+                                            <option value="graph">Đồ thị (Graph)</option>
+                                            <option value="lcs">Xâu con chung (LCS)</option>
+                                            <option value="matrix">Ma trận (Matrix)</option>
+                                            <option value="nqueen">N-Queens</option>
+                                            <option value="mst">Cây khung (MST)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- <div class="d-flex justify-content-center gap-4 mt-3 mb-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gradeMode" id="modeManual"
+                                            value="manual" checked>
+                                        <label class="form-check-label fw-bold" for="modeManual">Chấm Thủ Công
+                                            (AST)</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gradeMode" id="modeAuto"
+                                            value="auto">
+                                        <label class="form-check-label fw-bold text-primary" for="modeAuto">Chấm Tự Động
+                                            (AI)</label>
+                                    </div>
+                                </div> -->
+                                <div class="upload-zone" id="dropZone">
+                                    <h4>Kéo thả file .py hoặc .zip vào đây</h4>
+                                    <p class="text-muted">Hoặc click để chọn file từ máy tính</p>
+                                    <input type="file" id="fileInput" multiple accept=".py,.zip,.rar" class="d-none">
+                                    <button class="btn btn-outline-primary mt-2"
+                                        onclick="document.getElementById('fileInput').click()">Chọn File</button>
+                                </div>
+                                <div id="fileList" class="mt-3"></div>
+                                <div class="text-center mt-4">
+                                    <button class="btn btn-primary btn-lg shadow" onclick="uploadFiles()" id="btnGrade"
+                                        disabled>
+                                        Bắt đầu chấm
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="card-body p-4">
-                    <form id="lightningForm">
-                        <div class="mb-3">
-                            <input class="form-control" name="files" type="file" accept=".py,.zip,.rar" multiple required style="font-size: 0.9rem;">
-                        </div>
-                        <button class="btn btn-primary w-100 py-2" type="submit">Bắt đầu chấm</button>
-                    </form>
-                </div>
             </div>
-            
-            <!-- Modal Lịch sử -->
-            <div class="modal fade" id="historyModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title fw-bold">Lịch sử chấm điểm</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <!-- Tab Kết quả (Mới) -->
+            <div class="tab-pane fade" id="pills-result" role="tabpanel">
+                <div id="resultSection" class="mt-0">
+                    <div class="card">
+                        <div class="card-header bg-white py-3">
+                            <h5 class="mb-0 fw-bold text-primary">Kết quả chấm</h5>
                         </div>
-                        <div class="modal-body p-0">
-                            <div class="table-responsive" style="max-height: 60vh; overflow-y: auto;">
-                                <table class="table table-hover mb-0 results-table">
-                                    <thead>
-                                        <tr><th>Time</th><th>File</th><th>Score</th><th>Algorithm</th><th>Status</th></tr>
+                        <div class="card-body p-0 table-scroll-area">
+                            <div class="table-responsive h-100">
+                                <table class="table table-hover align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="ps-4">File</th>
+                                            <th class="text-center">Điểm tổng</th>
+                                            <th class="text-center">Trạng thái</th>
+                                            <th class="text-end pe-4">Chi tiết</th>
+                                        </tr>
                                     </thead>
-                                    <tbody id="historyTableBody"></tbody>
+                                    <tbody id="resultTableBody"></tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Modal Chi tiết: Bằng chứng chấm điểm -->
-            <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title fw-bold">Kết quả chi tiết</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id="modalBody"></div>
-                    </div>
-                </div>
-            </div>
 
-            <div id="results" style="display:none;">
-                <div class="card app-card border-0">
-                    <div class="card-header-custom d-flex justify-content-between align-items-center">
-                        <h6 class="fw-bold mb-0">Danh sách kết quả</h6>
-                    </div>
+            <!-- Tab Lịch sử -->
+            <div class="tab-pane fade" id="pills-history" role="tabpanel">
+                <div class="card">
                     <div class="card-body p-0">
-                        <div class="table-responsive table-wrapper border-0 rounded-bottom">
-                            <table class="table table-hover mb-0 results-table">
-                                <thead>
-                                <tr>
-                                    <th class="ps-4">File Name</th>
-                                    <th>Score</th>
-                                    <th>PEP8</th>
-                                    <th>DSA</th>
-                                    <th>Algorithm Detected</th>
-                                    <th>Status</th>
-                                    <th>Time</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="resultsTable" class="border-top-0"></tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover align-middle mb-0">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th class="ps-4">Thời gian</th>
+                                        <th>Tên file</th>
+                                        <th class="text-center">Điểm</th>
+                                        <th>Thuật toán</th>
+                                        <th>Trạng thái</th>
+                                        <th>Ghi chú</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="historyTableBody">
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4">Đang tải dữ liệu...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-let lastResults = []; // Lưu kết quả để hiển thị modal
+    <!-- Modal Chi tiết -->
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="modalTitle">Chi tiết bài nộp</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-4">
+                        <div class="col-md-4 text-center border-end">
+                            <div id="modalScoreBadge" class="score-badge mx-auto mb-2"
+                                style="width: 80px; height: 80px; font-size: 1.5rem;">0</div>
+                            <h5 class="fw-bold mb-0">Điểm tổng</h5>
+                            <div id="modalStatus" class="mt-2"></div>
+                        </div>
+                        <div class="col-md-8">
+                            <h6 class="fw-bold text-uppercase text-muted small">Điểm thành phần</h6>
+                            <ul class="list-group list-group-flush small" id="modalBreakdown">
+                                <!-- Breakdown items -->
+                            </ul>
+                        </div>
+                    </div>
 
-document.getElementById('lightningForm').onsubmit = async e => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const resultsDiv = document.getElementById('results');
-    const tableBody = document.getElementById('resultsTable');
-    
-    resultsDiv.style.display = 'block';
-    tableBody.innerHTML = ` 
-        <tr><td colspan="7" class="text-center p-5">
-            <div class="spinner-border text-secondary mb-3" role="status"></div>
-            <div class="text-muted">Đang xử lý...</div>
-        </td></tr>`;
-    
-    try {
-        const res = await fetch('/grade', {method: 'POST', body: formData});
-        const data = await res.json();
-        lastResults = data.results;
-        
-        let rows = '';
-        data.results.forEach((r, index) => {
-            const statusClass = r.status === 'AC' ? 'status-ac' : (r.status === 'FLAG' ? 'status-flag' : 'status-wa');
-            rows += `
-                <tr>
-                    <td class="ps-4">
-                        <div class="filename-cell">${r.filename}</div>
-                        ${r.notes.length ? `<div class="small text-muted mt-1" style="font-size:0.75rem">${r.notes.length} vấn đề</div>` : ''}
-                    </td>
-                    <td><span class="fw-bold ${r.total_score >= 50 ? 'text-success' : 'text-danger'} mono">${r.total_score}</span></td>
-                    <td class="text-secondary">${r.breakdown.pep8}</td>
-                    <td class="text-secondary">${r.breakdown.dsa}</td>
-                    <td><div class="d-flex flex-wrap gap-1" style="max-width: 300px;">${r.algorithms ? r.algorithms.split(', ').map(a => `<span class="badge bg-light text-dark border fw-normal text-secondary">${a}</span>`).join('') : '<span class="badge bg-light text-dark border fw-normal text-secondary">Cơ bản</span>'}</div></td>
-                    <td><span class="status-badge ${statusClass}">${r.status}</span></td>
-                    <td class="text-secondary small mono">${r.runtime}</td>
-                    <td><button class="btn btn-sm btn-link text-decoration-none" onclick="showDetails(${index})">View</button></td>
-                </tr>`;
+                    <h6 class="fw-bold text-primary">Thuật toán phát hiện</h6>
+                    <p id="modalAlgos" class="bg-light p-2 rounded border"></p>
+
+                    <h6 class="fw-bold text-danger mt-3">Ghi chú & Lỗi</h6>
+                    <div id="modalNotes" class="alert alert-warning small mb-0"
+                        style="max-height: 200px; overflow-y: auto;"></div>
+
+                    <div class="text-end mt-3 text-muted small">Thời gian chạy: <span id="modalRuntime"></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Xử lý Drag & Drop
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+        const btnGrade = document.getElementById('btnGrade');
+        let currentResults = []; // Biến toàn cục lưu kết quả hiện tại
+        const detailModal = new bootstrap.Modal(document.getElementById('detailModal'));
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
         });
-        
-        tableBody.innerHTML = rows;
-        
-    } catch (error) {
-        tableBody.innerHTML = `<tr><td colspan="7" class="p-5">
-            <div class="alert alert-danger text-center">
-                <h4>Lỗi: ${error.message}</h4>
-            </div>
-        </td></tr>`;
-    }
-}
 
-window.showDetails = (index) => {
-    const r = lastResults[index];
-    const modalBody = document.getElementById('modalBody');
-    
-    modalBody.innerHTML = `
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="mb-0 mono text-primary">${r.filename}</h5>
-            <span class="badge bg-secondary fs-6 mono">${r.total_score}/100</span>
-        </div>
-        
-        <div class="row">
-            <div class="col-md-6">
-                <h6 class="fw-bold small text-uppercase text-muted">Breakdown</h6>
-                <ul class="list-group list-group-flush mb-3">
-                    <li class="list-group-item d-flex justify-content-between px-0"><span>PEP8 (Style):</span> <span class="mono">${r.breakdown.pep8}</span></li>
-                    <li class="list-group-item d-flex justify-content-between px-0"><span>DSA (Logic):</span> <span class="mono">${r.breakdown.dsa}</span></li>
-                    <li class="list-group-item d-flex justify-content-between px-0"><span>Complexity:</span> <span class="mono">${r.breakdown.complexity}</span></li>
-                    <li class="list-group-item d-flex justify-content-between px-0"><span>Tests:</span> <span class="mono">${r.breakdown.tests}</span></li>
-                    ${r.breakdown.ai_logic ? `<li class="list-group-item d-flex justify-content-between px-0 text-primary"><span>AI Logic:</span> <b>${r.breakdown.ai_logic}</b></li>` : ''}
-                </ul>
-            </div>
-            <div class="col-md-6">
-                <h6 class="fw-bold small text-uppercase text-muted">Technical Analysis</h6>
-                <p class="mb-1"><strong>Algorithm:</strong> ${r.algorithms || 'Chưa xác định'}</p>
-                <p class="mb-1"><strong>Runtime:</strong> <span class="mono">${r.runtime}</span></p>
-            </div>
-        </div>
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.add('dragover'), false);
+        });
 
-        <h6 class="fw-bold mt-3 small text-uppercase text-muted">Feedback</h6>
-        <div class="alert alert-${r.notes.length ? 'light border' : 'light border'}">
-            ${r.notes.length ? '<ul class="mb-0 ps-3 text-danger small"><li>' + r.notes.join('</li><li>') + '</li></ul>' : '<span class="text-success small">Code sạch. Không tìm thấy lỗi nghiêm trọng.</span>'}
-        </div>
-    `;
-    
-    new bootstrap.Modal(document.getElementById('detailModal')).show();
-}
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.remove('dragover'), false);
+        });
 
-window.loadHistory = async () => {
-    const modal = new bootstrap.Modal(document.getElementById('historyModal'));
-    modal.show();
-    const tbody = document.getElementById('historyTableBody');
-    tbody.innerHTML = '<tr><td colspan="5" class="text-center p-3">Đang tải dữ liệu...</td></tr>';
-    
-    try {
-        const res = await fetch('/api/history');
-        const data = await res.json();
-        if (data.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" class="text-center p-3 text-muted">Chưa có dữ liệu lịch sử.</td></tr>';
-            return;
+        dropZone.addEventListener('drop', e => {
+            const dt = e.dataTransfer;
+            fileInput.files = dt.files;
+            updateFileList(dt.files);
+        }, false);
+
+        fileInput.addEventListener('change', function () { updateFileList(this.files); }, false);
+
+        function updateFileList(files) {
+            if (files.length > 0) {
+                let html = `<div class="d-flex justify-content-between align-items-center mb-2"><small class="text-muted fw-bold">Đã chọn ${files.length} file:</small> <button class="btn btn-sm btn-link text-danger text-decoration-none" onclick="clearFiles()">Xóa hết</button></div>`;
+                html += '<div style="max-height: 150px; overflow-y: auto;">';
+                Array.from(files).forEach(f => {
+                    html += `
+                        <div class="file-item">
+                            <span class="text-truncate">${f.name}</span> <span class="ms-auto text-muted small">${(f.size / 1024).toFixed(1)} KB</span>
+                        </div>`;
+                });
+                html += '</div>';
+                fileList.innerHTML = html;
+                btnGrade.disabled = false;
+            } else {
+                fileList.innerHTML = '';
+                btnGrade.disabled = true;
+            }
         }
-        tbody.innerHTML = data.map(r => `
+
+        function clearFiles() {
+            fileInput.value = '';
+            fileList.innerHTML = '';
+            btnGrade.disabled = true;
+        }
+
+
+        function resetGradingSession() {
+            clearFiles();
+            // Khóa lại tab kết quả khi bắt đầu phiên mới
+            document.getElementById('pills-result-tab').disabled = true;
+            document.getElementById('resultTableBody').innerHTML = '';
+        }
+
+        // Gửi file lên server
+        async function uploadFiles() {
+            const files = fileInput.files;
+            if (files.length === 0) {
+                alert("Vui lòng chọn ít nhất một file!");
+                return;
+            }
+
+            // Lấy thông tin từ các ô nhập liệu
+            const topic = document.getElementById('topicSelect').value;
+            const studentName = document.getElementById('studentName').value.trim() || "Ẩn danh";
+
+            const formData = new FormData();
+            // Vì bạn đã bỏ chức năng chọn chế độ, ta mặc định gửi "auto" lên server
+            formData.append('mode', 'auto');
+            formData.append('student_name', studentName);
+            if (topic) formData.append('topic', topic);
+
+            for (let i = 0; i < files.length; i++) {
+                formData.append('files', files[i]);
+            }
+
+            // Hiển thị trạng thái đang xử lý
+            document.getElementById('loadingOverlay').style.display = 'flex';
+            document.getElementById('resultSection').classList.add('d-none');
+
+            try {
+                const response = await fetch('/grade', { method: 'POST', body: formData });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || `Lỗi server (${response.status})`);
+                }
+
+                const data = await response.json();
+                renderResults(data);
+            } catch (error) {
+                console.error("Lỗi:", error);
+                alert('Không thể chấm điểm: ' + error.message);
+            } finally {
+                document.getElementById('loadingOverlay').style.display = 'none';
+            }
+        }
+
+        function renderResults(data) {
+            currentResults = data.results;
+            const tbody = document.getElementById('resultTableBody');
+            tbody.innerHTML = '';
+
+            if (!data.results || data.results.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center">Không nhận được kết quả</td></tr>';
+                return;
+            }
+
+            data.results.forEach((r, index) => {
+                let scoreClass = r.total_score >= 80 ? 'score-high' : (r.total_score >= 50 ? 'score-med' : 'score-low');
+                let statusBadge = r.status === 'AC' ? '<span class="badge bg-success">AC</span>' :
+                    (r.status === 'FLAG' ? '<span class="badge bg-warning text-dark">FLAG</span>' : '<span class="badge bg-danger">WA</span>');
+
+                const row = `
             <tr>
-                <td class="small text-muted">${r['Thời gian']}</td>
-                <td class="fw-bold filename-cell">${r['Tên file']}</td>
-                <td class="${parseFloat(r['Điểm số']) >= 50 ? 'text-success' : 'text-danger'} fw-bold mono">${r['Điểm số']}</td>
-                <td class="small">${r['Thuật toán'] || '-'}</td>
-                <td><span class="status-badge ${r['Trạng thái'] === 'AC' ? 'status-ac' : (r['Trạng thái'] === 'FLAG' ? 'status-flag' : 'status-wa')}">${r['Trạng thái']}</span></td>
+                <td class="ps-4 fw-bold text-secondary">${r.filename}</td>
+                <td class="text-center">
+                    <div class="score-badge ${scoreClass} mx-auto">${r.total_score}</div>
+                </td>
+                <td class="text-center">${statusBadge}</td>
+                <td class="text-end pe-4">
+                    <button class="btn btn-sm btn-outline-primary rounded-pill px-3" onclick="showDetails(${index})">
+                        Xem
+                    </button>
+                </td>
             </tr>
-        `).join('');
-    } catch (e) {
-        tbody.innerHTML = `<tr><td colspan="5" class="text-danger text-center">Lỗi tải lịch sử: ${e.message}</td></tr>`;
-    }
-}
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/js/bootstrap.bundle.min.js"></script>
+        `;
+                tbody.innerHTML += row;
+            });
+
+            // Sau khi render xong bảng mới bật và chuyển sang tab kết quả
+            document.getElementById('resultSection').classList.remove('d-none');
+            const resultTabBtn = document.getElementById('pills-result-tab');
+            resultTabBtn.disabled = false;
+            const resultTab = new bootstrap.Tab(resultTabBtn);
+            resultTab.show();
+        }
+
+        // Hiển thị Modal chi tiết
+        window.showDetails = function (index) {
+            const r = currentResults[index];
+            if (!r) return;
+
+            document.getElementById('modalTitle').innerText = r.filename;
+
+            // Score & Status
+            const badge = document.getElementById('modalScoreBadge');
+            badge.innerText = r.total_score;
+            badge.className = `score-badge mx-auto mb-2 ${r.total_score >= 80 ? 'score-high' : (r.total_score >= 50 ? 'score-med' : 'score-low')}`;
+
+            document.getElementById('modalStatus').innerHTML = r.status === 'AC' ? '<span class="badge bg-success">Accepted (AC)</span>' :
+                (r.status === 'FLAG' ? '<span class="badge bg-warning text-dark">Flagged</span>' : '<span class="badge bg-danger">Wrong Answer (WA)</span>');
+
+            // Breakdown
+            const bd = r.breakdown;
+            const bdHtml = `
+                <li class="list-group-item d-flex justify-content-between align-items-center">Chuẩn PEP8 <span class="badge bg-secondary rounded-pill">${bd.pep8}</span></li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">Thuật toán (DSA) <span class="badge bg-primary rounded-pill">${bd.dsa}</span></li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">Độ phức tạp <span class="badge bg-info rounded-pill">${bd.complexity}</span></li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">Test Cases <span class="badge bg-dark rounded-pill">${bd.tests}</span></li>
+            `;
+            document.getElementById('modalBreakdown').innerHTML = bdHtml;
+
+            // Algos & Notes
+            document.getElementById('modalAlgos').innerText = r.algorithms || 'Không xác định';
+
+            let notesHtml = r.notes && r.notes.length > 0 ? r.notes.map(n => `<div>• ${n}</div>`).join('') : '<div>Không có cảnh báo nào.</div>';
+            if (r.error) notesHtml += `<div class="text-danger fw-bold mt-2">LỖI: ${r.error}</div>`;
+            document.getElementById('modalNotes').innerHTML = notesHtml;
+
+            document.getElementById('modalRuntime').innerText = r.runtime;
+
+            detailModal.show();
+        }
+
+        // Load lịch sử
+        async function loadHistory() {
+            const tbody = document.getElementById('historyTableBody');
+            try {
+                const response = await fetch('/api/history');
+                const data = await response.json();
+
+                tbody.innerHTML = '';
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Chưa có dữ liệu lịch sử</td></tr>';
+                    return;
+                }
+
+                data.forEach(row => {
+                    const tr = `
+                        <tr>
+                            <td class="ps-4 text-nowrap">${row['Thời gian']}</td>
+                            <td class="fw-bold">${row['Tên file']}</td>
+                            <td class="text-center"><span class="badge bg-secondary">${row['Điểm số']}</span></td>
+                            <td>${row['Thuật toán']}</td>
+                            <td>${row['Trạng thái']}</td>
+                            <td class="small text-muted text-truncate" style="max-width: 200px;">${row['Ghi chú']}</td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += tr;
+                });
+            } catch (e) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-danger">Lỗi tải lịch sử: ${e}</td></tr>`;
+            }
+        }
+    </script>
 </body>
+
 </html>
