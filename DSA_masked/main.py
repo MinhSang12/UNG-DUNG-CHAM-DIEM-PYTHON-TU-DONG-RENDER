@@ -142,7 +142,7 @@ async def get_history_csv():
 async def home():
     # Lấy đường dẫn thư mục hiện tại của file main.py
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.join(current_dir, "index.html")
+    file_path = os.path.join(current_dir, "app", "index.html")
     
     # Kiểm tra file tồn tại trước khi trả về để tránh lỗi 500
     if os.path.exists(file_path):
