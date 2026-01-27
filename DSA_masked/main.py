@@ -12,6 +12,7 @@ from app.grader import AIGrader
 from app.storage import save_results_to_csv, get_history_csv_data, get_csv_file_path
 from API.GetAPI import app as bank_api_app
 from fastapi.responses import FileResponse
+from fastapi import Request
 
 
 # --- CẤU HÌNH ĐƯỜNG DẪN ---
@@ -54,9 +55,10 @@ async def startup_check():
 
 @app.post("/grade", summary="Chấm điểm AI chuyên sâu")
 async def grade_lightning(
+    request: Request, # Thêm tham số request vào đây
     files: List[UploadFile] = File(...), 
-    topic: str = Form(None),           # Nhận topic để lấy đúng tiêu chí từ API
-    student_name: str = Form("Ẩn danh") # Nhận tên sinh viên để cá nhân hóa báo cáo
+    topic: str = Form(None),
+    student_name: str = Form("Ẩn danh")
 ):
     start_total = time.time()
     results = []
@@ -96,6 +98,11 @@ async def grade_lightning(
 
     # --- THỰC THI CHẤM ĐIỂM AI ---
     if grading_tasks:
+        # Kiểm tra nếu người dùng đã ngắt kết nối trước khi bắt đầu gather
+        if await request.is_disconnected():
+            print("🛑 Người dùng đã hủy, dừng tiến trình!")
+            return {"status": "cancelled"}
+            
         graded_results = await asyncio.gather(*grading_tasks)
         results.extend(graded_results)
 
