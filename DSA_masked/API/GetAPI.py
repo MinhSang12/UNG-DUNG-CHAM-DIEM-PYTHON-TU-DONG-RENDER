@@ -1,23 +1,20 @@
 from fastapi import FastAPI, HTTPException
-import pyodbc
+import pymssql
 from typing import Dict, List
 import json
 import uvicorn
 
 app = FastAPI(title="DSA Question Bank API")
 
-# Cấu hình kết nối SQL Server dựa trên sơ đồ
-conn_str = (
-    "Driver={ODBC Driver 17 for SQL Server};"
-    "Server=118.69.126.49;" 
-    "Database=Data_PersonalizedSystem;"
-    "UID=userPersonalizedSystem;"         
-    "PWD=123456789;"
-    "Encrypt=yes;"
-    "TrustServerCertificate=yes;"
-)
+def get_db_connection():
+    return pymssql.connect(
+        server='118.69.126.49',
+        user='userPersonalizedSystem',
+        password='123456789',
+        database='Data_PersonalizedSystem'
+    )
 
-@app.get("/api/problems/{ma_bai_tap}")
+@app.get("/problems/{ma_bai_tap}")
 async def get_problem_details(ma_bai_tap: str):
     """
     Lấy dữ liệu từ bảng BAITAP để AI có cơ sở chấm điểm
@@ -25,26 +22,26 @@ async def get_problem_details(ma_bai_tap: str):
     
     try:
         clean_id = ma_bai_tap.replace(".py", "")
-        with pyodbc.connect(conn_str) as conn:
-            cursor = conn.cursor()
+        conn = get_db_connection()
+        cursor = conn.cursor(as_dict=True)
             # 1. Truy vấn lấy dữ liệu từ bảng BAITAP
-            query = """
+        query = """
                 SELECT TenBaiTap, MoTa, YeuCau, TieuChiChamDiem 
                 FROM BAITAP 
-                WHERE MaBaiTap = ?
+                WHERE MaBaiTap = %s
             """
-            cursor.execute(query, (clean_id,))
-            row = cursor.fetchone()
+        cursor.execute(query, (clean_id,))
+        row = cursor.fetchone()
             
-            if not row:
+        if not row:
                 raise HTTPException(status_code=404, detail="Không tìm thấy mã bài tập này")
             
             # 2. Xử lý cột TieuChiChamDiem (Dạng JSON trong DB)
-            raw_rubric = row.TieuChiChamDiem
-            formatted_rubric = "Chấm theo tiêu chuẩn DSA chung."
-            test_cases = [{"input": "5", "expected": "120"}] # Mặc định dự phòng
+        raw_rubric = row['TieuChiChamDiem']
+        formatted_rubric = "Chấm theo tiêu chuẩn DSA chung."
+        test_cases = [{"input": "5", "expected": "120"}] # Mặc định dự phòng
             
-            if raw_rubric:
+        if raw_rubric:
                 try:
                     rubric_obj = json.loads(raw_rubric)
                     # Lấy danh sách tiêu chí từ mảng "tieu chi" trong JSON
@@ -60,11 +57,11 @@ async def get_problem_details(ma_bai_tap: str):
                     formatted_rubric = raw_rubric # Nếu không phải JSON thì lấy text thuần
 
             # 3. Trả về cấu trúc JSON chuẩn cho bộ Grader
-            return {
+        return {
                 "id": ma_bai_tap,
-                "title": row.TenBaiTap,
-                "description": row.MoTa,
-                "requirements": row.YeuCau,      # Yêu cầu đề bài thực tế
+                "title": row['TenBaiTap'],
+                "description": row['MoTa'],
+                "requirements": row['YeuCau'],     # Yêu cầu đề bài thực tế
                 "rubric": formatted_rubric,      # Tiêu chí đã được làm sạch để AI đọc
                 "time_limit": 2.0,
                 "test_cases": test_cases         # Bộ test để máy chạy thực tế

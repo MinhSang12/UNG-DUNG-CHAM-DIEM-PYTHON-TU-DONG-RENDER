@@ -536,17 +536,6 @@ class AIGrader(DSALightningGrader):
         )
         self.rubric_api_url = "http://127.0.0.1:8001/api"
 
-    # async def fetch_rubric(self, filename: str) -> str:
-    #     """Lấy tiêu chí từ API (Ưu tiên số 1)"""
-    #     try:
-    #         async with httpx.AsyncClient() as client:
-    #             response = await client.get(f"{self.rubric_api_url}?filename={filename}", timeout=2)
-    #             if response.status_code == 200:
-    #                 return response.json().get('criteria', "Chấm theo tiêu chuẩn DSA chung.")
-    #     except Exception:
-    #         pass
-    #     return "Chấm theo tiêu chuẩn DSA tổng quát và tối ưu độ phức tạp."
-
     async def grade_auto(self, code: str, filename: str, topic: str = None) -> Dict:
         """
         AI LÀ GIÁM KHẢO CHÍNH: 

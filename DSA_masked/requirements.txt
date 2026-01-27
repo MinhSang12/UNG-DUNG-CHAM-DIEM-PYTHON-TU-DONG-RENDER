@@ -1,5 +1,7 @@
 fastapi
 uvicorn
-python-multipart
-rarfile
 requests
+google-generativeai
+httpx
+pymssql
+python-multipart
