@@ -138,7 +138,19 @@ async def get_history_csv():
 
 # main.py - Sửa lại hàm home
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 async def home():
-    # Trả về trực tiếp file index.html nằm cùng thư mục với main.py
-    return FileResponse(os.path.join(os.path.dirname(__file__), "index.html"))
+    # Lấy đường dẫn thư mục hiện tại của file main.py
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(current_dir, "index.html")
+    
+    # Kiểm tra file tồn tại trước khi trả về để tránh lỗi 500
+    if os.path.exists(file_path):
+        return FileResponse(file_path)
+    else:
+        # Nếu vẫn không thấy, in ra danh sách file để bạn dễ debug trong log Render
+        files_in_dir = os.listdir(current_dir)
+        return HTMLResponse(
+            content=f"❌ Không thấy index.html. <br>Thư mục hiện tại: {current_dir} <br>Các file đang có: {files_in_dir}", 
+            status_code=404
+        )
