@@ -584,6 +584,7 @@ YÊU CẦU NGHIÊM NGẶT:
 2. GIỮ NGUYÊN TIÊU CHÍ: Tên tiêu chí (criterion) phải sao chép chính xác từ {db_rubric}, không được tự ý dịch sang tiếng Anh.
 3. KHÔNG chấm lan man ngoài các tiêu chí trong {db_rubric}.
 4. FEEDBACK SÚC TÍCH: Giải thích rõ lý do "Tại sao đạt/không đạt" dựa trên dòng code cụ thể bằng tiếng Việt.
+5. TÊN TIÊU CHÍ (criterion): Phải sao chép NGUYÊN VĂN 100% các câu có trong {db_rubric}. KHÔNG được sửa từ, KHÔNG được tóm tắt, KHÔNG được dịch.
 
 TRẢ VỀ JSON CHUẨN DUY NHẤT (KHÔNG CÓ TEXT THỪA):
 {{
@@ -591,7 +592,7 @@ TRẢ VỀ JSON CHUẨN DUY NHẤT (KHÔNG CÓ TEXT THỪA):
   "total_score": số,
   "criteria_results": [
     {{
-      "criterion": "Tên tiêu chí",
+      "criterion": "Chép y hệt câu trong rubric vào đây",
       "score": số,
       "reason": "Giải thích lý do"
     }}
