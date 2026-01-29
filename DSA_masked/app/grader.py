@@ -581,13 +581,11 @@ class AIGrader(DSALightningGrader):
         {code}
 
         YÊU CẦU NGHIÊM NGẶT
-        1. Chấm theo tiêu chí này giúp tôi: {"tieu_chi":[
+        1. Chấm theo 3 tiêu chí này giúp tôi: 
      "Xác định đúng Time Complexity là O(n)",
      "Xác định đúng Space Complexity là O(n)",
-     
      "So sánh với phương pháp dùng vòng lặp có không gian O(1)"
-   ]
- }
+   
 
         TRẢ VỀ JSON CHUẨN DUY NHẤT:
         {{
