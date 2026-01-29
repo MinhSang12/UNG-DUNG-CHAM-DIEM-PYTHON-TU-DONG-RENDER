@@ -491,38 +491,60 @@
         }
 
         // index.html - Thay thế đoạn xử lý Breakdown cũ
+        // index.html - Cấu trúc hiển thị mới: Tách biệt Điểm và Feedback
         window.showDetails = function (index) {
             const r = currentResults[index];
             if (!r) return;
         
             document.getElementById('modalTitle').innerText = r.filename;
             
-            // 1. Cập nhật Điểm tổng và Badge màu sắc
+            // 1. Cập nhật Điểm tổng
             const badge = document.getElementById('modalScoreBadge');
             badge.innerText = r.total_score;
             badge.className = `score-badge mx-auto mb-2 ${r.total_score >= 80 ? 'score-high' : (r.total_score >= 50 ? 'score-med' : 'score-low')}`;
         
-            // 2. HIỂN THỊ TIÊU CHÍ ĐỘNG (Duyệt qua mảng criteria_results từ AI)
-            let criteriaHtml = "";
+            // 2. PHẦN ĐIỂM THÀNH PHẦN: Chỉ hiện Tên tiêu chí và Điểm
+            let scoreHtml = "";
+            let feedbackHtml = "";
+        
             if (r.criteria_results && r.criteria_results.length > 0) {
                 r.criteria_results.forEach(item => {
-                    criteriaHtml += `
-                        <li class="list-group-item p-3">
-                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                <span class="fw-bold text-dark">${item.criterion}</span>
-                                <span class="badge bg-primary rounded-pill">${item.score}đ</span>
-                            </div>
-                            <div class="small text-muted italic">→ ${item.reason}</div>
+                    // Xây dựng danh sách điểm phía trên
+                    scoreHtml += `
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-2">
+                            <span class="text-dark">${item.criterion}</span>
+                            <span class="badge bg-primary rounded-pill">${item.score}đ</span>
                         </li>`;
+                    
+                    // Xây dựng danh sách feedback phía dưới (không hiện điểm)
+                    feedbackHtml += `
+                        <div class="mb-3 border-bottom pb-2">
+                            <div class="fw-bold text-primary mb-1">
+                                <i class="fas fa-check-circle me-1"></i> ${item.criterion}
+                            </div>
+                            <div class="small text-dark ps-3" style="line-height: 1.4;">
+                                ${item.reason}
+                            </div>
+                        </div>`;
                 });
             } else {
-                criteriaHtml = '<li class="list-group-item text-center text-muted">Không có dữ liệu tiêu chí thành phần</li>';
+                scoreHtml = '<li class="list-group-item text-center text-muted">Không có dữ liệu</li>';
+                feedbackHtml = '<div class="text-muted">Không có nhận xét chi tiết.</div>';
             }
-            document.getElementById('modalBreakdown').innerHTML = criteriaHtml;
         
-            // 3. Các thông tin khác giữ nguyên
-            document.getElementById('modalAlgos').innerText = r.detected_algo || 'Không xác định';
-            document.getElementById('modalNotes').innerHTML = r.overall_feedback || "AI chưa đưa ra nhận xét.";
+            document.getElementById('modalBreakdown').innerHTML = scoreHtml;
+        
+            // 3. PHẦN FEEDBACK CHI TIẾT: Hiện nhận xét và lý do đúng/sai
+            const notesArea = document.getElementById('modalNotes');
+            notesArea.innerHTML = `
+                <div class="feedback-list">
+                    ${feedbackHtml}
+                    <div class="mt-2 pt-2 fw-bold text-secondary italic">
+                        Tổng kết: ${r.notes[0] || "AI chưa đưa ra nhận xét tổng quát."}
+                    </div>
+                </div>`;
+        
+            document.getElementById('modalAlgos').innerText = r.algorithms || 'Cơ bản';
             document.getElementById('modalRuntime').innerText = r.runtime || "N/A";
         
             detailModal.show();
