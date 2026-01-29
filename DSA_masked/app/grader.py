@@ -621,4 +621,4 @@ TRẢ VỀ JSON CHUẨN DUY NHẤT (KHÔNG CÓ TEXT THỪA):
         except Exception as e:
             print(f"❌ AI Error: {str(e)}")
             ast_report['notes'].append(f"⚠️ Lỗi xử lý AI: {str(e)}")
-            return ast_report ast_report
+            return ast_report 
