@@ -563,8 +563,7 @@ class AIGrader(DSALightningGrader):
         if problem_data:
             db_rubric = problem_data.get('rubric', db_rubric)
             bank_details = f"Đề bài: {problem_data.get('requirements')}. Số test cases: {len(problem_data.get('test_cases', []))}."
-
-            # --- BƯỚC 2: RÀNG BUỘC AI SOẠN THẢO FEEDBACK CHUYÊN SÂU ---
+        # --- BƯỚC 2: RÀNG BUỘC AI SOẠN THẢO FEEDBACK CHUYÊN SÂU ---
         prompt = f"""
 Bạn là Giám khảo trưởng môn DSA. Hãy chấm điểm dựa trên mã nguồn sinh viên và các tiêu chí ĐỘNG được cung cấp.
 
@@ -599,9 +598,8 @@ TRẢ VỀ JSON CHUẨN DUY NHẤT (KHÔNG CÓ TEXT THỪA):
   "overall_feedback": "Nhận xét tổng quát."
 }}
 """
-
         # --- BƯỚC 3: AI QUYẾT ĐỊNH KẾT QUẢ ---
-       try:
+        try:
             response = await loop.run_in_executor(None, lambda: self.model.generate_content(prompt))
             clean_json = response.text.replace('```json', '').replace('```', '').strip()
             ai_data = json.loads(clean_json)
@@ -623,4 +621,4 @@ TRẢ VỀ JSON CHUẨN DUY NHẤT (KHÔNG CÓ TEXT THỪA):
         except Exception as e:
             print(f"❌ AI Error: {str(e)}")
             ast_report['notes'].append(f"⚠️ Lỗi xử lý AI: {str(e)}")
-            return ast_report
+            return ast_report ast_report
