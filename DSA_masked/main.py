@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, FileResponse
 from app.grader import AIGrader
 from app.storage import save_results_to_csv, get_history_csv_data, get_csv_file_path
-from API.GetAPI import app as bank_api_app
+
 from fastapi.responses import FileResponse
 from fastapi import Request
 
@@ -27,7 +27,7 @@ app = FastAPI(
     description="Hệ thống chấm điểm AI chủ đạo tích hợp phân tích kỹ thuật AST.",
     version="3.0"
 )
-app.mount("/db-api", bank_api_app)
+
 
 # --- CẤU HÌNH CORS ---
 app.add_middleware(
