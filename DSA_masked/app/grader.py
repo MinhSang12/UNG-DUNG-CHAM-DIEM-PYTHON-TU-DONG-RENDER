@@ -565,7 +565,7 @@ class AIGrader(DSALightningGrader):
             bank_details = f"Đề bài: {problem_data.get('requirements')}. Số test cases: {len(problem_data.get('test_cases', []))}."
 
             # --- BƯỚC 2: RÀNG BUỘC AI SOẠN THẢO FEEDBACK CHUYÊN SÂU ---
-            prompt = f"""
+        prompt = f"""
 Bạn là Giám khảo trưởng môn DSA. Hãy chấm điểm dựa trên mã nguồn sinh viên và các tiêu chí ĐỘNG được cung cấp.
 
 [NGUỒN DỮ LIỆU GỐC]:
@@ -598,37 +598,29 @@ TRẢ VỀ JSON CHUẨN DUY NHẤT (KHÔNG CÓ TEXT THỪA):
   ],
   "overall_feedback": "Nhận xét tổng quát."
 }}
-             """
+"""
 
         # --- BƯỚC 3: AI QUYẾT ĐỊNH KẾT QUẢ ---
-        try:
+       try:
             response = await loop.run_in_executor(None, lambda: self.model.generate_content(prompt))
-            # Làm sạch dữ liệu JSON trước khi parse
             clean_json = response.text.replace('```json', '').replace('```', '').strip()
             ai_data = json.loads(clean_json)
             
-            # Tính tổng điểm dựa trên phân tích của AI
-            total = sum([ai_data.get(k, 0) for k in ['pep8_score', 'dsa_score', 'complexity_score', 'test_score']])
+            # LẤY ĐIỂM TRỰC TIẾP TỪ AI
+            total = ai_data.get('total_score', 0)
             
             return {
                 'filename': filename,
                 'total_score': round(total, 1),
-                'breakdown': {
-                    'pep8': ai_data.get('pep8_score', 0),
-                    'dsa': ai_data.get('dsa_score', 0),
-                    'complexity': ai_data.get('complexity_score', 0),
-                    'tests': ai_data.get('test_score', 0)
-                },
+                'criteria_results': ai_data.get('criteria_results', []), # TRUYỀN DỮ LIỆU CHO FRONTEND
                 'algorithms': ai_data.get('detected_algo', ast_report['algorithms']),
-                'runtime': ast_report['runtime'], # Giữ runtime thực tế từ máy chấm
+                'runtime': ast_report['runtime'],
                 'status': 'AC' if total >= 50 else 'WA',
-                # QUAN TRỌNG: Ghi chú & Lỗi hiện thị nội dung AI soạn thảo
-                'notes': [ai_data.get('feedback', 'AI chưa đưa ra nhận xét.')], 
+                'notes': [ai_data.get('overall_feedback', 'AI chưa đưa ra nhận xét.')], 
                 'valid_score': True,
-                'fingerprint': ast_report.get('fingerprint') # Lưu vân tay để kiểm tra đạo văn
+                'fingerprint': ast_report.get('fingerprint')
             }
         except Exception as e:
-            # Dự phòng: Nếu AI lỗi (quota, timeout), dùng kết quả của "Trợ lý AST" để không làm gián đoạn hệ thống
             print(f"❌ AI Error: {str(e)}")
-            ast_report['notes'].append(f"⚠️ Chế độ dự phòng: AI tạm thời không phản hồi.")
+            ast_report['notes'].append(f"⚠️ Lỗi xử lý AI: {str(e)}")
             return ast_report
