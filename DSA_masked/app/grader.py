@@ -564,46 +564,41 @@ class AIGrader(DSALightningGrader):
             db_rubric = problem_data.get('rubric', db_rubric)
             bank_details = f"Đề bài: {problem_data.get('requirements')}. Số test cases: {len(problem_data.get('test_cases', []))}."
 
-        # --- BƯỚC 2: RÀNG BUỘC AI SOẠN THẢO FEEDBACK CHUYÊN SÂU ---
-       prompt = f"""
-        Bạn là Giám khảo trưởng môn DSA. Hãy chấm điểm dựa trên mã nguồn sinh viên và các tiêu chí ĐỘNG được cung cấp.
-        
-        [NGUỒN DỮ LIỆU GỐC]:
-        - Tiêu chí từ Database (Rubric): {db_rubric}
-        - Thông tin bài tập: {bank_details}
-        
-        [DỮ LIỆU KỸ THUẬT HỖ TRỢ (AST)]:
-        - Thuật toán nhận diện: {ast_report['algorithms']}
-        - Ghi chú máy chấm: {ast_report['notes']}
-        - Runtime: {ast_report['runtime']}
-        
-        [MÃ NGUỒN SINH VIÊN]:
-        {code}
-        
-        YÊU CẦU NGHIÊM NGẶT:
-        1. KHÔNG chấm lan man ngoài các tiêu chí trong {db_rubric}.
-        2. FEEDBACK PHẢI SÚC TÍCH THEO TỪNG Ý: Với mỗi tiêu chí, phải nêu rõ lý do "Tại sao đạt" hoặc "Tại sao không đạt" dựa trên dòng code cụ thể.
-        3. TỔNG ĐIỂM (total_score) là tổng điểm của các tiêu chí thành phần.
-        
-        TRẢ VỀ JSON CHUẨN DUY NHẤT (KHÔNG CÓ TEXT THỪA):
-        {{
-          "detected_algo": "Tên thuật toán",
-          "total_score": số (tổng điểm trên 100),
-          "criteria_results": [
-            {{
-              "criterion": "Tên tiêu chí 1",
-              "score": số điểm,
-              "reason": "Giải thích ngắn gọn lý do đúng/sai tại đây"
-            }},
-            {{
-              "criterion": "Tên tiêu chí 2",
-              "score": số điểm,
-              "reason": "Giải thích ngắn gọn lý do đúng/sai tại đây"
-            }}
-          ],
-          "overall_feedback": "Nhận xét tổng quát trong 1-2 câu."
-        }}
-        """
+            # --- BƯỚC 2: RÀNG BUỘC AI SOẠN THẢO FEEDBACK CHUYÊN SÂU ---
+    prompt = f"""
+Bạn là Giám khảo trưởng môn DSA. Hãy chấm điểm dựa trên mã nguồn sinh viên và các tiêu chí ĐỘNG được cung cấp.
+
+[NGUỒN DỮ LIỆU GỐC]:
+- Tiêu chí từ Database (Rubric): {db_rubric}
+- Thông tin bài tập: {bank_details}
+
+[DỮ LIỆU KỸ THUẬT HỖ TRỢ (AST)]:
+- Thuật toán nhận diện: {ast_report['algorithms']}
+- Ghi chú máy chấm: {ast_report['notes']}
+- Runtime: {ast_report['runtime']}
+
+[MÃ NGUỒN SINH VIÊN]:
+{code}
+
+YÊU CẦU NGHIÊM NGẶT:
+1. KHÔNG chấm lan man ngoài các tiêu chí trong {db_rubric} và 3 yêu cầu cốt lõi (Time O(n), Space O(n), So sánh O(1)).
+2. FEEDBACK PHẢI SÚC TÍCH THEO TỪNG Ý: Với mỗi tiêu chí, phải nêu rõ lý do "Tại sao đạt" hoặc "Tại sao không đạt" dựa trên dòng code cụ thể.
+3. TỔNG ĐIỂM (total_score) là tổng điểm của các tiêu chí thành phần.
+
+TRẢ VỀ JSON CHUẨN DUY NHẤT (KHÔNG CÓ TEXT THỪA):
+{{
+  "detected_algo": "Tên thuật toán",
+  "total_score": số,
+  "criteria_results": [
+    {{
+      "criterion": "Tên tiêu chí",
+      "score": số,
+      "reason": "Giải thích lý do"
+    }}
+  ],
+  "overall_feedback": "Nhận xét tổng quát."
+}}
+"""
 
         # --- BƯỚC 3: AI QUYẾT ĐỊNH KẾT QUẢ ---
         try:
