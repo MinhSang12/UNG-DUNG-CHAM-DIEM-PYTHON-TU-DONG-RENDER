@@ -565,36 +565,43 @@ class AIGrader(DSALightningGrader):
             bank_details = f"Đề bài: {problem_data.get('requirements')}. Số test cases: {len(problem_data.get('test_cases', []))}."
 
         # --- BƯỚC 2: RÀNG BUỘC AI SOẠN THẢO FEEDBACK CHUYÊN SÂU ---
-        prompt = f"""
-        Bạn là Giám khảo trưởng môn DSA. Hãy đưa ra ĐIỂM SỐ VÀ FEEDBACK CUỐI CÙNG.
+       prompt = f"""
+        Bạn là Giám khảo trưởng môn DSA. Hãy chấm điểm dựa trên mã nguồn sinh viên và các tiêu chí ĐỘNG được cung cấp.
         
-        [ƯU TIÊN 1: TIÊU CHÍ HỆ THỐNG & NGÂN HÀNG BÀI TẬP]:
-        - Tiêu chí (Rubric): {db_rubric}
+        [NGUỒN DỮ LIỆU GỐC]:
+        - Tiêu chí từ Database (Rubric): {db_rubric}
         - Thông tin bài tập: {bank_details}
-
-        [DỮ LIỆU HỖ TRỢ TỪ TRỢ LÝ AST]:
-        - Đặc điểm kỹ thuật: {ast_report['algorithms']}
-        - Ghi chú từ máy chấm: {ast_report['notes']}
-        - Thời gian thực thi thực tế: {ast_report['runtime']}
-
+        
+        [DỮ LIỆU KỸ THUẬT HỖ TRỢ (AST)]:
+        - Thuật toán nhận diện: {ast_report['algorithms']}
+        - Ghi chú máy chấm: {ast_report['notes']}
+        - Runtime: {ast_report['runtime']}
+        
         [MÃ NGUỒN SINH VIÊN]:
         {code}
-
-        YÊU CẦU NGHIÊM NGẶT
-        1. Chấm theo 3 tiêu chí này giúp tôi: 
-     "Xác định đúng Time Complexity là O(n)",
-     "Xác định đúng Space Complexity là O(n)",
-     "So sánh với phương pháp dùng vòng lặp có không gian O(1)"
-   
-
-        TRẢ VỀ JSON CHUẨN DUY NHẤT:
+        
+        YÊU CẦU NGHIÊM NGẶT:
+        1. KHÔNG chấm lan man ngoài các tiêu chí trong {db_rubric}.
+        2. FEEDBACK PHẢI SÚC TÍCH THEO TỪNG Ý: Với mỗi tiêu chí, phải nêu rõ lý do "Tại sao đạt" hoặc "Tại sao không đạt" dựa trên dòng code cụ thể.
+        3. TỔNG ĐIỂM (total_score) là tổng điểm của các tiêu chí thành phần.
+        
+        TRẢ VỀ JSON CHUẨN DUY NHẤT (KHÔNG CÓ TEXT THỪA):
         {{
-          "pep8_score": số (0-10),
-          "dsa_score": số (0-40),
-          "complexity_score": số (0-10),
-          "test_score": số (0-40),
           "detected_algo": "Tên thuật toán",
-          "feedback": "Nội dung đoạn văn nhận xét của bạn ở đây..."
+          "total_score": số (tổng điểm trên 100),
+          "criteria_results": [
+            {{
+              "criterion": "Tên tiêu chí 1",
+              "score": số điểm,
+              "reason": "Giải thích ngắn gọn lý do đúng/sai tại đây"
+            }},
+            {{
+              "criterion": "Tên tiêu chí 2",
+              "score": số điểm,
+              "reason": "Giải thích ngắn gọn lý do đúng/sai tại đây"
+            }}
+          ],
+          "overall_feedback": "Nhận xét tổng quát trong 1-2 câu."
         }}
         """
 
