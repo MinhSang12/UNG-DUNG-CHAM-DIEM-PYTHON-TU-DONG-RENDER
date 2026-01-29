@@ -490,8 +490,8 @@
             resultTab.show();
         }
 
-        // index.html - Thay thế đoạn xử lý Breakdown cũ
-        // index.html - Cấu trúc hiển thị mới: Tách biệt Điểm và Feedback
+        
+        // index.html - Thay thế đoạn xử lý showDetails
         window.showDetails = function (index) {
             const r = currentResults[index];
             if (!r) return;
@@ -503,17 +503,19 @@
             badge.innerText = r.total_score;
             badge.className = `score-badge mx-auto mb-2 ${r.total_score >= 80 ? 'score-high' : (r.total_score >= 50 ? 'score-med' : 'score-low')}`;
         
-            // 2. PHẦN ĐIỂM THÀNH PHẦN: Chỉ hiện Tên tiêu chí và Điểm
+            // 2. PHẦN ĐIỂM THÀNH PHẦN: Xích điểm sang phải và tránh đụng văn bản
             let scoreHtml = "";
             let feedbackHtml = "";
         
             if (r.criteria_results && r.criteria_results.length > 0) {
                 r.criteria_results.forEach(item => {
-                    // Xây dựng danh sách điểm phía trên
+                    // SỬA: Thêm pe-0 (padding-end: 0) và margin-left: auto để đẩy badge sang phải
                     scoreHtml += `
-                        <li class="list-group-item d-flex justify-content-between align-items-center py-2">
-                            <span class="text-dark">${item.criterion}</span>
-                            <span class="badge bg-primary rounded-pill">${item.score}đ</span>
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-2 pe-0 border-0">
+                            <span class="text-dark pe-3" style="max-width: 85%; line-height: 1.4;">${item.criterion}</span>
+                            <span class="badge bg-primary rounded-pill shadow-sm" style="min-width: 45px; margin-left: auto;">
+                                ${item.score}đ
+                            </span>
                         </li>`;
                     
                     // Xây dựng danh sách feedback phía dưới (không hiện điểm)
@@ -534,7 +536,7 @@
         
             document.getElementById('modalBreakdown').innerHTML = scoreHtml;
         
-            // 3. PHẦN FEEDBACK CHI TIẾT: Hiện nhận xét và lý do đúng/sai
+            // 3. PHẦN FEEDBACK CHI TIẾT
             const notesArea = document.getElementById('modalNotes');
             notesArea.innerHTML = `
                 <div class="feedback-list">
