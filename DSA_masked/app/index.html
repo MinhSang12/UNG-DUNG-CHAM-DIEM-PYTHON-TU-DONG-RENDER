@@ -490,30 +490,43 @@
             resultTab.show();
         }
 
+        // index.html - Thay thế đoạn xử lý Breakdown cũ
         window.showDetails = function (index) {
             const r = currentResults[index];
             if (!r) return;
+        
             document.getElementById('modalTitle').innerText = r.filename;
+            
+            // 1. Cập nhật Điểm tổng và Badge màu sắc
             const badge = document.getElementById('modalScoreBadge');
             badge.innerText = r.total_score;
             badge.className = `score-badge mx-auto mb-2 ${r.total_score >= 80 ? 'score-high' : (r.total_score >= 50 ? 'score-med' : 'score-low')}`;
-            document.getElementById('modalStatus').innerHTML = r.status === 'AC' ? '<span class="badge bg-success">Accepted (AC)</span>' :
-                (r.status === 'FLAG' ? '<span class="badge bg-warning text-dark">Flagged</span>' : '<span class="badge bg-danger">Wrong Answer (WA)</span>');
-            const bd = r.breakdown;
-            const bdHtml = `
-                <li class="list-group-item d-flex justify-content-between align-items-center">Chuẩn PEP8 <span class="badge bg-secondary rounded-pill">${bd.pep8}</span></li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">Thuật toán (DSA) <span class="badge bg-primary rounded-pill">${bd.dsa}</span></li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">Độ phức tạp <span class="badge bg-info rounded-pill">${bd.complexity}</span></li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">Test Cases <span class="badge bg-dark rounded-pill">${bd.tests}</span></li>`;
-            document.getElementById('modalBreakdown').innerHTML = bdHtml;
-            document.getElementById('modalAlgos').innerText = r.algorithms || 'Không xác định';
-            let notesHtml = r.notes && r.notes.length > 0 ? r.notes.map(n => `<div>• ${n}</div>`).join('') : '<div>Không có cảnh báo nào.</div>';
-            if (r.error) notesHtml += `<div class="text-danger fw-bold mt-2">LỖI: ${r.error}</div>`;
-            document.getElementById('modalNotes').innerHTML = notesHtml;
-            document.getElementById('modalRuntime').innerText = r.runtime;
+        
+            // 2. HIỂN THỊ TIÊU CHÍ ĐỘNG (Duyệt qua mảng criteria_results từ AI)
+            let criteriaHtml = "";
+            if (r.criteria_results && r.criteria_results.length > 0) {
+                r.criteria_results.forEach(item => {
+                    criteriaHtml += `
+                        <li class="list-group-item p-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="fw-bold text-dark">${item.criterion}</span>
+                                <span class="badge bg-primary rounded-pill">${item.score}đ</span>
+                            </div>
+                            <div class="small text-muted italic">→ ${item.reason}</div>
+                        </li>`;
+                });
+            } else {
+                criteriaHtml = '<li class="list-group-item text-center text-muted">Không có dữ liệu tiêu chí thành phần</li>';
+            }
+            document.getElementById('modalBreakdown').innerHTML = criteriaHtml;
+        
+            // 3. Các thông tin khác giữ nguyên
+            document.getElementById('modalAlgos').innerText = r.detected_algo || 'Không xác định';
+            document.getElementById('modalNotes').innerHTML = r.overall_feedback || "AI chưa đưa ra nhận xét.";
+            document.getElementById('modalRuntime').innerText = r.runtime || "N/A";
+        
             detailModal.show();
         }
-
         async function loadHistory() {
             const tbody = document.getElementById('historyTableBody');
             try {
