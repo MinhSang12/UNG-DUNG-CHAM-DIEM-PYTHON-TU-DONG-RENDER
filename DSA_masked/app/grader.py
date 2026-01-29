@@ -580,9 +580,10 @@ Bạn là Giám khảo trưởng môn DSA. Hãy chấm điểm dựa trên mã n
 {code}
 
 YÊU CẦU NGHIÊM NGẶT:
-1. KHÔNG chấm lan man ngoài các tiêu chí trong {db_rubric} và 3 yêu cầu cốt lõi (Time O(n), Space O(n), So sánh O(1)).
-2. FEEDBACK PHẢI SÚC TÍCH THEO TỪNG Ý: Với mỗi tiêu chí, phải nêu rõ lý do "Tại sao đạt" hoặc "Tại sao không đạt" dựa trên dòng code cụ thể.
-3. TỔNG ĐIỂM (total_score) là tổng điểm của các tiêu chí thành phần.
+1. NGÔN NGỮ: Mọi nội dung trong JSON (criterion, reason, overall_feedback) PHẢI dùng tiếng Việt 100%.
+2. GIỮ NGUYÊN TIÊU CHÍ: Tên tiêu chí (criterion) phải sao chép chính xác từ {db_rubric}, không được tự ý dịch sang tiếng Anh.
+3. KHÔNG chấm lan man ngoài các tiêu chí trong {db_rubric}.
+4. FEEDBACK SÚC TÍCH: Giải thích rõ lý do "Tại sao đạt/không đạt" dựa trên dòng code cụ thể bằng tiếng Việt.
 
 TRẢ VỀ JSON CHUẨN DUY NHẤT (KHÔNG CÓ TEXT THỪA):
 {{
