@@ -565,7 +565,7 @@ class AIGrader(DSALightningGrader):
             bank_details = f"Đề bài: {problem_data.get('requirements')}. Số test cases: {len(problem_data.get('test_cases', []))}."
 
             # --- BƯỚC 2: RÀNG BUỘC AI SOẠN THẢO FEEDBACK CHUYÊN SÂU ---
-        prompt = f"""
+            prompt = f"""
 Bạn là Giám khảo trưởng môn DSA. Hãy chấm điểm dựa trên mã nguồn sinh viên và các tiêu chí ĐỘNG được cung cấp.
 
 [NGUỒN DỮ LIỆU GỐC]:
