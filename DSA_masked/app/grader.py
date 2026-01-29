@@ -580,15 +580,14 @@ class AIGrader(DSALightningGrader):
         [MÃ NGUỒN SINH VIÊN]:
         {code}
 
-        YÊU CẦU NGHIÊM NGẶT:
-        1. Rubric là luật tối cao. Nếu Rubric yêu cầu đệ quy mà sinh viên dùng vòng lặp, hãy trừ điểm dsa_score.
-        2. Test Cases là thước đo thực tế. Đối chiếu logic code với Test cases yêu cầu để cho điểm test_score.
-        3. Phân tích độ phức tạp $O(n)$ thực tế.
-        4. Tại trường 'feedback', hãy viết một ĐOẠN VĂN (paragraph) nhận xét chuyên sâu bao gồm:
-           - Đánh giá logic thuật toán (đúng/sai so với Rubric).
-           - Phân tích độ phức tạp thời gian/không gian thực tế $O(n)$.
-           - Nhận xét về chất lượng trình bày mã nguồn (PEP8).
-           - Gợi ý hướng tối ưu hóa cụ thể để sinh viên tiến bộ.
+        YÊU CẦU NGHIÊM NGẶT
+        1. Chấm theo tiêu chí này giúp tôi: {"tieu_chi":[
+     "Xác định đúng Time Complexity là O(n)",
+     "Xác định đúng Space Complexity là O(n)",
+     
+     "So sánh với phương pháp dùng vòng lặp có không gian O(1)"
+   ]
+ }
 
         TRẢ VỀ JSON CHUẨN DUY NHẤT:
         {{
