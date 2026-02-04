@@ -564,6 +564,12 @@ class AIGrader(DSALightningGrader):
             db_rubric = problem_data.get('rubric', db_rubric)
             bank_details = f"Đề bài: {problem_data.get('requirements')}. Số test cases: {len(problem_data.get('test_cases', []))}."
             # Giả sử bạn đã có danh sách tiêu chí criteria_list từ db_rubric
+            if isinstance(db_rubric, str):
+                criteria_list = [c.strip() for c in db_rubric.split('\n') if c.strip().startswith('-')]
+            else:
+                criteria_list = db_rubric if isinstance(db_rubric, list) else []
+
+            # 3. Tính toán số lượng và trọng số (Đoạn này bạn đã thêm nhưng bị thiếu bước 2)
             num_criteria = len(criteria_list) if criteria_list else 1
             weight_per_criterion = round(10 / num_criteria, 2) # Chia đều thang điểm 10
         # --- BƯỚC 2: RÀNG BUỘC AI SOẠN THẢO FEEDBACK CHUYÊN SÂU ---
