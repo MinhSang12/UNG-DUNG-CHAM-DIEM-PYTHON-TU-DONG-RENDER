@@ -564,12 +564,18 @@ class AIGrader(DSALightningGrader):
             db_rubric = problem_data.get('rubric', db_rubric)
             bank_details = f"Đề bài: {problem_data.get('requirements')}. Số test cases: {len(problem_data.get('test_cases', []))}."
             # Giả sử bạn đã có danh sách tiêu chí criteria_list từ db_rubric
+            # --- Trong hàm grade_auto của file app/grader.py ---
+
+            # 1. Bóc tách tiêu chí từ chuỗi db_rubric một cách thông minh
             if isinstance(db_rubric, str):
-                criteria_list = [c.strip() for c in db_rubric.split('\n') if c.strip().startswith('-')]
+                # Cắt dòng, bỏ khoảng trắng và chỉ lấy những dòng có chữ (dài hơn 5 ký tự)
+                # Đồng thời xóa bỏ các ký tự đầu dòng như -, *, • để đếm chính xác
+                lines = [l.strip().lstrip('-').lstrip('*').lstrip('•').strip() for l in db_rubric.split('\n')]
+                criteria_list = [l for l in lines if len(l) > 5] 
             else:
                 criteria_list = db_rubric if isinstance(db_rubric, list) else []
-
-            # 3. Tính toán số lượng và trọng số (Đoạn này bạn đã thêm nhưng bị thiếu bước 2)
+            
+            # 2. Tính toán trọng số chia đều cho thang điểm 10
             num_criteria = len(criteria_list) if criteria_list else 1
             weight_per_criterion = round(10 / num_criteria, 2) # Chia đều thang điểm 10
         # --- BƯỚC 2: RÀNG BUỘC AI SOẠN THẢO FEEDBACK CHUYÊN SÂU ---
@@ -594,9 +600,11 @@ YÊU CẦU NGHIÊM NGẶT:
 3. KHÔNG chấm lan man ngoài các tiêu chí trong {db_rubric}.
 4. FEEDBACK SÚC TÍCH: Giải thích rõ lý do "Tại sao đạt/không đạt" dựa trên dòng code cụ thể bằng tiếng Việt.
 5. TÊN TIÊU CHÍ (criterion): Phải sao chép NGUYÊN VĂN 100% các câu có trong {db_rubric}. KHÔNG được sửa từ, KHÔNG được tóm tắt, KHÔNG được dịch.
-6. THANG ĐIỂM 10 & CHIA ĐỀU: Tổng điểm tối đa là 10. Mỗi tiêu chí trong {db_rubric} có giá trị điểm bằng nhau là {weight_per_criterion} điểm.
-7. CHẤM ĐIỂM KHẮT KHE: Nếu mã nguồn không thực hiện, thực hiện sai hoặc không có phần nào liên quan đến tiêu chí, tiêu chí đó PHẢI nhận 0 điểm. Không cho điểm khuyến khích hay điểm cảm tính.
-
+6. CHẤM ĐIỂM CHI TIẾT & KHẮT KHE:
+   - Tổng điểm tối đa là 10.
+   - Mỗi tiêu chí trong {db_rubric} có giá trị ĐIỂM CỐ ĐỊNH là {weight_per_criterion} điểm.
+   - Nếu mã nguồn KHÔNG có phần nào liên quan đến tiêu chí: Cho ngay 0 điểm.
+   - Chỉ cho điểm tối đa {weight_per_criterion} khi sinh viên giải quyết được yêu cầu hoặc có logic/giải thích đúng bản chất.
 TRẢ VỀ JSON CHUẨN DUY NHẤT (KHÔNG CÓ TEXT THỪA):
 {{
   "detected_algo": "Tên thuật toán",
