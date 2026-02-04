@@ -563,6 +563,9 @@ class AIGrader(DSALightningGrader):
         if problem_data:
             db_rubric = problem_data.get('rubric', db_rubric)
             bank_details = f"Đề bài: {problem_data.get('requirements')}. Số test cases: {len(problem_data.get('test_cases', []))}."
+            # Giả sử bạn đã có danh sách tiêu chí criteria_list từ db_rubric
+            num_criteria = len(criteria_list) if criteria_list else 1
+            weight_per_criterion = round(10 / num_criteria, 2) # Chia đều thang điểm 10
         # --- BƯỚC 2: RÀNG BUỘC AI SOẠN THẢO FEEDBACK CHUYÊN SÂU ---
         prompt = f"""
 Bạn là Giám khảo trưởng môn DSA. Hãy chấm điểm dựa trên mã nguồn sinh viên và các tiêu chí ĐỘNG được cung cấp.
@@ -585,15 +588,17 @@ YÊU CẦU NGHIÊM NGẶT:
 3. KHÔNG chấm lan man ngoài các tiêu chí trong {db_rubric}.
 4. FEEDBACK SÚC TÍCH: Giải thích rõ lý do "Tại sao đạt/không đạt" dựa trên dòng code cụ thể bằng tiếng Việt.
 5. TÊN TIÊU CHÍ (criterion): Phải sao chép NGUYÊN VĂN 100% các câu có trong {db_rubric}. KHÔNG được sửa từ, KHÔNG được tóm tắt, KHÔNG được dịch.
+6. THANG ĐIỂM 10 & CHIA ĐỀU: Tổng điểm tối đa là 10. Mỗi tiêu chí trong {db_rubric} có giá trị điểm bằng nhau là {weight_per_criterion} điểm.
+7. CHẤM ĐIỂM KHẮT KHE: Nếu mã nguồn không thực hiện, thực hiện sai hoặc không có phần nào liên quan đến tiêu chí, tiêu chí đó PHẢI nhận 0 điểm. Không cho điểm khuyến khích hay điểm cảm tính.
 
 TRẢ VỀ JSON CHUẨN DUY NHẤT (KHÔNG CÓ TEXT THỪA):
 {{
   "detected_algo": "Tên thuật toán",
-  "total_score": số,
+  "total_score": số (Tổng điểm các tiêu chí, tối đa 10),
   "criteria_results": [
     {{
       "criterion": "Chép y hệt câu trong rubric vào đây",
-      "score": số,
+      "score": số (Chỉ được là 0 hoặc {weight_per_criterion}),
       "reason": "Giải thích lý do"
     }}
   ],
