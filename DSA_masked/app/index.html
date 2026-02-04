@@ -1,583 +1,401 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ thống Chấm điểm cấu trúc dữ liệu và giải thuật tự động</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>DSA AutoGrader - System</title>
+    <link rel="icon" href="https://www.python.org/static/favicon.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <style>
         :root {
             --primary-color: #4361ee;
             --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
         }
-
         body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+            color: #333;
         }
 
         .main-header {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 3rem 0 5rem;
+            margin-bottom: 0;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
         }
 
-        .upload-zone {
+        .main-content-container {
+            margin-top: -4rem;
+            animation: slideUpFade 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #upload-zone {
             border: 2px dashed #cbd5e1;
             border-radius: 1rem;
-            padding: 3rem;
+            padding: 3rem 2rem;
             text-align: center;
-            background: white;
-            transition: all 0.3s ease;
             cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: #fff;
         }
-
-        .upload-zone:hover,
-        .upload-zone.dragover {
+        #upload-zone:hover, #upload-zone.dragover {
             border-color: var(--primary-color);
             background-color: #eef2ff;
             transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.1);
         }
+        #upload-zone i { 
+            font-size: 4rem; 
+            color: #94a3b8; 
+            transition: color 0.3s ease;
+            margin-bottom: 1rem;
+        }
+        #upload-zone:hover i { color: var(--primary-color); }
 
         .card {
             border: none;
             border-radius: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
-
-        .score-badge {
-            font-size: 1.25rem;
-            font-weight: 700;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            color: white;
-        }
-
-        .score-high {
-            background-color: #10b981;
-        }
-
-        .score-med {
-            background-color: #f59e0b;
-        }
-
-        .score-low {
-            background-color: #ef4444;
+        
+        .card-header {
+            background-color: #fff;
+            border-bottom: 1px solid #f1f5f9;
+            padding: 1.5rem;
+            border-radius: 1rem 1rem 0 0 !important;
         }
 
         .status-badge {
-            padding: 0.5em 1em;
-            border-radius: 2rem;
-            font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            padding: 0.4em 0.8em;
         }
-
-        .table-hover tbody tr:hover {
-            background-color: #f8fafc;
-        }
+        .status-ac { background-color: #198754 !important; }
+        .status-wa { background-color: #dc3545 !important; }
+        .status-flag { background-color: #ffc107 !important; color: #000 !important; }
 
         .btn-primary {
-            background-color: var(--primary-color);
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
             border: none;
-            padding: 0.6rem 1.5rem;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            transition: transform 0.2s;
         }
-
         .btn-primary:hover {
-            background-color: var(--secondary-color);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(72, 149, 239, 0.1);
         }
 
-        #loadingOverlay {
+        /* Loading Overlay */
+        .loading-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.85);
             z-index: 9999;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-header {
-            background: #f8f9fa;
-        }
-
-        .table-scroll-area {
-            max-height: 60vh;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .table-scroll-area thead th {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            background-color: #f8f9fa;
-            box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .file-item {
-            background: #f1f5f9;
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin-bottom: 5px;
             display: flex;
+            justify-content: center;
             align-items: center;
-            font-size: 0.9rem;
-            animation: fadeIn 0.3s ease;
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.3s ease-out;
         }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        #diffModal {
-            z-index: 1060;
+        /* List Item Animation */
+        .list-group-item { transition: all 0.2s ease; border-left: 3px solid transparent; }
+        .list-group-item:hover { background-color: #f8fafc; border-left-color: var(--primary-color); transform: translateX(4px); }
+        .btn-outline-danger { transition: all 0.2s; }
+        .preview-btn {
+            --bs-btn-padding-y: .2rem;
+            --bs-btn-padding-x: .5rem;
+            --bs-btn-font-size: .75rem;
+            transition: all 0.2s;
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(5px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        .modal-body pre { margin-bottom: 0; }
     </style>
 </head>
-
 <body>
-
-    <div id="loadingOverlay">
-        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"></div>
-        <h4 class="mt-3 text-primary">Đang chấm điểm...</h4>
-        <p class="text-muted">Vui lòng đợi trong giây lát</p>
-        <button class="btn btn-outline-danger mt-3 rounded-pill px-4" onclick="cancelGrading()">
-            Hủy bỏ
-        </button>
-    </div>
-
     <header class="main-header">
         <div class="container">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <h1 class="fw-bold">DSA Auto Grader</h1>
-                    <p class="mb-0 opacity-75">Hệ thống chấm điểm thuật toán & cấu trúc dữ liệu tự động</p>
-                </div>
-                <div>
-                    <a href="/download-csv" class="btn btn-light text-primary fw-bold">Tải báo cáo CSV</a>
-                </div>
-            </div>
+            <h1 class="fw-bold"><i class="fa-brands fa-python me-2"></i>DSA AutoGrader System</h1>
+            <p class="lead mb-0 opacity-75">Hệ thống chấm điểm Cấu trúc dữ liệu và giải thuật</p>
+            
         </div>
     </header>
 
-    <div class="container">
-        <ul class="nav nav-pills mb-4" id="pills-tab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active rounded-pill px-4" id="pills-grade-tab" data-bs-toggle="pill"
-                    data-bs-target="#pills-grade" type="button" role="tab" onclick="resetGradingSession()">Chấm bài mới</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link rounded-pill px-4" id="pills-result-tab" data-bs-toggle="pill"
-                    data-bs-target="#pills-result" type="button" role="tab" disabled>Kết quả chấm</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link rounded-pill px-4" id="pills-history-tab" data-bs-toggle="pill"
-                    data-bs-target="#pills-history" type="button" role="tab" onclick="loadHistory()">Lịch sử chấm</button>
-            </li>
-        </ul>
-
-        <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-grade" role="tabpanel">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="studentName" class="form-label fw-bold">Họ và tên sinh viên:</label>
-                                        <input type="text" class="form-control" id="studentName"
-                                            placeholder="Nhập tên của bạn...">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="topicSelect" class="form-label fw-bold">Chọn bài tập (Để lấy Test Case):</label>
-                                        <select class="form-select" id="topicSelect">
-                                            <option value="">-- Tự động nhận diện qua tên file --</option>
-                                            <option value="factorial">Giai thừa</option>
-                                            <option value="fibonacci">Fibonacci</option>
-                                            <option value="prime">Số nguyên tố</option>
-                                            <option value="sort">Sắp xếp (Sort)</option>
-                                            <option value="search">Tìm kiếm (Search)</option>
-                                            <option value="knapsack">Cái túi (Knapsack)</option>
-                                            <option value="graph">Đồ thị (Graph)</option>
-                                            <option value="lcs">Xâu con chung (LCS)</option>
-                                            <option value="matrix">Ma trận (Matrix)</option>
-                                            <option value="nqueen">N-Queens</option>
-                                            <option value="mst">Cây khung (MST)</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="upload-zone" id="dropZone">
-                                    <h4>Kéo thả file .py hoặc .zip vào đây</h4>
-                                    <p class="text-muted">Hoặc click để chọn file từ máy tính</p>
-                                    <input type="file" id="fileInput" multiple accept=".py,.zip,.rar" class="d-none">
-                                    <button class="btn btn-outline-primary mt-2"
-                                        onclick="document.getElementById('fileInput').click()">Chọn File</button>
-                                </div>
-                                <div id="fileList" class="mt-3"></div>
-                                <div class="text-center mt-4">
-                                    <button class="btn btn-primary btn-lg shadow" onclick="uploadFiles()" id="btnGrade"
-                                        disabled>
-                                        Bắt đầu chấm
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="text-center">
+            <div class="spinner-border text-primary" style="width: 4rem; height: 4rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
             </div>
-            <div class="tab-pane fade" id="pills-result" role="tabpanel">
-                <div id="resultSection" class="mt-0">
-                    <div class="card">
-                        <div class="card-header bg-white py-3">
-                            <h5 class="mb-0 fw-bold text-primary">Kết quả chấm</h5>
-                        </div>
-                        <div class="card-body p-0 table-scroll-area">
-                            <div class="table-responsive h-100">
-                                <table class="table table-hover align-middle mb-0">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th class="ps-4">File</th>
-                                            <th class="text-center">Điểm tổng</th>
-                                            <th class="text-center">Trạng thái</th>
-                                            <th class="text-end pe-4">Chi tiết</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="resultTableBody"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <h4 class="mt-4 fw-bold text-dark">Đang chấm điểm...</h4>
+            <p class="text-muted lead" id="loading-message">Vui lòng đợi trong giây lát</p>
+        </div>
+    </div>
 
-            <div class="tab-pane fade" id="pills-history" role="tabpanel">
+    <main class="container main-content-container">
+        <div class="row justify-content-center">
+            <!-- Cột nộp bài -->
+            <div class="col-lg-8">
                 <div class="card">
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover align-middle mb-0">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th class="ps-4">Thời gian</th>
-                                        <th>Tên file</th>
-                                        <th class="text-center">Điểm</th>
-                                        <th>Thuật toán</th>
-                                        <th>Trạng thái</th>
-                                        <th>Ghi chú</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="historyTableBody">
-                                    <tr>
-                                        <td colspan="6" class="text-center py-4">Đang tải dữ liệu...</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0 fw-bold"><i class="fa-solid fa-upload me-2 text-primary"></i>Nộp bài & Chấm điểm</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <form id="grade-form">
+                            <div class="mb-3">
+                                <label for="student_name" class="form-label">Tên sinh viên</label>
+                                <input type="text" class="form-control" id="student_name" name="student_name" placeholder="Nguyễn Văn A" title="Không bắt buộc, không ảnh hưởng đến kết quả chấm.">
+                                <div class="form-text">Không bắt buộc, không ảnh hưởng đến kết quả chấm.</div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="topic-select" class="form-label">Chủ đề bài toán</label>
+                                <select class="form-select" id="topic-select" name="topic">
+                                    <option value="">-- Tự động nhận diện qua tên file (hoặc chọn thủ công) --</option>
+                                    <option value="sort">Sắp xếp (Sorting)</option>
+                                    <option value="search">Tìm kiếm (Searching)</option>
+                                    <option value="graph">Đồ thị (Graph)</option>
+                                    <option value="nqueen">Backtracking (N-Queens)</option>
+                                    <option value="knapsack">Quy hoạch động (Knapsack)</option>
+                                    <option value="lcs">Xử lý chuỗi (LCS)</option>
+                                    <option value="fibonacci">Đệ quy / DP (Fibonacci)</option>
+                                    <option value="other">Khác (nhập thủ công)</option>
+                                </select>
+                                <input type="text" class="form-control mt-2" id="topic-other" name="topic_other" placeholder="Nhập chủ đề cụ thể (ví dụ: Dijkstra, Knapsack)" style="display: none;">
+                                <div class="form-text">Để tự động hoặc lấy tiêu chí phù hợp.</div>
+                            </div>
+
+                            <div class="alert alert-info mb-4" role="alert">
+                                <h6 class="alert-heading"><i class="fa-solid fa-circle-info me-2"></i>Quy định nộp bài</h6>
+                                <ul class="mb-0">
+                                    <li>Không sử dụng các thư viện hệ thống</li>
+                                    <li>Không sử dụng các hàm đọc/ghi file như `open()`, `exec()`, `eval()`.</li>
+                                    <li>Chỉ sử dụng Python thuần và các cấu trúc dữ liệu cơ bản.</li>
+                                    <li>**Vi phạm quy định sẽ bị từ chối chấm điểm (REJECTED).**</li>
+                                </ul>
+                            </div>
+
+                            <div id="upload-zone">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                <p class="mt-3 mb-0"><strong>Kéo thả file vào đây</strong><br>hoặc <a href="#" onclick="document.getElementById('files').click(); return false;">chọn file từ máy tính</a></p>
+                            </div>
+                            <input type="file" id="files" name="files" multiple required hidden>
+
+                            <div id="file-list-container" class="mt-4" style="display: none;">
+                                <h6>File đã chọn:</h6>
+                                <ul class="list-group" id="file-list"></ul>
+                                <button type="button" id="clear-files-btn" class="btn btn-outline-danger btn-sm mt-2"><i class="fa-solid fa-trash me-1"></i>Xóa chọn lại</button>
+                            </div>
+
+                            <div class="d-grid mt-4">
+                                <button type="submit" id="submit-btn" class="btn btn-primary btn-lg" disabled>
+                                    <i class="fa-solid fa-paper-plane me-2"></i>Chấm điểm ngay
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
+    <!-- Code Preview Modal (Mới) -->
+    <div class="modal fade" id="codePreviewModal" tabindex="-1" aria-labelledby="codePreviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title fw-bold" id="modalTitle">Chi tiết bài nộp</h5>
+                    <h5 class="modal-title" id="codePreviewModalLabel">Xem trước nội dung</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <div class="row mb-4">
-                        <div class="col-md-4 text-center border-end">
-                            <div id="modalScoreBadge" class="score-badge mx-auto mb-2"
-                                style="width: 80px; height: 80px; font-size: 1.5rem;">0</div>
-                            <h5 class="fw-bold mb-0">Điểm tổng</h5>
-                            <div id="modalStatus" class="mt-2"></div>
-                        </div>
-                        <div class="col-md-8">
-                            <h6 class="fw-bold text-uppercase text-muted small">Điểm thành phần</h6>
-                            <ul class="list-group list-group-flush small" id="modalBreakdown"></ul>
-                        </div>
-                    </div>
-                    <h6 class="fw-bold text-primary">Thuật toán phát hiện</h6>
-                    <p id="modalAlgos" class="bg-light p-2 rounded border"></p>
-                    <h6 class="fw-bold text-danger mt-3">Ghi chú & Lỗi</h6>
-                    <div id="modalNotes" class="alert alert-warning small mb-0"
-                        style="max-height: 200px; overflow-y: auto;"></div>
-                    <div class="text-end mt-3 text-muted small">Thời gian chạy: <span id="modalRuntime"></span></div>
+                <div class="modal-body bg-dark p-0">
+                    <pre><code id="code-preview-content" class="language-python p-3"></code></pre>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script>
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('fileInput');
-        const fileList = document.getElementById('fileList');
-        const btnGrade = document.getElementById('btnGrade');
-        let currentResults = [];
-        const detailModal = new bootstrap.Modal(document.getElementById('detailModal'));
-        
-        // --- BIẾN ĐIỀU KHIỂN HỦY ---
-        let gradingController; 
+        document.addEventListener('DOMContentLoaded', () => {
+            const gradeForm = document.getElementById('grade-form');
+            const uploadZone = document.getElementById('upload-zone');
+            const fileInput = document.getElementById('files');
+            const fileListContainer = document.getElementById('file-list-container');
+            const fileList = document.getElementById('file-list');
+            const submitBtn = document.getElementById('submit-btn');
+            const topicSelect = document.getElementById('topic-select');
+            const clearFilesBtn = document.getElementById('clear-files-btn');
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const loadingMessage = document.getElementById('loading-message');
+            let selectedFilesCache = []; // To store file content for preview
 
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
-        });
-
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropZone.addEventListener(eventName, () => dropZone.classList.add('dragover'), false);
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, () => dropZone.classList.remove('dragover'), false);
-        });
-
-        dropZone.addEventListener('drop', e => {
-            const dt = e.dataTransfer;
-            fileInput.files = dt.files;
-            updateFileList(dt.files);
-        }, false);
-
-        fileInput.addEventListener('change', function () { updateFileList(this.files); }, false);
-
-        function updateFileList(files) {
-            if (files.length > 0) {
-                let html = `<div class="d-flex justify-content-between align-items-center mb-2"><small class="text-muted fw-bold">Đã chọn ${files.length} file:</small> <button class="btn btn-sm btn-link text-danger text-decoration-none" onclick="clearFiles()">Xóa hết</button></div>`;
-                html += '<div style="max-height: 150px; overflow-y: auto;">';
-                Array.from(files).forEach(f => {
-                    html += `
-                        <div class="file-item">
-                            <span class="text-truncate">${f.name}</span> <span class="ms-auto text-muted small">${(f.size / 1024).toFixed(1)} KB</span>
-                        </div>`;
-                });
-                html += '</div>';
-                fileList.innerHTML = html;
-                btnGrade.disabled = false;
-            } else {
-                fileList.innerHTML = '';
-                btnGrade.disabled = true;
-            }
-        }
-
-        function clearFiles() {
-            fileInput.value = '';
-            fileList.innerHTML = '';
-            btnGrade.disabled = true;
-        }
-
-        function resetGradingSession() {
-            clearFiles();
-            document.getElementById('pills-result-tab').disabled = true;
-            document.getElementById('resultTableBody').innerHTML = '';
-        }
-
-        // --- HÀM HỦY BỎ ---
-        function cancelGrading() {
-            if (gradingController) {
-                gradingController.abort(); // Ngắt kết nối HTTP ngay lập tức
-                console.log("Đã nhấn hủy chấm điểm.");
-            }
-            document.getElementById('loadingOverlay').style.display = 'none';
-        }
-
-        async function uploadFiles() {
-            const files = fileInput.files;
-            if (files.length === 0) {
-                alert("Vui lòng chọn ít nhất một file!");
-                return;
-            }
-
-            const topic = document.getElementById('topicSelect').value;
-            const studentName = document.getElementById('studentName').value.trim() || "Ẩn danh";
-
-            const formData = new FormData();
-            formData.append('mode', 'auto');
-            formData.append('student_name', studentName);
-            if (topic) formData.append('topic', topic);
-
-            for (let i = 0; i < files.length; i++) {
-                formData.append('files', files[i]);
-            }
-
-            // --- KHỞI TẠO BỘ ĐIỀU KHIỂN HỦY MỚI ---
-            gradingController = new AbortController();
-            
-            document.getElementById('loadingOverlay').style.display = 'flex';
-            document.getElementById('resultSection').classList.add('d-none');
-
-            try {
-                const response = await fetch('/grade', { 
-                    method: 'POST', 
-                    body: formData,
-                    signal: gradingController.signal // Gắn tín hiệu hủy vào đây
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.detail || `Lỗi server (${response.status})`);
-                }
-
-                const data = await response.json();
-                renderResults(data);
-            } catch (error) {
-                if (error.name === 'AbortError') {
-                    console.log("Yêu cầu đã bị người dùng hủy bỏ.");
-                } else {
-                    console.error("Lỗi:", error);
-                    alert('Không thể chấm điểm: ' + error.message);
-                }
-            } finally {
-                document.getElementById('loadingOverlay').style.display = 'none';
-            }
-        }
-
-        function renderResults(data) {
-            currentResults = data.results;
-            const tbody = document.getElementById('resultTableBody');
-            tbody.innerHTML = '';
-
-            if (!data.results || data.results.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" class="text-center">Không nhận được kết quả</td></tr>';
-                return;
-            }
-
-            data.results.forEach((r, index) => {
-                let scoreClass = r.total_score >= 80 ? 'score-high' : (r.total_score >= 50 ? 'score-med' : 'score-low');
-                let statusBadge = r.status === 'AC' ? '<span class="badge bg-success">AC</span>' :
-                    (r.status === 'FLAG' ? '<span class="badge bg-warning text-dark">FLAG</span>' : '<span class="badge bg-danger">WA</span>');
-
-                const row = `
-                    <tr>
-                        <td class="ps-4 fw-bold text-secondary">${r.filename}</td>
-                        <td class="text-center">
-                            <div class="score-badge ${scoreClass} mx-auto">${r.total_score}</div>
-                        </td>
-                        <td class="text-center">${statusBadge}</td>
-                        <td class="text-end pe-4">
-                            <button class="btn btn-sm btn-outline-primary rounded-pill px-3" onclick="showDetails(${index})">Xem</button>
-                        </td>
-                    </tr>`;
-                tbody.innerHTML += row;
+            // --- Drag & Drop Logic ---
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadZone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
             });
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadZone.addEventListener(eventName, () => uploadZone.classList.add('dragover'), false);
+            });
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadZone.addEventListener(eventName, () => uploadZone.classList.remove('dragover'), false);
+            });
+            uploadZone.addEventListener('drop', e => {
+                fileInput.files = e.dataTransfer.files;
+                handleFiles(fileInput.files);
+            });
+            fileInput.addEventListener('change', () => handleFiles(fileInput.files));
 
-            document.getElementById('resultSection').classList.remove('d-none');
-            const resultTabBtn = document.getElementById('pills-result-tab');
-            resultTabBtn.disabled = false;
-            const resultTab = new bootstrap.Tab(resultTabBtn);
-            resultTab.show();
-        }
-
-        
-        // index.html - Thay thế đoạn xử lý showDetails
-        window.showDetails = function (index) {
-            const r = currentResults[index];
-            if (!r) return;
-        
-            document.getElementById('modalTitle').innerText = r.filename;
+            // Handle topic select change
+            topicSelect.addEventListener('change', () => {
+                const topicOtherInput = document.getElementById('topic-other');
+                if (topicSelect.value === 'other') {
+                    topicOtherInput.style.display = 'block';
+                } else {
+                    topicOtherInput.style.display = 'none';
+                }
+            });
             
-            // 1. Cập nhật Điểm tổng
-            const badge = document.getElementById('modalScoreBadge');
-            badge.innerText = r.total_score;
-            badge.className = `score-badge mx-auto mb-2 ${r.total_score >= 80 ? 'score-high' : (r.total_score >= 50 ? 'score-med' : 'score-low')}`;
-        
-            // 2. PHẦN ĐIỂM THÀNH PHẦN: Xích điểm sang phải và tránh đụng văn bản
-            let scoreHtml = "";
-            let feedbackHtml = "";
-        
-            if (r.criteria_results && r.criteria_results.length > 0) {
-                r.criteria_results.forEach(item => {
-                    // SỬA: Thêm pe-0 (padding-end: 0) và margin-left: auto để đẩy badge sang phải
-                    scoreHtml += `
-                        <li class="list-group-item d-flex justify-content-between align-items-center py-2 pe-0 border-0">
-                            <span class="text-dark pe-3" style="max-width: 85%; line-height: 1.4;">${item.criterion}</span>
-                            <span class="badge bg-primary rounded-pill shadow-sm" style="min-width: 45px; margin-left: auto;">
-                                ${item.score}đ
-                            </span>
-                        </li>`;
-                    
-                    // Xây dựng danh sách feedback phía dưới (không hiện điểm)
-                    feedbackHtml += `
-                        <div class="mb-3 border-bottom pb-2">
-                            <div class="fw-bold text-primary mb-1">
-                                <i class="fas fa-check-circle me-1"></i> ${item.criterion}
-                            </div>
-                            <div class="small text-dark ps-3" style="line-height: 1.4;">
-                                ${item.reason}
-                            </div>
-                        </div>`;
+            // Handle Clear Files
+            if(clearFilesBtn) {
+                clearFilesBtn.addEventListener('click', () => {
+                    fileInput.value = ''; 
+                    selectedFilesCache = []; // Clear cache
+                    handleFiles([]);
                 });
-            } else {
-                scoreHtml = '<li class="list-group-item text-center text-muted">Không có dữ liệu</li>';
-                feedbackHtml = '<div class="text-muted">Không có nhận xét chi tiết.</div>';
             }
-        
-            document.getElementById('modalBreakdown').innerHTML = scoreHtml;
-        
-            // 3. PHẦN FEEDBACK CHI TIẾT
-            const notesArea = document.getElementById('modalNotes');
-            notesArea.innerHTML = `
-                <div class="feedback-list">
-                    ${feedbackHtml}
-                    <div class="mt-2 pt-2 fw-bold text-secondary italic">
-                        Tổng kết: ${r.notes[0] || "AI chưa đưa ra nhận xét tổng quát."}
-                    </div>
-                </div>`;
-        
-            document.getElementById('modalAlgos').innerText = r.algorithms || 'Cơ bản';
-            document.getElementById('modalRuntime').innerText = r.runtime || "N/A";
-        
-            detailModal.show();
-        }
-        async function loadHistory() {
-            const tbody = document.getElementById('historyTableBody');
-            try {
-                const response = await fetch('/api/history');
-                const data = await response.json();
-                tbody.innerHTML = '';
-                if (data.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Chưa có dữ liệu lịch sử</td></tr>';
+
+            function handleFiles(files) {
+                if (files.length === 0) {
+                    fileListContainer.style.display = 'none';
+                    submitBtn.disabled = true;
+                    selectedFilesCache = []; // Clear cache
                     return;
                 }
-                data.forEach(row => {
-                    const tr = `
-                        <tr>
-                            <td class="ps-4 text-nowrap">${row['Thời gian']}</td>
-                            <td class="fw-bold">${row['Tên file']}</td>
-                            <td class="text-center"><span class="badge bg-secondary">${row['Điểm số']}</span></td>
-                            <td>${row['Thuật toán']}</td>
-                            <td>${row['Trạng thái']}</td>
-                            <td class="small text-muted text-truncate" style="max-width: 200px;">${row['Ghi chú']}</td>
-                        </tr>`;
-                    tbody.innerHTML += tr;
+                fileList.innerHTML = '';
+                selectedFilesCache = []; // Reset cache
+                
+                Array.from(files).forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        // Store file content
+                        selectedFilesCache.push({ name: file.name, content: e.target.result });
+                    };
+                    reader.readAsText(file, 'UTF-8');
+
+                    const fileItem = document.createElement('li');
+                    fileItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                    fileItem.innerHTML = `
+                        <span><i class="fa-regular fa-file-code me-2"></i>${file.name}</span>
+                        <div>
+                            <small class="text-muted me-3">${(file.size / 1024).toFixed(1)} KB</small>
+                            <button type="button" class="btn btn-outline-secondary btn-sm preview-btn" data-filename="${file.name}">
+                                <i class="fa-solid fa-eye me-1"></i>Xem
+                            </button>
+                        </div>
+                    `;
+                    fileList.appendChild(fileItem);
                 });
-            } catch (e) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-danger">Lỗi tải lịch sử: ${e}</td></tr>`;
+                fileListContainer.style.display = 'block';
+                submitBtn.disabled = false;
             }
-        }
+
+            // Event listener for preview buttons (using event delegation)
+            fileList.addEventListener('click', (e) => {
+                const previewBtn = e.target.closest('.preview-btn');
+                if (previewBtn) {
+                    const filename = previewBtn.dataset.filename;
+                    const fileData = selectedFilesCache.find(f => f.name === filename);
+                    
+                    if (fileData) {
+                        const modalTitle = document.getElementById('codePreviewModalLabel');
+                        const modalContent = document.getElementById('code-preview-content');
+                        
+                        modalTitle.textContent = `Xem trước: ${filename}`;
+                        modalContent.textContent = fileData.content;
+                        
+                        // Apply syntax highlighting
+                        hljs.highlightElement(modalContent);
+                        
+                        const previewModal = new bootstrap.Modal(document.getElementById('codePreviewModal'));
+                        previewModal.show();
+                    }
+                }
+            });
+            
+            // Handle form submission
+            gradeForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData(gradeForm);
+                
+                // UI updates for loading state
+                // Lấy giá trị topic từ select hoặc input "other"
+                if (topicSelect.value === 'other') {
+                    formData.set('topic', document.getElementById('topic-other').value);
+                } else {
+                    formData.set('topic', topicSelect.value);
+                }
+                
+                // Show loading overlay
+                loadingOverlay.style.display = 'flex';
+                
+                // Simulate progress messages
+                const messages = [
+                    "Đang tải file lên server...",
+                    "Đang phân tích cú pháp AST...",
+                    "Đang chạy test cases...",
+                    "AI đang tổng hợp đánh giá...",
+                    "Đang tạo báo cáo..."
+                ];
+                let msgIndex = 0;
+                loadingMessage.textContent = messages[0];
+                const msgInterval = setInterval(() => {
+                    msgIndex = (msgIndex + 1) % messages.length;
+                    loadingMessage.textContent = messages[msgIndex];
+                }, 1500);
+
+                try {
+                    const response = await fetch('/grade', {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    if (!response.ok) {
+                        const err = await response.json();
+                        throw new Error(err.detail || 'Lỗi không xác định từ server.');
+                    }
+
+                    const data = await response.json();
+                    // Lưu kết quả vào sessionStorage để trang mới có thể đọc
+                    sessionStorage.setItem('gradingResults', JSON.stringify(data));
+                    // Chuyển hướng sang trang kết quả (tránh bị chặn popup)
+                    window.location.href = '/results';
+
+                } catch (error) {
+                    alert(`Đã xảy ra lỗi khi chấm điểm: ${error.message}`);
+                } finally {
+                    // Reset UI
+                    clearInterval(msgInterval);
+                    loadingOverlay.style.display = 'none';
+                }
+            });
+        });
     </script>
 </body>
-
 </html>
