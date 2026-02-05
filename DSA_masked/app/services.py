@@ -19,7 +19,7 @@ def fetch_problem_from_bank(topic_id: str):
         headers = {"x-api-key": MY_SECRET_KEY}
         url = f"{QUESTION_BANK_API_URL}/problems/{clean_id}"
         
-        response = requests.get(url, headers=headers, timeout=15)
+        response = requests.get(url, headers=headers, timeout=90)
         
         if response.status_code == 200:
             return response.json()
