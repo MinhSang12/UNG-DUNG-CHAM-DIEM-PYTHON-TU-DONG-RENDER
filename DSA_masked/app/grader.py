@@ -557,7 +557,7 @@ class AIGrader(DSALightningGrader):
         )
         if not topic or topic == "None":
         # Lấy filename, ví dụ: "CTDL_D1_01.py" -> bỏ ".py" -> còn "CTDL_D1_01"
-        topic = filename.replace(".py", "")
+            topic = filename.replace(".py", "")
         # Chế độ bảo mật luôn được xử lý trước
         if ast_report.get('status') == 'FLAG':
             return ast_report
