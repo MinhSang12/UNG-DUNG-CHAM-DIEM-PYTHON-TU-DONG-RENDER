@@ -545,15 +545,19 @@ class AIGrader(DSALightningGrader):
         loop = asyncio.get_running_loop()
         
         # --- BƯỚC 1: CHẠY SONG SONG THU THẬP DỮ LIỆU ---
-        # Lấy thông tin bài tập, Rubric và phân tích AST kỹ thuật cùng lúc
-        problem_task = loop.run_in_executor(None, fetch_problem_from_bank, topic or filename)
+        actual_topic = filename if (not topic or topic == "None") else topic
+
+# Bước 2: Gọi Microservice với mã bài tập đã xác định
+        problem_task = loop.run_in_executor(None, fetch_problem_from_bank, actual_topic)
         # rubric_task = self.fetch_rubric(topic or filename)
         ast_task = loop.run_in_executor(None, self.grade_file_ultra_fast, code, filename, topic)
         
         problem_data,  ast_report = await asyncio.gather(
             problem_task, ast_task
         )
-
+        if not topic or topic == "None":
+        # Lấy filename, ví dụ: "CTDL_D1_01.py" -> bỏ ".py" -> còn "CTDL_D1_01"
+        topic = filename.replace(".py", "")
         # Chế độ bảo mật luôn được xử lý trước
         if ast_report.get('status') == 'FLAG':
             return ast_report
