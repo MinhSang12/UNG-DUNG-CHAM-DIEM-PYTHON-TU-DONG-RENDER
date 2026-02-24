@@ -628,6 +628,7 @@ TRẢ VỀ JSON CHUẨN DUY NHẤT (KHÔNG CÓ TEXT THỪA):
   "improvement": "...",
   "overall_feedback": "..."
 }}
+"""
         # --- BƯỚC 3: AI QUYẾT ĐỊNH KẾT QUẢ ---
         try:
             response = await loop.run_in_executor(None, lambda: self.model.generate_content(prompt))
