@@ -156,40 +156,50 @@ function buildCard(r, index = 0) {
         </div>
     </div>
 
+   
     <div class="pipeline-body">
-      <div>
+      <div style="width:220px; flex-shrink:0; padding-right:1rem; border-right:1px solid var(--border-pro);">
         <div class="score-display">
           <div class="score-box-dev" style="border-color:${scoreColor};">
             <div class="val" style="color:${scoreColor};">${scoreDisplay}</div>
-            <div class="max">/ 10 diem</div>
+            <div class="max">/ 100 điểm</div>
           </div>
-          <div style="display:grid; gap:6px;">
+
+          <div style="display:grid; gap:8px; margin-top:15px;">
             ${(r.criteria_results || []).map(c => 
-              buildScoreRow(
-                c.criterion, 
-                c.score, 
-                c.max_score || (100 / (r.criteria_results.length || 1)).toFixed(0) // Dùng 100 thay vì 10
-              )
+              buildScoreRow(c.criterion, c.score, c.max_score || (10 / (r.criteria_results.length || 1)).toFixed(0))
             ).join('')}
           </div>
-          /* Sửa lỗi hiển thị "undefined" ở dòng 185 (hoặc tương đương) */
-          <p style="white-space:pre-line; margin:0;">
-              ${r.reasoning || (r.notes ? r.notes.join('\n') : "Hệ thống đang đợi phản hồi từ AI...")}
-          </p>
+
+          <div style="margin-top:1.25rem; padding-top:1rem; border-top:1px dashed var(--border-pro); display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted);">
+            <span>Độ phức tạp:</span>
+            <span style="font-family:var(--font-code); color:var(--text-bright);">${r.complexity_analysis ? r.complexity_analysis.split('\\n')[0] : 'N/A'}</span>
+          </div>
         </div>
       </div>
 
-      <div style="flex:1; min-width:0;">
-        ${criteriaHtml}
-
-        ${r.strengths || r.weaknesses ? `
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1.25rem;">
-          ${r.strengths ? `<div style="background:rgba(34,197,94,0.08); padding:0.75rem; border-radius:6px;"><h5 style="color:var(--brand-success); margin-bottom:0.4rem;">Diem manh</h5><p style="font-size:0.82rem;">${r.strengths}</p></div>` : ''}
-          ${r.weaknesses ? `<div style="background:rgba(239,68,68,0.08); padding:0.75rem; border-radius:6px;"><h5 style="color:var(--brand-danger); margin-bottom:0.4rem;">Can cai thien</h5><p style="font-size:0.82rem;">${r.weaknesses}</p></div>` : ''}
-        </div>` : ''}
+      <div style="flex:1; min-width:0; padding-left:1.5rem;">
         
-        <h4 style="font-size:0.95rem; font-weight:600; color:var(--text-bright); margin-bottom:0.75rem;">Đánh giá của Giảng viên</h4>
-        <div class="feedback-log" style="border-left:3px solid ${scoreColor};"><p style="white-space:pre-line;">${r.reasoning}</p></div>
+        ${r.strengths || r.weaknesses ? `
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1.5rem;">
+          ${r.strengths ? `<div style="background:rgba(34,197,94,0.06); border:1px solid rgba(34,197,94,0.15); padding:0.75rem; border-radius:8px;"><h5 style="font-size:0.8rem; color:var(--brand-success); margin-bottom:5px;">Điểm mạnh</h5><p style="font-size:0.82rem; line-height:1.5;">${r.strengths}</p></div>` : ''}
+          ${r.weaknesses ? `<div style="background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.15); padding:0.75rem; border-radius:8px;"><h5 style="font-size:0.8rem; color:var(--brand-danger); margin-bottom:5px;">Cần cải thiện</h5><p style="font-size:0.82rem; line-height:1.5;">${r.weaknesses}</p></div>` : ''}
+        </div>` : ''}
+
+        <div style="margin-bottom:1.5rem;">
+          <h4 style="font-size:0.95rem; font-weight:600; color:var(--text-bright); margin-bottom:0.75rem; display:flex; align-items:center;">
+            <i class="fa-solid fa-comment-dots" style="margin-right:8px; color:${scoreColor}"></i> Đánh giá chi tiết
+          </h4>
+          <div class="feedback-log" style="border-left:3px solid ${scoreColor}; background:var(--bg-app);">
+            <p style="white-space:pre-line; margin:0; font-size:0.9rem;">${r.reasoning || "AI đang tổng hợp đánh giá..."}</p>
+          </div>
+        </div>
+
+        ${r.improvement ? `
+        <div>
+          <h4 style="font-size:0.9rem; font-weight:600; color:var(--text-muted); margin-bottom:0.5rem;">Gợi ý nâng cấp</h4>
+          <div style="font-size:0.85rem; color:var(--text-muted); font-style:italic; line-height:1.5;">${r.improvement}</div>
+        </div>` : ''}
       </div>
     </div>
   `;
