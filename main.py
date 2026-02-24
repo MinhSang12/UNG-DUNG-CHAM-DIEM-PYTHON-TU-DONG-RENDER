@@ -281,32 +281,32 @@ async def process_grading_job(job_id: str, files: List[UploadFile], topic: str, 
 
         # 2. Thực thi chấm điểm song song
             # (Sau khi gather xong kết quả)
-            if grading_tasks:
-                raw_results = await asyncio.gather(*grading_tasks)
-                results.extend(raw_results)
+        if grading_tasks:
+            raw_results = await asyncio.gather(*grading_tasks)
+            results.extend(raw_results)
             
-            jobs[job_id]["progress"] = 80
+        jobs[job_id]["progress"] = 80
     
             # --- SỬA LỖI JSON SERIALIZABLE TẠI ĐÂY ---
-            for r in results:
-                r.pop('fingerprint', None) # Xóa kiểu dữ liệu Set gây lỗi JSON
-                r['filename'] = f"{student_name} | {r['filename']}"
+        for r in results:
+            r.pop('fingerprint', None) # Xóa kiểu dữ liệu Set gây lỗi JSON
+            r['filename'] = f"{student_name} | {r['filename']}"
         
-            save_results_to_csv(results)
+        save_results_to_csv(results)
 
         # 4. Hoàn tất Job
-            total_time = time.time() - jobs[job_id]["start_time"]
-            jobs[job_id].update({
-                "status": "completed",
-                "progress": 100,
-                "results": results,
-                "summary": {
-                    "total_files": len(results),
-                    "avg_score": round(sum(r.get('total_score', 0) for r in results) / len(results), 1) if results else 0,
-                    "total_time": f"{total_time:.2f}s",
-                    "saved_to_db": len(results)
-                }
-            })
+        total_time = time.time() - jobs[job_id]["start_time"]
+        jobs[job_id].update({
+            "status": "completed",
+            "progress": 100,
+            "results": results,
+            "summary": {
+                "total_files": len(results),
+                "avg_score": round(sum(r.get('total_score', 0) for r in results) / len(results), 1) if results else 0,
+                "total_time": f"{total_time:.2f}s",
+                "saved_to_db": len(results)
+            }
+        })
 
     except Exception as e:
         jobs[job_id].update({"status": "failed", "error": str(e)})
