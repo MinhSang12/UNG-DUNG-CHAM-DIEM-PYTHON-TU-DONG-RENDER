@@ -165,9 +165,17 @@ function buildCard(r, index = 0) {
           </div>
           <div style="display:grid; gap:6px;">
             ${(r.criteria_results || []).map(c => 
-              buildScoreRow(c.criterion, c.score, c.max_score || (10 / (r.criteria_results.length || 1)).toFixed(0))
+              buildScoreRow(
+                c.criterion, 
+                c.score, 
+                c.max_score || (100 / (r.criteria_results.length || 1)).toFixed(0) // Dùng 100 thay vì 10
+              )
             ).join('')}
           </div>
+          /* Sửa lỗi hiển thị "undefined" ở dòng 185 (hoặc tương đương) */
+          <p style="white-space:pre-line; margin:0;">
+              ${r.reasoning || (r.notes ? r.notes.join('\n') : "Hệ thống đang đợi phản hồi từ AI...")}
+          </p>
         </div>
       </div>
 
