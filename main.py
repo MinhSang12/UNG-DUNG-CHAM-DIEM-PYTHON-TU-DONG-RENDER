@@ -280,7 +280,6 @@ async def process_grading_job(job_id: str, files: List[UploadFile], topic: str, 
         jobs[job_id]["progress"] = 20
 
         # 2. Thực thi chấm điểm song song
-        try:
             # (Sau khi gather xong kết quả)
             if grading_tasks:
                 raw_results = await asyncio.gather(*grading_tasks)
@@ -296,18 +295,18 @@ async def process_grading_job(job_id: str, files: List[UploadFile], topic: str, 
             save_results_to_csv(results)
 
         # 4. Hoàn tất Job
-        total_time = time.time() - jobs[job_id]["start_time"]
-        jobs[job_id].update({
-            "status": "completed",
-            "progress": 100,
-            "results": results,
-            "summary": {
-                "total_files": len(results),
-                "avg_score": round(sum(r.get('total_score', 0) for r in results) / len(results), 1) if results else 0,
-                "total_time": f"{total_time:.2f}s",
-                "saved_to_db": len(results)
-            }
-        })
+            total_time = time.time() - jobs[job_id]["start_time"]
+            jobs[job_id].update({
+                "status": "completed",
+                "progress": 100,
+                "results": results,
+                "summary": {
+                    "total_files": len(results),
+                    "avg_score": round(sum(r.get('total_score', 0) for r in results) / len(results), 1) if results else 0,
+                    "total_time": f"{total_time:.2f}s",
+                    "saved_to_db": len(results)
+                }
+            })
 
     except Exception as e:
         jobs[job_id].update({"status": "failed", "error": str(e)})
