@@ -280,16 +280,20 @@ async def process_grading_job(job_id: str, files: List[UploadFile], topic: str, 
         jobs[job_id]["progress"] = 20
 
         # 2. Thực thi chấm điểm song song
-        if grading_tasks:
-            raw_results = await asyncio.gather(*grading_tasks)
-            results.extend(raw_results)
+        try:
+            # (Sau khi gather xong kết quả)
+            if grading_tasks:
+                raw_results = await asyncio.gather(*grading_tasks)
+                results.extend(raw_results)
+            
+            jobs[job_id]["progress"] = 80
     
-        # THÊM ĐOẠN NÀY VÀO ĐỂ XÓA FINGERPRINT TRƯỚC KHI GỬI CHO UI
-        for r in results:
-            r.pop('fingerprint', None) # Xóa Set để tránh lỗi JSON
-            r['filename'] = f"{student_name} | {r['filename']}"
-    
-        save_results_to_csv(results)
+            # --- SỬA LỖI JSON SERIALIZABLE TẠI ĐÂY ---
+            for r in results:
+                r.pop('fingerprint', None) # Xóa kiểu dữ liệu Set gây lỗi JSON
+                r['filename'] = f"{student_name} | {r['filename']}"
+        
+            save_results_to_csv(results)
 
         # 4. Hoàn tất Job
         total_time = time.time() - jobs[job_id]["start_time"]
