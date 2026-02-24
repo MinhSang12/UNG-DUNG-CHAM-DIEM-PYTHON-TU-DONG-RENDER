@@ -165,7 +165,7 @@ function buildCard(r, index = 0) {
           </div>
           <div style="display:grid; gap:6px;">
             ${(r.criteria_results || []).map(c => 
-              buildScoreRow(c.criterion, c.score, c.max_score || (100 / (r.criteria_results.length || 1)).toFixed(0))
+              buildScoreRow(c.criterion, c.score, c.max_score || (10 / (r.criteria_results.length || 1)).toFixed(0))
             ).join('')}
           </div>
         </div>
