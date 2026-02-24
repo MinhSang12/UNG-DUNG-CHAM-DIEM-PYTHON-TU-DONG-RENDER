@@ -161,13 +161,12 @@ function buildCard(r, index = 0) {
         <div class="score-display">
           <div class="score-box-dev" style="border-color:${scoreColor};">
             <div class="val" style="color:${scoreColor};">${scoreDisplay}</div>
-            <div class="max">/ 100 diem</div>
+            <div class="max">/ 10 diem</div>
           </div>
           <div style="display:grid; gap:6px;">
-              ${buildScoreRow("Logic", r.breakdown?.logic_score, 40)}
-              ${buildScoreRow("Thuat toan", r.breakdown?.algorithm_score, 40)}
-              ${buildScoreRow("Style", r.breakdown?.style_score, 10)}
-              ${buildScoreRow("Toi uu", r.breakdown?.optimization_score, 10)}
+            ${(r.criteria_results || []).map(c => 
+              buildScoreRow(c.criterion, c.score, c.max_score || (100 / (r.criteria_results.length || 1)).toFixed(0))
+            ).join('')}
           </div>
         </div>
       </div>
