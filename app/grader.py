@@ -612,28 +612,22 @@ TRẢ VỀ JSON CHUẨN DUY NHẤT (KHÔNG CÓ TEXT THỪA):
 {{
   "status": "PASS/FAIL/FLAG",
   "detected_algo": "Tên thuật toán",
-  "total_score": số (Tổng điểm, thang 100),
-  "breakdown": {{
-    "logic_score": số (tối đa 40),
-    "algorithm_score": số (tối đa 40),
-    "style_score": số (tối đa 10),
-    "optimization_score": số (tối đa 10)
-  }},
+  "total_score": số (Tổng điểm, thang 10),
   "criteria_results": [
     {{
       "criterion": "Chép y hệt câu trong rubric vào đây",
-      "score": số (0 hoặc {weight_per_criterion * 10}),
+      "score": số (0 hoặc {weight_per_criterion}),
+      "max_score": {weight_per_criterion}, 
       "reason": "Giải thích lý do"
     }}
   ],
-  "reasoning": "Đánh giá chi tiết của giảng viên (hiển thị trong log)",
-  "complexity_analysis": "Phân tích chi tiết O(n)...",
-  "strengths": "Điểm mạnh của bài làm",
-  "weaknesses": "Những điểm sinh viên làm chưa tốt",
-  "improvement": "Gợi ý cụ thể để cải thiện code",
-  "overall_feedback": "Nhận xét tổng quát cuối cùng."
+  "reasoning": "...",
+  "complexity_analysis": "...",
+  "strengths": "...",
+  "weaknesses": "...",
+  "improvement": "...",
+  "overall_feedback": "..."
 }}
-"""
         # --- BƯỚC 3: AI QUYẾT ĐỊNH KẾT QUẢ ---
         try:
             response = await loop.run_in_executor(None, lambda: self.model.generate_content(prompt))
