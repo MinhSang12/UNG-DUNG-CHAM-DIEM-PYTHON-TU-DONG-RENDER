@@ -1,7 +1,0 @@
-fastapi
-uvicorn
-requests
-google-generativeai
-httpx
-pymssql
-python-multipart
