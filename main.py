@@ -283,15 +283,14 @@ async def process_grading_job(job_id: str, files: List[UploadFile], topic: str, 
         if grading_tasks:
             raw_results = await asyncio.gather(*grading_tasks)
             results.extend(raw_results)
-        
-        jobs[job_id]["progress"] = 80
-
-        # 3. Chuẩn bị dữ liệu cuối cùng và lưu trữ
+    
+        # THÊM ĐOẠN NÀY VÀO ĐỂ XÓA FINGERPRINT TRƯỚC KHI GỬI CHO UI
         for r in results:
+            r.pop('fingerprint', None) # Xóa Set để tránh lỗi JSON
             r['filename'] = f"{student_name} | {r['filename']}"
-        
+    
         save_results_to_csv(results)
-        
+
         # 4. Hoàn tất Job
         total_time = time.time() - jobs[job_id]["start_time"]
         jobs[job_id].update({
