@@ -162,12 +162,12 @@ function buildCard(r, index = 0) {
         <div class="score-display">
             <div class="score-box-dev" style="border-color:${scoreColor};">
                 <div class="val" style="color:${scoreColor};">${scoreDisplay}</div>
-                <div class="max">/ 100 điểm</div>
+                <div class="max">/ 10 điểm</div>
             </div>
 
             <div style="display:grid; gap:8px; margin-top:15px;">
                 ${(r.criteria_results || []).map(c => 
-                    buildScoreRow(c.criterion, c.score, c.max_score || (100 / (r.criteria_results.length || 1)).toFixed(0))
+                    buildScoreRow(c.criterion, c.score, c.max_score || (10 / (r.criteria_results.length || 1)).toFixed(0))
                 ).join('')}
             </div>
             </div>
