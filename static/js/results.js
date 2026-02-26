@@ -220,22 +220,24 @@ function getStatusInfo(status, hasScore) {
   }
 }
 
+/* --- Sửa trong results.js (image_cdadd4.jpg) --- */
 function buildScoreRow(label, value, max) {
   if (value == null) return '';
-
+  
   const pct = max > 0 ? Math.round((value / max) * 100) : 0;
-  const color =
-    pct >= 80 ? "var(--brand-success)" :
-      pct >= 50 ? "var(--brand-warning)" :
-        "var(--brand-danger)";
+  const color = pct >= 80 ? "var(--brand-success)" : 
+                pct >= 50 ? "var(--brand-warning)" : "var(--brand-danger)";
 
   return `
-    <div style="background:var(--bg-input); padding:0.5rem 0.6rem; border-radius:6px; border:1px solid var(--border-pro);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:3px;">
-        <span style="font-size:0.7rem; color:var(--text-muted);">${label}</span>
-        <span style="font-size:0.8rem; font-weight:700; color:${color};">${value}/${max}</span>
+    <div style="background:var(--bg-input); padding:0.6rem; border-radius:6px; border:1px solid var(--border-pro); margin-bottom:8px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:6px;">
+        <span style="font-size:0.75rem; color:var(--text-main); line-height:1.3; flex:1;">${label}</span>
+        
+        <span style="font-size:0.75rem; font-weight:700; color:${color}; background:rgba(255,255,255,0.03); padding:2px 6px; border-radius:4px; border:1px solid ${color}; white-space:nowrap;">
+          ${value}/${max}
+        </span>
       </div>
-      <div style="height:3px; background:var(--border-active); border-radius:99px; overflow:hidden;">
+      <div style="height:3px; background:var(--border-pro); border-radius:99px; overflow:hidden;">
         <div style="height:100%; width:${pct}%; background:${color}; border-radius:99px;"></div>
       </div>
     </div>
