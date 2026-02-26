@@ -151,7 +151,7 @@ function buildCard(r, index = 0) {
           </div>
         </div>
         <div style="display:flex; align-items:center; gap:2rem; margin-left:auto;">
-          <div style="text-align:right;"><div style="font-size:0.8rem; color:var(--text-muted);">Diem so</div><div style="font-family:var(--font-code); font-size:1.1rem; font-weight:700; color:${scoreColor};">${scoreDisplay}/100</div></div>
+          <div style="text-align:right;"><div style="font-size:0.8rem; color:var(--text-muted);">Diem so</div><div style="font-family:var(--font-code); font-size:1.1rem; font-weight:700; color:${scoreColor};">${scoreDisplay}/10</div></div>
           <i class="fa-solid fa-chevron-down pipeline-toggle-icon"></i>
         </div>
     </div>
