@@ -607,9 +607,9 @@ Bạn là Giám khảo trưởng môn DSA. Hãy chấm điểm dựa trên mã n
 YÊU CẦU NGHIÊM NGẶT:
 1. NGÔN NGỮ: Mọi nội dung trong JSON (criterion, reason, reasoning, improvement, strengths, weaknesses, overall_feedback) PHẢI dùng tiếng Việt 100%.
 2. GIỮ NGUYÊN TIÊU CHÍ: Trường 'criterion' phải sao chép NGUYÊN VĂN 100% các câu có trong {db_rubric}. KHÔNG được sửa từ, KHÔNG được tóm tắt.
-3. THANG ĐIỂM 100: Để khớp với UI, hãy chấm trên thang điểm 100.
+3. THANG ĐIỂM 10: Để khớp với UI, hãy chấm trên thang điểm 10.
 4. CHẤM ĐIỂM CHI TIẾT & KHẮT KHE:
-   - Mỗi tiêu chí trong {db_rubric} có giá trị ĐIỂM CỐ ĐỊNH là {weight_per_criterion * 10} điểm (đã nhân hệ số 10 cho thang 100).
+   - Mỗi tiêu chí trong {db_rubric} có giá trị ĐIỂM CỐ ĐỊNH là {weight_per_criterion * 1} điểm.
    - Nếu mã nguồn KHÔNG có phần nào liên quan đến tiêu chí: Cho ngay 0 điểm.
 5. PHÂN TÍCH CHO UI: Phải cung cấp đầy đủ các trường nhận xét chi tiết để hiển thị lên Dashboard.
 
@@ -626,12 +626,12 @@ TRẢ VỀ JSON CHUẨN DUY NHẤT (KHÔNG CÓ TEXT THỪA):
       "reason": "Giải thích lý do"
     }}
   ],
-  "reasoning": "...",
-  "complexity_analysis": "...",
-  "strengths": "...",
-  "weaknesses": "...",
-  "improvement": "...",
-  "overall_feedback": "..."
+    "strengths": "Nhận xét kỹ thuật lập trình tốt của file...",
+    "weaknesses": "Nhận xét kỹ thuật lập trình chưa tốt hoặc thiếu sót của file...",
+    "reasoning": "Dòng 1: [Tiêu chí 1] - Giải thích đạt/không đạt...\\nDòng 2: [Tiêu chí 2] - Giải thích...",
+    "complexity_analysis": "...",
+    "improvement": "...",
+    "overall_feedback": "..."
 }}
 """
         # --- BƯỚC 3: AI QUYẾT ĐỊNH KẾT QUẢ ---
