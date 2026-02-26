@@ -628,7 +628,7 @@ TRẢ VỀ JSON CHUẨN DUY NHẤT (KHÔNG CÓ TEXT THỪA):
   ],
     "strengths": "Nhận xét kỹ thuật lập trình tốt của file...",
     "weaknesses": "Nhận xét kỹ thuật lập trình chưa tốt hoặc thiếu sót của file...",
-    "reasoning": "Dòng 1: [Tiêu chí 1] - Giải thích đạt/không đạt...\\nDòng 2: [Tiêu chí 2] - Giải thích...",
+    "reasoning": "Dòng 1: [Tiêu chí 1]\\n - Giải thích đạt/không đạt vì...\\nDòng 2: [Tiêu chí 2]\\ - Giải thích...",
     "complexity_analysis": "...",
     "improvement": "...",
     "overall_feedback": "..."
