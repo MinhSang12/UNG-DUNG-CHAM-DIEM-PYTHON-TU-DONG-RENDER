@@ -545,8 +545,9 @@ class AIGrader(DSALightningGrader):
         loop = asyncio.get_running_loop()
         
         # --- BƯỚC 1: CHẠY SONG SONG THU THẬP DỮ LIỆU ---
-        actual_topic = filename if (not topic or topic == "None") else topic
-        actual_topic = actual_topic.replace(".py", "") # Xóa đuôi file nếu lấy từ filename
+        # Sửa lại đoạn lấy topic trong grader.py
+        actual_topic = topic if (topic and topic != "None" and topic != "null") else filename
+        actual_topic = actual_topic.replace(".py", "")
 
 # Bước 2: Gọi Microservice với mã bài tập đã xác định
         problem_task = loop.run_in_executor(None, fetch_problem_from_bank, actual_topic)
