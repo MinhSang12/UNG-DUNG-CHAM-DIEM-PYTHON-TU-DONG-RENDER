@@ -546,7 +546,11 @@ class AIGrader(DSALightningGrader):
         
         # --- BƯỚC 1: CHẠY SONG SONG THU THẬP DỮ LIỆU ---
         # Sửa lại đoạn lấy topic trong grader.py
-        actual_topic = topic if (topic and topic != "None" and topic != "null") else filename
+        # --- SỬA DÒNG 549 TRONG grader.py ---
+
+        # Chuyển về lowercase để so sánh, chặn cả 'none', 'None', 'null', 'undefined'
+        topic_val = str(topic).lower() if topic else ""
+        actual_topic = topic if (topic and topic_val not in ["none", "null", "undefined"]) else filename
         actual_topic = actual_topic.replace(".py", "")
 
 # Bước 2: Gọi Microservice với mã bài tập đã xác định
