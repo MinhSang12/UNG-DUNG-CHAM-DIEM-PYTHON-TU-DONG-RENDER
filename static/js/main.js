@@ -351,4 +351,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.target === rulesModal) closeRules();
     });
   }
+  // Đóng khung Preview khi nhấn nút X
+document.getElementById("close-preview-btn")?.addEventListener("click", () => {
+    document.getElementById("code-preview-container").style.display = "none";
+});
 });
