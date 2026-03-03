@@ -97,6 +97,16 @@
               </button>
             </div>
             <div id="file-list"></div>
+            <div id="code-preview-container" class="code-preview-box" style="display: none; margin-top: 12px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--bg-surface);">
+            <div class="code-preview-header" style="background: var(--bg-input); padding: 5px 12px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); align-items: center;">
+              <div style="display:flex; gap:6px; align-items:center; font-family:var(--mono); font-size: 12px;">
+                <span style="color:var(--accent); font-size:8px">●</span>
+                <span id="preview-filename" style="color: var(--text-1);">preview.py</span>
+              </div>
+              <button type="button" id="close-preview-btn" style="background:none; border:none; color:var(--text-4); cursor:pointer; font-size:18px;">&times;</button>
+            </div>
+            <pre style="margin: 0; max-height: 250px; overflow-y: auto;"><code id="preview-code" class="language-python" style="font-family: var(--mono); font-size: 12px; padding: 12px; display: block;"></code></pre>
+          </div>
           </div>
         </div>
       </div>
