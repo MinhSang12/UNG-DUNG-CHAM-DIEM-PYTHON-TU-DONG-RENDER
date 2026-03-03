@@ -110,17 +110,35 @@ document.addEventListener("DOMContentLoaded", () => {
       const isPython = ext === "py";
 
       div.innerHTML = `
-        <div style="display:flex; align-items:center; gap:0.75rem; min-width:0;">
+        <div class="preview-trigger file-item-info" style="display:flex; align-items:center; gap:0.75rem; min-width:0; cursor:${isPython ? 'pointer' : 'default'}" title="${isPython ? 'Nhấn để xem trước code' : ''}">
           <i class="fa-${isPython ? "brands fa-python" : "solid fa-file-zipper"}"
              style="color:${isPython ? "#3776AB" : "#f0db4f"}; font-size:1.1rem;"></i>
           <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${file.name}</span>
           <span style="font-size:0.7rem; color:var(--text-muted); flex-shrink:0;">${formatFileSize(file.size)}</span>
         </div>
-        <button type="button" class="remove-btn" aria-label="Xóa file ${file.name}"
-                style="background:none; border:none; color:var(--text-muted); cursor:pointer; padding:0.25rem;">
+        <button type="button" class="remove-btn" style="background:none; border:none; color:var(--text-muted); cursor:pointer; padding:0.25rem;">
           <i class="fa-solid fa-xmark"></i>
         </button>
-      `;
+    `;
+
+      if (isPython) {
+        div.querySelector(".preview-trigger").addEventListener("click", () => {
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                // Hiển thị tên file lên box preview
+                document.getElementById("preview-filename").textContent = file.name;
+                
+                // Đổ code vào và gọi thư viện highlight
+                const codeEl = document.getElementById("preview-code");
+                codeEl.textContent = ev.target.result;
+                if (window.hljs) hljs.highlightElement(codeEl);
+                
+                // Hiện khung Preview lên
+                document.getElementById("code-preview-container").style.display = "block";
+            };
+            reader.readAsText(file);
+        });
+    }
 
       // Remove individual file
       div.querySelector(".remove-btn").addEventListener("click", (ev) => {
